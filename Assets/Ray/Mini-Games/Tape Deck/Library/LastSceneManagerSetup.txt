@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Tape Deck.unity
-  isLoaded: 1
-  isActive: 1
