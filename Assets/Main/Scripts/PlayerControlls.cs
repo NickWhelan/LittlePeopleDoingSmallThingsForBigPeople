@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerControlls : MonoBehaviour {
     public int PlayerNumber;
+    public float Speed = 1;
+    public int MaxVel;
     KeyCode controllerA;
     KeyCode controllerB;
     KeyCode controllerX;
@@ -12,11 +14,12 @@ public class PlayerControlls : MonoBehaviour {
     KeyCode controllerLB;
     KeyCode controllerL3;
     KeyCode controllerR3;
-
-
+    Vector3 movement;
+    Rigidbody rigidbody;
 
     // Use this for initialization
     void Start () {
+        rigidbody = GetComponent<Rigidbody>();
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             switch (PlayerNumber)
@@ -61,12 +64,44 @@ public class PlayerControlls : MonoBehaviour {
                     controllerR3 = KeyCode.Joystick4Button9;
                     controllerL3 = KeyCode.Joystick4Button8;
                     break;
+                case 4:
+                    controllerA = KeyCode.Space;
+                    controllerB = KeyCode.LeftControl;
+                    controllerX = KeyCode.E;
+                    controllerY = KeyCode.Q;
+                    controllerRB = KeyCode.F;
+                    controllerLB = KeyCode.G;
+                    controllerR3 = KeyCode.R;
+                    controllerL3 = KeyCode.LeftShift;
+                    break;
             }
         }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        if (PlayerNumber != 4)
+        {
+            movement = new Vector3(Input.GetAxis("Left Horizontal Player " + PlayerNumber), 0.0f, Input.GetAxis("Left Vertical Player " + PlayerNumber));
+        }
+        else 
+        {
+            movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), 0.0f, Input.GetAxis("Vertical KeyBaord"));
+        }
+        rigidbody.AddForce(movement * Speed);
+        if (rigidbody.velocity.x > MaxVel) {
+            rigidbody.velocity = new Vector3(MaxVel, 0, rigidbody.velocity.z);
+        }
+        else if (rigidbody.velocity.x < -MaxVel)
+        {
+            rigidbody.velocity = new Vector3(-MaxVel, 0, rigidbody.velocity.z);
+        }
+        if (rigidbody.velocity.z > MaxVel)
+        {
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, MaxVel);
+        }else if (rigidbody.velocity.z < -MaxVel)
+        {
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, -MaxVel);
+        }
+    }
 }
