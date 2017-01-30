@@ -6,6 +6,7 @@ public class PlayerControlls : MonoBehaviour {
     public int PlayerNumber;
     public float Speed = 1;
     public int MaxVel;
+    public bool inputPressed;
     KeyCode controllerA;
     KeyCode controllerB;
     KeyCode controllerX;
@@ -20,7 +21,7 @@ public class PlayerControlls : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rigidbody = GetComponent<Rigidbody>();
-        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
         {
             switch (PlayerNumber)
             {
@@ -102,6 +103,15 @@ public class PlayerControlls : MonoBehaviour {
         }else if (rigidbody.velocity.z < -MaxVel)
         {
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, -MaxVel);
+        }
+        if(Input.GetKeyDown(controllerA))
+        {
+            Debug.Log("Input Down");
+            inputPressed = true;
+        }
+        else if(Input.GetKeyUp(controllerA))
+        {
+            inputPressed = false;
         }
     }
 }
