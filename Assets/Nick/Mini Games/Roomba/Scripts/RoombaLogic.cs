@@ -34,7 +34,7 @@ public class RoombaLogic : MonoBehaviour
             }
         }
 
-        }
+    }
     void FixedUpdate() {
         RoombaBoundCheck();
         MoveRoomba();
@@ -50,9 +50,10 @@ public class RoombaLogic : MonoBehaviour
         {
             MoveX = -10;
         }
-        else if (!Right && !Left)
+        else if ((Forward && Back) || (!Forward && !Back))
         {
             MoveX = 0;
+            rigidbody.velocity = Vector3.zero;
         }
         if (Left && !Right)
         {
@@ -62,9 +63,10 @@ public class RoombaLogic : MonoBehaviour
         {
             SpinY = -5;
         }
-        else if (!Right && !Left)
+        else if ((Right && Left) || (!Right && !Left))
         {
             SpinY = 0;
+            rigidbody.angularVelocity = Vector3.zero;
         }
         rigidbody.AddRelativeForce(new Vector3(0,0, MoveX));
         rigidbody.AddTorque(new Vector3(0,SpinY,0));
@@ -88,6 +90,7 @@ public class RoombaLogic : MonoBehaviour
             {
                 Right = mat.isTriggered;
             }
+            
         }
     }
     void RoombaBoundCheck()
