@@ -106,7 +106,6 @@ public class PlayerControlls : MonoBehaviour {
         }
         if(Input.GetKeyDown(controllerA))
         {
-            Debug.Log("Input Down");
             inputPressed = true;
         }
         else if(Input.GetKeyUp(controllerA))
