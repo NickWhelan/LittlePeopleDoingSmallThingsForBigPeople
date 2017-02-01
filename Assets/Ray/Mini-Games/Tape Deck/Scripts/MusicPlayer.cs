@@ -6,20 +6,19 @@ public class MusicPlayer : MonoBehaviour
 {
 
     private AudioSource audSource;
-    public bool isFading = true;
-    public bool isCollidingWithPlayer = false;
 
+    private bool isFading = true;
+    private bool isCollidingWithPlayer = false;
 
     private float pitchInRate = .75f;
 
     private float pitchOutRate = .005f;
 
-    GameObject volumeSlider;
+    public GameObject volumeSlider;
 
     // Use this for initialization
     void Start()
     {
-        volumeSlider = GameObject.FindGameObjectWithTag("Slider");
         audSource = GetComponent<AudioSource>();
         audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
         audSource.pitch = 0;
