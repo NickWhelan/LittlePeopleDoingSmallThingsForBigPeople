@@ -16,9 +16,11 @@ public class MusicPlayer : MonoBehaviour
 
     public GameObject volumeSlider;
 
+    GameObject disc;
     // Use this for initialization
     void Start()
     {
+        disc = GameObject.FindGameObjectWithTag("Disc");
         audSource = GetComponent<AudioSource>();
         audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
         audSource.pitch = 0;
@@ -50,8 +52,10 @@ public class MusicPlayer : MonoBehaviour
     {
         if (c.tag == "Player")
         {
+
             if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().inputPressed)
             {
+                disc.GetComponent<CDLogic>().spinUpDisc();   
                 //Increase the pitch of the song with each button press to a max of one
                 //0 means the song is stopped
                 //1 is normal speed

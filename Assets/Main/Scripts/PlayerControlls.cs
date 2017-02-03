@@ -17,6 +17,7 @@ public class PlayerControlls : MonoBehaviour {
     KeyCode controllerR3;
     Vector3 movement;
     Rigidbody rigidbody;
+    
 
     // Use this for initialization
     void Start () {
@@ -104,11 +105,11 @@ public class PlayerControlls : MonoBehaviour {
         {
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, -MaxVel);
         }
-        if(Input.GetKeyDown(controllerA))
+        if(Input.GetKeyDown(controllerA) || Input.GetButtonDown("J" + PlayerNumber + "B0"))
         {
             inputPressed = true;
         }
-        else if(Input.GetKeyUp(controllerA))
+        else if(Input.GetKeyUp(controllerA) || Input.GetButtonUp("J" + PlayerNumber + "B0"))
         {
             inputPressed = false;
         }
