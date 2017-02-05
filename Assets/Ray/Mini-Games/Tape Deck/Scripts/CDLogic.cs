@@ -22,6 +22,7 @@ public class CDLogic : MonoBehaviour
         rigidbody.AddTorque(new Vector3(0, torqueVal, 0));
     }
 
+
     //Collision
     private void OnCollisionEnter(Collision collision)
 
@@ -29,10 +30,16 @@ public class CDLogic : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("Boop");
-            //collision.gameObject.transform.parent = transform;
+            collision.gameObject.transform.parent = transform;
             //collision.gameObject.transform.position = transform.localPosition + new Vector3(0, 1, 0);
         }
 
+    }
+
+
+    private void OnCollisionExit(Collision collision)
+    {
+        collision.gameObject.transform.parent = null;
     }
 
     void OnTriggerStay(Collider other)

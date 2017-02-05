@@ -29,6 +29,7 @@ public class MusicPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
 
         if (audSource.pitch > 0 && !isCollidingWithPlayer)

@@ -105,11 +105,11 @@ public class PlayerControlls : MonoBehaviour {
         {
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, -MaxVel);
         }
-        if(Input.GetKeyDown(controllerA) || Input.GetButtonDown("J" + PlayerNumber + "B0"))
+        if(Input.GetKeyDown(controllerA) /*|| Input.GetButtonDown("J" + PlayerNumber + "B0")*/)
         {
             inputPressed = true;
         }
-        else if(Input.GetKeyUp(controllerA) || Input.GetButtonUp("J" + PlayerNumber + "B0"))
+        if(Input.GetKeyUp(controllerA) /*|| Input.GetButtonUp("J" + PlayerNumber + "B0")*/)
         {
             inputPressed = false;
         }
