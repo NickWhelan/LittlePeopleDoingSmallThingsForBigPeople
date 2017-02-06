@@ -57,11 +57,11 @@ public class RoombaLogic : MonoBehaviour
         }
         if (Left && !Right)
         {
-            SpinY = 5;
+            SpinY = -5;
         }
         else if (Right && !Left)
         {
-            SpinY = -5;
+            SpinY = 5;
         }
         else if ((Right && Left) || (!Right && !Left))
         {
@@ -100,7 +100,6 @@ public class RoombaLogic : MonoBehaviour
             {
                 PlayersOnTeam[i].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 PlayersOnTeam[i].transform.localPosition = LastPos[i];
-                print("outside");
             }
             else {
                 LastPos[i] = PlayersOnTeam[i].transform.localPosition;
