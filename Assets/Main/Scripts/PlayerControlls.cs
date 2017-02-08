@@ -6,7 +6,9 @@ public class PlayerControlls : MonoBehaviour {
     public int PlayerNumber;
     public float Speed = 1;
     public int MaxVel;
-    public bool inputPressed;
+    Vector3 movement;
+    Rigidbody rigidbody;
+
     KeyCode controllerA;
     KeyCode controllerB;
     KeyCode controllerX;
@@ -15,15 +17,23 @@ public class PlayerControlls : MonoBehaviour {
     KeyCode controllerLB;
     KeyCode controllerL3;
     KeyCode controllerR3;
-    Vector3 movement;
-    Rigidbody rigidbody;
+
+    [Header("Buttons")]
+    public bool ButtonAPressed;
+    public bool ButtonBPressed;
+    public bool ButtonXPressed;
+    public bool ButtonYPressed;
+    public bool ButtonRBPressed;
+    public bool ButtonLBPressed;
+    public bool ButtonL3Pressed;
+    public bool ButtonR3Pressed;
+
+    
     
 
     // Use this for initialization
     void Start () {
         rigidbody = GetComponent<Rigidbody>();
-        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
-        {
             switch (PlayerNumber)
             {
                 case 0:
@@ -77,14 +87,14 @@ public class PlayerControlls : MonoBehaviour {
                     controllerL3 = KeyCode.LeftShift;
                     break;
             }
-        }
+        PlayerNumber++;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (PlayerNumber != 4)
+        if (PlayerNumber != 5)
         {
-            movement = new Vector3(Input.GetAxis("Left Horizontal Player " + PlayerNumber), 0.0f, Input.GetAxis("Left Vertical Player " + PlayerNumber));
+            HandleControllerInput();
         }
         else 
         {
@@ -105,13 +115,81 @@ public class PlayerControlls : MonoBehaviour {
         {
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, -MaxVel);
         }
-        if(Input.GetKeyDown(controllerA) /*|| Input.GetButtonDown("J" + PlayerNumber + "B0")*/)
+
+    }
+    void HandleControllerInput() {
+        movement = new Vector3(Input.GetAxis("Left Horizontal Player " + PlayerNumber), 0.0f, Input.GetAxis("Left Vertical Player " + PlayerNumber));
+
+        if (Input.GetKey(controllerA))
         {
-            inputPressed = true;
+            ButtonAPressed = true;
         }
-        if(Input.GetKeyUp(controllerA) /*|| Input.GetButtonUp("J" + PlayerNumber + "B0")*/)
+        else if (!Input.GetKey(controllerA))
         {
-            inputPressed = false;
+            ButtonAPressed = false;
+        }
+
+        if (Input.GetKey(controllerB))
+        {
+            ButtonBPressed = true;
+        }
+        else if (!Input.GetKey(controllerB))
+        {
+            ButtonBPressed = false;
+        }
+
+        if (Input.GetKey(controllerX))
+        {
+            ButtonXPressed = true;
+        }
+        else if (!Input.GetKey(controllerX))
+        {
+            ButtonXPressed = false;
+        }
+
+        if (Input.GetKey(controllerY))
+        {
+            ButtonYPressed = true;
+        }
+        else if (!Input.GetKey(controllerY))
+        {
+            ButtonYPressed = false;
+        }
+
+        if (Input.GetKey(controllerRB))
+        {
+            ButtonRBPressed = true;
+        }
+        else if (!Input.GetKey(controllerRB))
+        {
+            ButtonRBPressed = false;
+        }
+
+        if (Input.GetKey(controllerLB))
+        {
+            ButtonLBPressed = true;
+        }
+        else if (!Input.GetKey(controllerLB))
+        {
+            ButtonLBPressed = false;
+        }
+
+        if (Input.GetKey(controllerR3))
+        {
+            ButtonR3Pressed = true;
+        }
+        else if (!Input.GetKey(controllerR3))
+        {
+            ButtonR3Pressed = false;
+        }
+
+        if (Input.GetKey(controllerL3))
+        {
+            ButtonL3Pressed = true;
+        }
+        else if (!Input.GetKey(controllerL3))
+        {
+            ButtonL3Pressed = false;
         }
     }
 }

@@ -54,7 +54,7 @@ public class MusicPlayer : MonoBehaviour
         if (c.tag == "Player")
         {
 
-            if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().inputPressed)
+            if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
             {
                 disc.GetComponent<CDLogic>().spinUpDisc();   
                 //Increase the pitch of the song with each button press to a max of one
