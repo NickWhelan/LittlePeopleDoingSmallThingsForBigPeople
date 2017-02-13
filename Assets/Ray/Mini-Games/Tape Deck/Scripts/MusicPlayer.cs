@@ -5,36 +5,34 @@ using UnityEngine;
 public class MusicPlayer : MonoBehaviour
 {
 
-    private AudioSource audSource;
+    public AudioSource audSource;
 
-    private bool isFading = true;
     private bool isCollidingWithPlayer = false;
 
-    private float pitchInRate = .75f;
+    private float pitchInRate = 1;
 
-    private float pitchOutRate = .005f;
+    private float pitchOutRate = .2f;
 
-    public GameObject volumeSlider;
+   // public GameObject swapPoint;
+
+
+    public bool isActive = false;
 
     GameObject disc;
+
     // Use this for initialization
     void Start()
     {
         disc = GameObject.FindGameObjectWithTag("Disc");
-        audSource = GetComponent<AudioSource>();
-        audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
-        audSource.pitch = 0;
+        audSource = GameObject.FindGameObjectWithTag("Swapper").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
-
         if (audSource.pitch > 0 && !isCollidingWithPlayer)
         {
-            audSource.pitch -= pitchOutRate;
+            audSource.pitch -= Time.deltaTime * pitchOutRate;
         }
     }
 
@@ -42,21 +40,23 @@ public class MusicPlayer : MonoBehaviour
     {
         if (c.tag == "Player")
         {
-            Debug.Log("Start Playing: " + audSource.clip.name);
-            audSource.Play();
+           // Debug.Log("Start Playing: " + audSource.clip.name);
+            //audSource.Play();
             isCollidingWithPlayer = true;
+            isActive = true;
+            //swapPoint.SetActive(true);
         }
-
     }
 
     private void OnTriggerStay(Collider c)
     {
         if (c.tag == "Player")
         {
-
-            if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
+            if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed 
+                || c.gameObject.GetComponent<PlayerControlls>().ButtonXPressed)
             {
                 disc.GetComponent<CDLogic>().spinUpDisc();   
+
                 //Increase the pitch of the song with each button press to a max of one
                 //0 means the song is stopped
                 //1 is normal speed
@@ -71,14 +71,6 @@ public class MusicPlayer : MonoBehaviour
                     audSource.pitch = 1.0f;
                 }
             }
-            else
-            {
-                //Slow the song down, reduce volume when button isn't being pressed.
-                if (audSource.pitch > 0)
-                {
-                    audSource.pitch -= pitchOutRate;
-                }
-            }
         }
     }
 
@@ -87,8 +79,10 @@ public class MusicPlayer : MonoBehaviour
     {
         if (c.tag == "Player")
         {
-            Debug.Log("Stop Playing: " + audSource.clip.name);
-            isCollidingWithPlayer = false;
+           // Debug.Log("Stop Playing: " + audSource.clip.name);
+            //isCollidingWithPlayer = false;
+            isActive = false;
+           // swapPoint.SetActive(false);
         }
     }
 }
