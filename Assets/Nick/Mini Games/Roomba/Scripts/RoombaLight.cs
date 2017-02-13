@@ -11,7 +11,6 @@ public class RoombaLight : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.DrawLine(transform.position, RoombaA.transform.position);
         Debug.DrawLine(transform.position, RoombaB.transform.position);
         transform.position = new Vector3(
                             (RoombaA.transform.position.x + RoombaB.transform.position.x) / 2,
