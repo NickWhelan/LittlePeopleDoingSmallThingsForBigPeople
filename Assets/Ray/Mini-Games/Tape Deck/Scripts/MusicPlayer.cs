@@ -5,31 +5,33 @@ using UnityEngine;
 public class MusicPlayer : MonoBehaviour
 {
 
-    public AudioSource audSource;
+    private AudioSource audSource;
 
+    private bool isFading = true;
     private bool isCollidingWithPlayer = false;
 
     private float pitchInRate = .75f;
 
     private float pitchOutRate = .005f;
 
-   // public GameObject swapPoint;
-
-
-    public bool isActive = false;
+    public GameObject volumeSlider;
 
     GameObject disc;
-
     // Use this for initialization
     void Start()
     {
         disc = GameObject.FindGameObjectWithTag("Disc");
-        audSource = GameObject.FindGameObjectWithTag("Swapper").GetComponent<AudioSource>();
+        audSource = GetComponent<AudioSource>();
+        audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
+        audSource.pitch = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
+
         if (audSource.pitch > 0 && !isCollidingWithPlayer)
         {
             audSource.pitch -= pitchOutRate;
@@ -40,22 +42,21 @@ public class MusicPlayer : MonoBehaviour
     {
         if (c.tag == "Player")
         {
-           // Debug.Log("Start Playing: " + audSource.clip.name);
-            //audSource.Play();
+            Debug.Log("Start Playing: " + audSource.clip.name);
+            audSource.Play();
             isCollidingWithPlayer = true;
-            isActive = true;
-            //swapPoint.SetActive(true);
         }
+
     }
 
     private void OnTriggerStay(Collider c)
     {
         if (c.tag == "Player")
         {
+
             if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().inputPressed)
             {
                 disc.GetComponent<CDLogic>().spinUpDisc();   
-
                 //Increase the pitch of the song with each button press to a max of one
                 //0 means the song is stopped
                 //1 is normal speed
@@ -86,10 +87,8 @@ public class MusicPlayer : MonoBehaviour
     {
         if (c.tag == "Player")
         {
-           // Debug.Log("Stop Playing: " + audSource.clip.name);
-            //isCollidingWithPlayer = false;
-            isActive = false;
-           // swapPoint.SetActive(false);
+            Debug.Log("Stop Playing: " + audSource.clip.name);
+            isCollidingWithPlayer = false;
         }
     }
 }

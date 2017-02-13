@@ -3,23 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CDLogic : MonoBehaviour
-{ 
+{
+
     Rigidbody rigidbody;
-    
+
     [Range(1, 100)]
     public float torqueVal;
-
-    [SerializeField]
-    GameObject[] arrayOfMBoxes;
-
-    public GameObject[] trackSwapPoints;
-
 
     // Use this for initialization
     void Start()
     {
-        arrayOfMBoxes = GameObject.FindGameObjectsWithTag("Music Box");
-        
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.AddTorque(new Vector3(0, torqueVal, 0));
     }
@@ -29,6 +22,7 @@ public class CDLogic : MonoBehaviour
         rigidbody.AddTorque(new Vector3(0, torqueVal, 0));
     }
 
+
     //Collision
     private void OnCollisionEnter(Collision collision)
 
@@ -37,13 +31,23 @@ public class CDLogic : MonoBehaviour
         {
             Debug.Log("Boop");
             collision.gameObject.transform.parent = transform;
+            //collision.gameObject.transform.position = transform.localPosition + new Vector3(0, 1, 0);
         }
+
     }
 
 
     private void OnCollisionExit(Collision collision)
     {
         collision.gameObject.transform.parent = null;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+
+        }
     }
 
     private void OnTriggerExit(Collider other)
