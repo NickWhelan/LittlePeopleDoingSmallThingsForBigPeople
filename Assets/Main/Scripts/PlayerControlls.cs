@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControlls : MonoBehaviour {
-    public int PlayerNumber;
+    public Player playerInfo;
     public float Speed = 1;
     public int MaxVel;
-    public bool inputPressed;
+    public int PlayerNum;
+    Vector3 movement;
+    Rigidbody rigidbody;
+
     KeyCode controllerA;
     KeyCode controllerB;
     KeyCode controllerX;
@@ -15,18 +18,27 @@ public class PlayerControlls : MonoBehaviour {
     KeyCode controllerLB;
     KeyCode controllerL3;
     KeyCode controllerR3;
-    Vector3 movement;
-    Rigidbody rigidbody;
+
+    [Header("Buttons")]
+    public bool ButtonAPressed;
+    public bool ButtonBPressed;
+    public bool ButtonXPressed;
+    public bool ButtonYPressed;
+    public bool ButtonRBPressed;
+    public bool ButtonLBPressed;
+    public bool ButtonL3Pressed;
+    public bool ButtonR3Pressed;
+
+    
     
 
     // Use this for initialization
     void Start () {
+        playerInfo = new Player(PlayerNum);
         rigidbody = GetComponent<Rigidbody>();
-        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            switch (PlayerNumber)
+            switch (playerInfo.PlayerNum)
             {
-                case 0:
+                case 1:
                     controllerA = KeyCode.Joystick1Button0;
                     controllerB = KeyCode.Joystick1Button1;
                     controllerX = KeyCode.Joystick1Button2;
@@ -36,7 +48,7 @@ public class PlayerControlls : MonoBehaviour {
                     controllerR3 = KeyCode.Joystick1Button9;
                     controllerL3 = KeyCode.Joystick1Button8;
                     break;
-                case 1:
+                case 2:
                     controllerA = KeyCode.Joystick2Button0;
                     controllerB = KeyCode.Joystick2Button1;
                     controllerX = KeyCode.Joystick2Button2;
@@ -46,7 +58,7 @@ public class PlayerControlls : MonoBehaviour {
                     controllerR3 = KeyCode.Joystick2Button9;
                     controllerL3 = KeyCode.Joystick2Button8;
                     break;
-                case 2:
+                case 3:
                     controllerA = KeyCode.Joystick3Button0;
                     controllerB = KeyCode.Joystick3Button1;
                     controllerX = KeyCode.Joystick3Button2;
@@ -56,7 +68,7 @@ public class PlayerControlls : MonoBehaviour {
                     controllerR3 = KeyCode.Joystick3Button9;
                     controllerL3 = KeyCode.Joystick3Button8;
                     break;
-                case 3:
+                case 4:
                     controllerA = KeyCode.Joystick4Button0;
                     controllerB = KeyCode.Joystick4Button1;
                     controllerX = KeyCode.Joystick4Button2;
@@ -66,7 +78,7 @@ public class PlayerControlls : MonoBehaviour {
                     controllerR3 = KeyCode.Joystick4Button9;
                     controllerL3 = KeyCode.Joystick4Button8;
                     break;
-                case 4:
+                case 5:
                     controllerA = KeyCode.Space;
                     controllerB = KeyCode.LeftControl;
                     controllerX = KeyCode.E;
@@ -77,14 +89,14 @@ public class PlayerControlls : MonoBehaviour {
                     controllerL3 = KeyCode.LeftShift;
                     break;
             }
-        }
-	}
-	
+    }
 	// Update is called once per frame
 	void Update () {
-        if (PlayerNumber != 4)
+        
+        
+        if (playerInfo.PlayerNum != 5)
         {
-            movement = new Vector3(Input.GetAxis("Left Horizontal Player " + PlayerNumber), 0.0f, Input.GetAxis("Left Vertical Player " + PlayerNumber));
+            HandleControllerInput();
         }
         else 
         {
@@ -105,13 +117,81 @@ public class PlayerControlls : MonoBehaviour {
         {
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, -MaxVel);
         }
-        if(Input.GetKeyDown(controllerA) /*|| Input.GetButtonDown("J" + PlayerNumber + "B0")*/)
+
+    }
+    void HandleControllerInput() {
+        movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), 0.0f, Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum));
+
+        if (Input.GetKey(controllerA))
         {
-            inputPressed = true;
+            ButtonAPressed = true;
         }
-        if(Input.GetKeyUp(controllerA) /*|| Input.GetButtonUp("J" + PlayerNumber + "B0")*/)
+        else if (!Input.GetKey(controllerA))
         {
-            inputPressed = false;
+            ButtonAPressed = false;
+        }
+
+        if (Input.GetKey(controllerB))
+        {
+            ButtonBPressed = true;
+        }
+        else if (!Input.GetKey(controllerB))
+        {
+            ButtonBPressed = false;
+        }
+
+        if (Input.GetKey(controllerX))
+        {
+            ButtonXPressed = true;
+        }
+        else if (!Input.GetKey(controllerX))
+        {
+            ButtonXPressed = false;
+        }
+
+        if (Input.GetKey(controllerY))
+        {
+            ButtonYPressed = true;
+        }
+        else if (!Input.GetKey(controllerY))
+        {
+            ButtonYPressed = false;
+        }
+
+        if (Input.GetKey(controllerRB))
+        {
+            ButtonRBPressed = true;
+        }
+        else if (!Input.GetKey(controllerRB))
+        {
+            ButtonRBPressed = false;
+        }
+
+        if (Input.GetKey(controllerLB))
+        {
+            ButtonLBPressed = true;
+        }
+        else if (!Input.GetKey(controllerLB))
+        {
+            ButtonLBPressed = false;
+        }
+
+        if (Input.GetKey(controllerR3))
+        {
+            ButtonR3Pressed = true;
+        }
+        else if (!Input.GetKey(controllerR3))
+        {
+            ButtonR3Pressed = false;
+        }
+
+        if (Input.GetKey(controllerL3))
+        {
+            ButtonL3Pressed = true;
+        }
+        else if (!Input.GetKey(controllerL3))
+        {
+            ButtonL3Pressed = false;
         }
     }
 }

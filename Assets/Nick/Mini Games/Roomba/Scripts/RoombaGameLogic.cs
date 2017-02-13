@@ -4,14 +4,50 @@ using UnityEngine;
 
 public class RoombaGameLogic : MonoBehaviour
 {
+    GameObject _AllGameLogic;
     public GameObject RoombaA, RoombaB;
+    public GameObject PlayerPrefab;
     Vector3 RoombaALastPos, RoombaBLastPos;
+
+
+
+    public List<GameObject> TeamA,TeamB;
+     
     // Use this for initialization
     void Start()
     {
         RoombaALastPos = RoombaA.transform.position;
         RoombaBLastPos = RoombaB.transform.position;
         Physics.IgnoreCollision(RoombaA.GetComponent<RoombaLogic>().RoombaGround.GetComponent<BoxCollider>(), RoombaB.GetComponent<RoombaLogic>().RoombaGround.GetComponent<BoxCollider>());
+        _AllGameLogic = GameObject.Find("OverWatch");
+
+        TeamA = new List<GameObject>();
+        TeamB = new List<GameObject>();
+        int TeamAPlayerNum, TeamBPlayerNum;
+        TeamAPlayerNum = TeamBPlayerNum = 1;
+        foreach (PlayerControlls player in _AllGameLogic.GetComponent<AllGameLogic>().Players)
+        {
+            GameObject TempPlayer = PlayerPrefab;
+            TempPlayer.GetComponent<PlayerControlls>().PlayerNum = player.playerInfo.PlayerNum;
+            TempPlayer.GetComponent<PlayerControlls>().playerInfo = player.playerInfo;
+            if (player.playerInfo.Team == 1) {
+                TeamA.Add(Instantiate(TempPlayer, RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.position, RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.rotation));
+                TeamAPlayerNum++;
+            }
+            else if (player.playerInfo.Team == 2) {
+                TeamB.Add(Instantiate(TempPlayer, RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum).transform.position, RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum).transform.rotation));
+                TeamBPlayerNum++;
+            }
+        }
+
+        
+
+        RoombaA.transform.FindChild("Player A");
+        RoombaA.transform.FindChild("Player B");
+
+
+        RoombaB.transform.FindChild("Player A");
+        RoombaB.transform.FindChild("Player B");
     }
 
     // Update is called once per frame
