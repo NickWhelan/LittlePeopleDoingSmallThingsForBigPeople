@@ -6,6 +6,7 @@ public class MusicPlayer : MonoBehaviour
 {
 
     public AudioSource audSource;
+    public AudioClip audClip;
 
     private bool isCollidingWithPlayer = false;
 
@@ -24,7 +25,8 @@ public class MusicPlayer : MonoBehaviour
     void Start()
     {
         disc = GameObject.FindGameObjectWithTag("Disc");
-        audSource = GameObject.FindGameObjectWithTag("Swapper").GetComponent<AudioSource>();
+       // audSource = GameObject.FindGameObjectWithTag("Swapper").GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -32,7 +34,7 @@ public class MusicPlayer : MonoBehaviour
     {
         if (audSource.pitch > 0 && !isCollidingWithPlayer)
         {
-            audSource.pitch -= Time.deltaTime * pitchOutRate;
+            //audSource.pitch -= Time.deltaTime * pitchOutRate;
         }
     }
 
@@ -40,7 +42,7 @@ public class MusicPlayer : MonoBehaviour
     {
         if (c.tag == "Player")
         {
-           // Debug.Log("Start Playing: " + audSource.clip.name);
+            // Debug.Log("Start Playing: " + audSource.clip.name);
             //audSource.Play();
             isCollidingWithPlayer = true;
             isActive = true;
@@ -52,6 +54,7 @@ public class MusicPlayer : MonoBehaviour
     {
         if (c.tag == "Player")
         {
+            audSource.clip = audClip;
             if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed 
                 || c.gameObject.GetComponent<PlayerControlls>().ButtonXPressed)
             {
@@ -74,13 +77,23 @@ public class MusicPlayer : MonoBehaviour
         }
     }
 
+    public void PlaySong()
+    {
+        audSource.Play();
+    }
+
+    public void StopSong()
+    {
+        audSource.Stop();
+    }
 
     private void OnTriggerExit(Collider c)
     {
         if (c.tag == "Player")
         {
-           // Debug.Log("Stop Playing: " + audSource.clip.name);
+            // Debug.Log("Stop Playing: " + audSource.clip.name);
             //isCollidingWithPlayer = false;
+            //audSource.Stop();
             isActive = false;
            // swapPoint.SetActive(false);
         }
