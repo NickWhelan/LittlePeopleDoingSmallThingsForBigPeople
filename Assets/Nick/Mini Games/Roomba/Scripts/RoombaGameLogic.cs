@@ -32,22 +32,29 @@ public class RoombaGameLogic : MonoBehaviour
             TempPlayer.GetComponent<PlayerControlls>().playerInfo = player.playerInfo;
             if (player.playerInfo.Team == 1) {
                 TeamA.Add(Instantiate(TempPlayer, RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.position, RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.rotation));
+                TeamA[TeamA.Count -1].transform.parent = RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum);
+                TeamA[TeamA.Count - 1].name = "Player";
+                TeamA[TeamA.Count - 1].tag = "Player Team " + player.playerInfo.Team;
                 TeamAPlayerNum++;
             }
             else if (player.playerInfo.Team == 2) {
                 TeamB.Add(Instantiate(TempPlayer, RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum).transform.position, RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum).transform.rotation));
+                TeamB[TeamB.Count - 1].transform.parent = RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum);
+                TeamB[TeamB.Count - 1].name = "Player";
+                TeamB[TeamB.Count - 1].tag = "Player Team " + player.playerInfo.Team;
                 TeamBPlayerNum++;
             }
         }
 
-        
+        RoombaA.GetComponent<RoombaLogic>().SetupTeam();
+        RoombaB.GetComponent<RoombaLogic>().SetupTeam();
 
-        RoombaA.transform.FindChild("Player A");
-        RoombaA.transform.FindChild("Player B");
+       // RoombaA.transform.FindChild("Player A");
+        //RoombaA.transform.FindChild("Player B");
 
 
-        RoombaB.transform.FindChild("Player A");
-        RoombaB.transform.FindChild("Player B");
+        //RoombaB.transform.FindChild("Player A");
+       // RoombaB.transform.FindChild("Player B");
     }
 
     // Update is called once per frame

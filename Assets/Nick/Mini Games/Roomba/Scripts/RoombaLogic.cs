@@ -19,8 +19,13 @@ public class RoombaLogic : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        PlayersOnTeam = GameObject.FindGameObjectsWithTag("Player Team " + TeamNumber);
         LastPos = new List<Vector3>();
+       
+
+    }
+
+    public void SetupTeam() {
+        PlayersOnTeam = GameObject.FindGameObjectsWithTag("Player Team " + TeamNumber);
         foreach (GameObject Player in PlayersOnTeam)
         {
             Physics.IgnoreCollision(GetComponent<BoxCollider>(), Player.GetComponent<CapsuleCollider>());
@@ -33,11 +38,14 @@ public class RoombaLogic : MonoBehaviour
                 mat.PlayersOnTeam.Add(Player);
             }
         }
-
     }
+
     void FixedUpdate() {
-        RoombaBoundCheck();
-        MoveRoomba();
+        if (PlayersOnTeam.Length > 0)
+        {
+            RoombaBoundCheck();
+            MoveRoomba();
+        }
     }
     // Update is called once per frame
     void Update()
