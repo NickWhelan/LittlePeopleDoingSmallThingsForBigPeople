@@ -25,7 +25,7 @@ public class MusicPlayer : MonoBehaviour
     void Start()
     {
         disc = GameObject.FindGameObjectWithTag("Disc");
-       // audSource = GameObject.FindGameObjectWithTag("Swapper").GetComponent<AudioSource>();
+        audSource = GameObject.FindGameObjectWithTag("Swapper").GetComponent<AudioSource>();
         
     }
 
@@ -34,7 +34,7 @@ public class MusicPlayer : MonoBehaviour
     {
         if (audSource.pitch > 0 && !isCollidingWithPlayer)
         {
-            //audSource.pitch -= Time.deltaTime * pitchOutRate;
+            audSource.pitch -= Time.deltaTime * pitchOutRate;
         }
     }
 
@@ -92,10 +92,9 @@ public class MusicPlayer : MonoBehaviour
         if (c.tag == "Player")
         {
             // Debug.Log("Stop Playing: " + audSource.clip.name);
-            //isCollidingWithPlayer = false;
+            isCollidingWithPlayer = false;
             //audSource.Stop();
             isActive = false;
-           // swapPoint.SetActive(false);
         }
     }
 }

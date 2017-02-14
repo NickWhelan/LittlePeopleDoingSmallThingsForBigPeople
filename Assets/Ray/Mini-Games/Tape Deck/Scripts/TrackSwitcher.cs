@@ -19,27 +19,29 @@ public class TrackSwitcher : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+        audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
 	}
 
     private void OnCollisionEnter(Collision collision)
     {
         for (int i = 0; i < mBoxes.Length; i++)
         {
-            if (mBoxes[i].GetComponent<MusicPlayer>().isActive)
+            if (mBoxes[i].GetComponent<MusicPlayer>().isActive && !audSource.isPlaying)
             {
-                //mBoxes[activeBox].GetComponent<MusicPlayer>().StopSong();
+                mBoxes[activeBox].GetComponent<MusicPlayer>().StopSong();
+                swapPoints[activeBox].SetActive(false);
+
                 print(mBoxes[i] + "is enabled");
+
                 audSource.clip = audioTracks[i];
+
                 mBoxes[i].GetComponent<MusicPlayer>().PlaySong();
+
                 Debug.Log(audSource.isPlaying + " " + audSource.clip);
+
                 swapPoints[i].SetActive(true);
+
                 activeBox = i;
-            }
-            if (i != activeBox)
-            {
-                mBoxes[i].GetComponent<MusicPlayer>().StopSong();
-                swapPoints[i].SetActive(false);
             }
         }
     }
