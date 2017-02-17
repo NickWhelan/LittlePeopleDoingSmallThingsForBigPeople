@@ -93,15 +93,8 @@ public class PlayerControlls : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        
-        if (playerInfo.PlayerNum != 5)
-        {
-            HandleControllerInput();
-        }
-        else 
-        {
-            movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), 0.0f, Input.GetAxis("Vertical KeyBaord"));
-        }
+        HandleControllerInput();
+
         rigidbody.AddForce(movement * Speed);
         if (rigidbody.velocity.x > MaxVel) {
             rigidbody.velocity = new Vector3(MaxVel, 0, rigidbody.velocity.z);
@@ -120,7 +113,15 @@ public class PlayerControlls : MonoBehaviour {
 
     }
     void HandleControllerInput() {
-        movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), 0.0f, Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum));
+
+        if (PlayerNum == 5)
+        {
+            movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), 0.0f, Input.GetAxis("Vertical KeyBaord"));
+        }
+        else
+        {
+            movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), 0.0f, Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum));
+        }
 
         if (Input.GetKey(controllerA))
         {

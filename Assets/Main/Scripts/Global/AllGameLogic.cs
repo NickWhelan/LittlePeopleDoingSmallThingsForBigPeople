@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AllGameLogic : MonoBehaviour {
     [SerializeField]
     public List<PlayerControlls> Players;
 
-    public enum Scene {
-        Splash,
-        Menu,
-        Roomba,
-        TapeDeck
-    }
-    public Scene CurrentScene = Scene.Menu;
+    public string CurrentScene = "Menu";
     // Use this for initialization
     void Start () {
         Players = new List<PlayerControlls>();
@@ -21,16 +16,15 @@ public class AllGameLogic : MonoBehaviour {
     {
         DontDestroyOnLoad(this);
     }
-
     // Update is called once per frame
     void Update () {
-        if (Input.GetKey(KeyCode.L)) {
-            if (CurrentScene == Scene.Menu) {
-                Application.LoadLevel("Roomba");
-            }
-        }		
+        
 	}
 
+    void OnLevelWasLoaded()
+    {
+        CurrentScene = Application.loadedLevelName;
+    }
 
 
     public void addPlayer(PlayerControlls newPlayer)

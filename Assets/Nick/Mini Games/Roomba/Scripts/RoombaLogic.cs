@@ -20,8 +20,6 @@ public class RoombaLogic : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         LastPos = new List<Vector3>();
-       
-
     }
 
     public void SetupTeam() {
