@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class MenuLogic : MonoBehaviour {
     public AllGameLogic gamelogic;
-    public GameObject GreenBox;
+    public GameObject GreenBox, Stage1Pos, Stage2Pos;
+    public Camera cam;
     bool TeamA, TeamB;
+    bool stage2;
     float activePlayers;
 
     void Awake() {
@@ -40,9 +42,25 @@ public class MenuLogic : MonoBehaviour {
             {
                 if (player.ButtonAPressed)
                 {
-                    SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
+                    stage2 = true;
+                    //SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
+                }
+                if (player.ButtonBPressed && stage2) {
+                    stage2 = false;
                 }
             }
+        }
+    }
+
+    void Update() {
+        if (!stage2 && cam.transform.position != Stage1Pos.transform.position) {
+            cam.transform.position = Vector3.Lerp(cam.transform.position, Stage1Pos.transform.position, 0.05f);
+            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Stage1Pos.transform.rotation, 0.05f);
+        }
+        else if (stage2 && cam.transform.position != Stage2Pos.transform.position)
+        {
+            cam.transform.position = Vector3.Lerp(cam.transform.position, Stage2Pos.transform.position, 0.05f);
+            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Stage2Pos.transform.rotation, 0.05f);
         }
     }
 }
