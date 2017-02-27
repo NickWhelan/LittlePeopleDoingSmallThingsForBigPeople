@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour
 {
-
     public AudioSource audSource;
     public AudioClip audClip;
 
@@ -15,8 +14,7 @@ public class MusicPlayer : MonoBehaviour
     private float pitchOutRate = .2f;
 
    // public GameObject swapPoint;
-
-
+  
     public bool isActive = false;
 
     GameObject disc;
@@ -38,9 +36,9 @@ public class MusicPlayer : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider c)
+    private void OnCollisionEnter(Collision c)
     {
-        if (c.tag == "Player")
+        if (c.gameObject.tag == "Player")
         {
             // Debug.Log("Start Playing: " + audSource.clip.name);
             //audSource.Play();
@@ -55,11 +53,9 @@ public class MusicPlayer : MonoBehaviour
         if (c.tag == "Player")
         {
             audSource.clip = audClip;
-            if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed 
+            if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed
                 || c.gameObject.GetComponent<PlayerControlls>().ButtonXPressed)
             {
-                disc.GetComponent<CDLogic>().spinUpDisc();   
-
                 //Increase the pitch of the song with each button press to a max of one
                 //0 means the song is stopped
                 //1 is normal speed
@@ -87,9 +83,9 @@ public class MusicPlayer : MonoBehaviour
         audSource.Stop();
     }
 
-    private void OnTriggerExit(Collider c)
+    private void OnCollisionExit(Collision c)
     {
-        if (c.tag == "Player")
+        if (c.gameObject.tag == "Player")
         {
             // Debug.Log("Stop Playing: " + audSource.clip.name);
             isCollidingWithPlayer = false;
