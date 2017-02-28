@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CDLogic : MonoBehaviour
 { 
     Rigidbody rigidbody;
-    //Gotta convert the linear velocity into angular velocity
-
+    
     [Range(1, 100)]
     public float torqueVal;
 
@@ -15,6 +13,7 @@ public class CDLogic : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Physics.IgnoreCollision(GetComponent<MeshCollider>(), GetComponent<MeshCollider>(), true);
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.AddTorque(new Vector3(0, torqueVal, 0));
     }
@@ -28,14 +27,13 @@ public class CDLogic : MonoBehaviour
     public void spinUpDisc(Vector3 linearVelocity)
     {
         float linVelAlongX = linearVelocity.x;
-        float angAccelAlongY = 0;
+        float angVelAlongY = 0;
 
         if (linearVelocity != Vector3.zero)
-            angAccelAlongY = (2 * Mathf.PI) / linVelAlongX;
+            angVelAlongY = (2 * Mathf.PI) / linVelAlongX;
 
-        angAccelAlongY = (linVelAlongX * linVelAlongX) / gameObject.transform.localScale.x;
-
-        rigidbody.transform.Rotate(new Vector3(0, 1 * angAccelAlongY, 0));
+        angVelAlongY = (linVelAlongX * linVelAlongX) / gameObject.transform.localScale.x;
+        rigidbody.transform.Rotate(new Vector3(0, -linearVelocity.x, 0));
     }
 
     public void spinUpDisc()
@@ -61,7 +59,7 @@ public class CDLogic : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && other.transform.parent != null)
         {
             other.transform.parent = null;
         }
@@ -69,10 +67,16 @@ public class CDLogic : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
         {
+            other.transform.parent = null;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             Debug.Log("Hello Player " + other.GetComponent<PlayerControlls>().PlayerNum);
             spinUpDisc(other.GetComponent<Rigidbody>().velocity);
+        }
+        else if(other.tag == "Player" && !other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
+        {
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         }
     }
 }
