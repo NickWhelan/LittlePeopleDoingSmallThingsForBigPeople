@@ -94,21 +94,25 @@ public class PlayerControlls : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        HandleControllerInput();
+        if (Input.anyKey)
+        {
+            HandleControllerInput();
+        }
+        HandleControllerAxisInput();
         rigidbody.AddForce(movement * Speed);
         rigidbody.velocity = new Vector3(Mathf.Clamp(rigidbody.velocity.x, -MaxVel, MaxVel), Mathf.Clamp(rigidbody.velocity.y, -MaxVel, MaxVel), Mathf.Clamp(rigidbody.velocity.z, -MaxVel, MaxVel));
     }
-    void HandleControllerInput() {
-
+    void HandleControllerAxisInput()
+    {
         if (PlayerNum == 5)
         {
             if (!isOnMenu)
             {
                 movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), 0.0f, Input.GetAxis("Vertical KeyBaord"));
             }
-            else {
-                movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), Input.GetAxis("Vertical KeyBaord"),0.0f);
-
+            else
+            {
+                movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), Input.GetAxis("Vertical KeyBaord"), 0.0f);
             }
         }
         else
@@ -117,11 +121,15 @@ public class PlayerControlls : MonoBehaviour {
             {
                 movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), 0.0f, Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum));
             }
-            else {
-                movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum),0.0f);
+            else
+            {
+                movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum), 0.0f);
 
             }
         }
+    }
+    void HandleControllerInput()
+    {
 
         if (Input.GetKey(controllerA))
         {
