@@ -18,8 +18,6 @@ public class PickingUp : MonoBehaviour
         playerControlls =  GetComponentInParent<PlayerControlls>();
        //amIGrabbing = false;
     }
-    void Update() {
-    }
     // Update is called once per frame
     private void OnTriggerStay(Collider other)
     {
@@ -35,15 +33,6 @@ public class PickingUp : MonoBehaviour
             DropObject();
         }
     }
-
-    /*
-    private void OnCollisionStay(Collision other)
-    {
-        if (PickedUpObject !=null && !playerControlls.ButtonRBPressed)
-        {
-            DropObject();
-        }
-    }*/
     void PickUp(GameObject other) {
         PickedUpObject = Instantiate(other,gameObject.transform);
         PickedUpObject.name = other.name;
@@ -59,31 +48,4 @@ public class PickingUp : MonoBehaviour
         Destroy(PickedUpObject);
         PickedUpObject = null;
     }
-    /*
-    void HandleGrab(Collision c, bool amIGrab)
-    {
-        if (!amIGrab)
-        {
-            if (!amIGrab && c != null)
-            {
-                //sets amIGrabbing to true
-                amIGrabbing = true;
-
-                //set the parent to this object
-                c.collider.gameObject.transform.parent = gameObject.transform;
-
-                c.collider.gameObject.transform.localPosition = PickUpPos.localPosition;
-                Debug.Log(c.collider.gameObject.transform.parent);
-            }
-        }
-        else if (amIGrab)
-        {
-            Debug.Log("Drop this box");
-
-            transform.GetChild(1).parent = null;
-            amIGrabbing = false;
-        }
-
-        Debug.Log(amIGrabbing);
-    }*/
 }

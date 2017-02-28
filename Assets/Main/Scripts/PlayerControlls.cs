@@ -8,7 +8,7 @@ public class PlayerControlls : MonoBehaviour {
     public int MaxVel;
     public int PlayerNum;
     public bool isOnMenu;
-    Vector3 movement;
+    public Vector3 movement;
     Rigidbody rigidbody;
 
     KeyCode controllerA;
@@ -94,10 +94,7 @@ public class PlayerControlls : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKey)
-        {
-            HandleControllerInput();
-        }
+        HandleControllerInput();
         HandleControllerAxisInput();
         rigidbody.AddForce(movement * Speed);
         rigidbody.velocity = new Vector3(Mathf.Clamp(rigidbody.velocity.x, -MaxVel, MaxVel), Mathf.Clamp(rigidbody.velocity.y, -MaxVel, MaxVel), Mathf.Clamp(rigidbody.velocity.z, -MaxVel, MaxVel));

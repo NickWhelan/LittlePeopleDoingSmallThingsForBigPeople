@@ -46,13 +46,14 @@ public class MenuLogic : MonoBehaviour {
                     {
                         stage2 = true;
                     }
-                    
-                        SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
                 }
-                if (player.ButtonBPressed && stage2) {
+                else if (player.ButtonBPressed && stage2) {
                     stage2 = false;
                 }
-                
+            }
+            if (gamelogic.Players[0].ButtonRBPressed && stage2)
+            {
+                SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
             }
         }
     }
