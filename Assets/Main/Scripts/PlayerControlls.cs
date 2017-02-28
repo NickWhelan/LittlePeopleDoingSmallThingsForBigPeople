@@ -7,6 +7,7 @@ public class PlayerControlls : MonoBehaviour {
     public float Speed = 1;
     public int MaxVel;
     public int PlayerNum;
+    public bool isOnMenu;
     Vector3 movement;
     Rigidbody rigidbody;
 
@@ -90,37 +91,36 @@ public class PlayerControlls : MonoBehaviour {
                     break;
             }
     }
-	// Update is called once per frame
-	void Update () {
-        
+    // Update is called once per frame
+    void Update()
+    {
         HandleControllerInput();
-
         rigidbody.AddForce(movement * Speed);
-        if (rigidbody.velocity.x > MaxVel) {
-            rigidbody.velocity = new Vector3(MaxVel, 0, rigidbody.velocity.z);
-        }
-        else if (rigidbody.velocity.x < -MaxVel)
-        {
-            rigidbody.velocity = new Vector3(-MaxVel, 0, rigidbody.velocity.z);
-        }
-        if (rigidbody.velocity.z > MaxVel)
-        {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, MaxVel);
-        }else if (rigidbody.velocity.z < -MaxVel)
-        {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, -MaxVel);
-        }
-
+        rigidbody.velocity = new Vector3(Mathf.Clamp(rigidbody.velocity.x, -MaxVel, MaxVel), Mathf.Clamp(rigidbody.velocity.y, -MaxVel, MaxVel), Mathf.Clamp(rigidbody.velocity.z, -MaxVel, MaxVel));
     }
     void HandleControllerInput() {
 
         if (PlayerNum == 5)
         {
-            movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), 0.0f, Input.GetAxis("Vertical KeyBaord"));
+            if (!isOnMenu)
+            {
+                movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), 0.0f, Input.GetAxis("Vertical KeyBaord"));
+            }
+            else {
+                movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), Input.GetAxis("Vertical KeyBaord"),0.0f);
+
+            }
         }
         else
         {
-            movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), 0.0f, Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum));
+            if (!isOnMenu)
+            {
+                movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), 0.0f, Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum));
+            }
+            else {
+                movement = new Vector3(Input.GetAxis("Left Horizontal Player " + playerInfo.PlayerNum), Input.GetAxis("Left Vertical Player " + playerInfo.PlayerNum),0.0f);
+
+            }
         }
 
         if (Input.GetKey(controllerA))

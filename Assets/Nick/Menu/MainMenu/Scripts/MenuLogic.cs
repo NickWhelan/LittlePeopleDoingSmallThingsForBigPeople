@@ -48,19 +48,20 @@ public class MenuLogic : MonoBehaviour {
                 if (player.ButtonBPressed && stage2) {
                     stage2 = false;
                 }
+                
             }
         }
     }
 
     void Update() {
         if (!stage2 && cam.transform.position != Stage1Pos.transform.position) {
-            cam.transform.position = Vector3.Lerp(cam.transform.position, Stage1Pos.transform.position, 0.05f);
-            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Stage1Pos.transform.rotation, 0.05f);
+            cam.transform.position = Vector3.Lerp(cam.transform.position, Stage1Pos.transform.position, 0.1f);
+            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Stage1Pos.transform.rotation, 0.1f);
         }
         else if (stage2 && cam.transform.position != Stage2Pos.transform.position)
         {
-            cam.transform.position = Vector3.Lerp(cam.transform.position, Stage2Pos.transform.position, 0.05f);
-            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Stage2Pos.transform.rotation, 0.05f);
+            cam.transform.position = Vector3.Lerp(cam.transform.position, Stage2Pos.transform.position, 0.1f);
+            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Stage2Pos.transform.rotation, 0.1f);
         }
     }
 }
