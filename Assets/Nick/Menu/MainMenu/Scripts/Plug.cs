@@ -4,32 +4,44 @@ using UnityEngine;
 
 public class Plug : MonoBehaviour {
     public AllGameLogic AllPlayers;
+    public GameObject Room;
+    
 
     [Range(1,2)]
     public int Team;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
+    int playernum;
+    bool isPlugged;
+    Material BaseMaterial;
+    // Use this for initialization
+    void Start () {
+        playernum = -1;
+        Room.GetComponent<Renderer>().material.color = Color.gray;
+        BaseMaterial = Room.GetComponent<Renderer>().material;
+    }
     void OnTriggerEnter(Collider Other)
     {
 
-        if (Team > 0)
+        if (!isPlugged)
         {
             Other.GetComponent<PlayerControlls>().playerInfo.Team = Team;
             AllPlayers.addPlayer(Other.GetComponent<PlayerControlls>());
             print(Other.GetComponent<PlayerControlls>().playerInfo.Team);
+            Room.GetComponent<Renderer>().material = Other.GetComponent<Renderer>().material;
+            isPlugged = true;
+            playernum = Other.GetComponent<PlayerControlls>().PlayerNum;
         }
+
     }
     void OnTriggerExit(Collider Other)
     {
-        Other.GetComponent<PlayerControlls>().playerInfo.Team = -1;
-        AllPlayers.RemovePlayer(Other.GetComponent<PlayerControlls>());
+        if (isPlugged &&  playernum == Other.GetComponent<PlayerControlls>().PlayerNum)
+        {
+            Other.GetComponent<PlayerControlls>().playerInfo.Team = -1;
+            AllPlayers.RemovePlayer(Other.GetComponent<PlayerControlls>());
+            Room.GetComponent<Renderer>().material = BaseMaterial;
+            isPlugged = false;
+            playernum = -1;
+        }
     }
 }

@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: ac9caf273ba72bd42a776c25949e48e1
+timeCreated: 1488488510
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: TF2
+  fontNames:
+  - TF2
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 5aa21ac48cc751b42ae53337893d31aa, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

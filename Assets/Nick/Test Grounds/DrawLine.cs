@@ -13,7 +13,7 @@ public class DrawLine : MonoBehaviour {
 	void Start () {
         EndPoint = new GameObject();
         line = GetComponent<LineRenderer>();
-        line.SetVertexCount(2);  
+        //line.SetVertexCount(2)  
 	}
 	
 	// Update is called once per frame

@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player
 {
     public enum Character
     {
-        Astronaut=0,
-        BigBusinessOwner=1,
-        Cowboy=2,
-        Ninja=3,
-        Mafioso=4,
-        Mathematician=5,
-        RockSinger=6,
-        StrangeDoctor=7,
-        Survivalist=8,
-        WaitStaff=9,
-        Budgie = 10,
+        Astronaut=1,
+        BigBusinessOwner=2,
+        Cowboy=3,
+        Ninja=4,
+        Mafioso=5,
+        Mathematician=6,
+        RockSinger=7,
+        StrangeDoctor=8,
+        Survivalist=9,
+        WaitStaff=10,
+        Budgie = 11,
     };
     public Character CurrentCharacter;
     public int Team;

@@ -8,17 +8,17 @@ public class RoombaLogic : MonoBehaviour
     GameObject[] PlayersOnTeam;
     //
     List<Vector3> LastPos;
-    public GameObject RoombaGround;
+    public GameObject RoombaGround,Camera;
     public List<RoombaMovementBox> MovementBoxs;
 
     //Movment
     bool Forward,Back,Left,Right;
-    Rigidbody rigidbody;
+
     float MoveX, SpinY;
     // Use this for initialization
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        
         LastPos = new List<Vector3>();
     }
 
@@ -26,7 +26,7 @@ public class RoombaLogic : MonoBehaviour
         PlayersOnTeam = GameObject.FindGameObjectsWithTag("Player Team " + TeamNumber);
         foreach (GameObject Player in PlayersOnTeam)
         {
-            Physics.IgnoreCollision(GetComponent<BoxCollider>(), Player.GetComponent<CapsuleCollider>());
+           //Physics.IgnoreCollision(GetComponent<SphereCollider>(), Player.GetComponent<CapsuleCollider>())
             LastPos.Add(Player.transform.position);
         }
         foreach (RoombaMovementBox mat in MovementBoxs)
@@ -48,6 +48,7 @@ public class RoombaLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Forward && !Back)
         {
             MoveX = 10;
@@ -59,7 +60,7 @@ public class RoombaLogic : MonoBehaviour
         else if ((Forward && Back) || (!Forward && !Back))
         {
             MoveX = 0;
-            rigidbody.velocity = Vector3.zero;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
         if (Left && !Right)
         {
@@ -72,10 +73,11 @@ public class RoombaLogic : MonoBehaviour
         else if ((Right && Left) || (!Right && !Left))
         {
             SpinY = 0;
-            rigidbody.angularVelocity = Vector3.zero;
+            GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
-        rigidbody.AddRelativeForce(new Vector3(0,0, MoveX));
-        rigidbody.AddTorque(new Vector3(0,SpinY,0));
+        GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0,0, MoveX));
+        GetComponent<Rigidbody>().AddTorque(new Vector3(0,SpinY,0));
+        Camera.transform.position = new Vector3(transform.position.x, Camera.transform.position.y, transform.position.z);
     }
     void MoveRoomba() {
         foreach (RoombaMovementBox mat in MovementBoxs)

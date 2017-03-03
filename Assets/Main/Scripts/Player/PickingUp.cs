@@ -21,7 +21,6 @@ public class PickingUp : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerStay(Collider other)
     {
-        print(other.name);
         if (other.gameObject.layer == LayerMask.NameToLayer("Grabbable Object")
             && PickedUpObject == null && playerControlls.ButtonRBPressed)
         {
