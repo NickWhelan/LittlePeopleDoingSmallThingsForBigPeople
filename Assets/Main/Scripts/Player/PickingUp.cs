@@ -33,18 +33,14 @@ public class PickingUp : MonoBehaviour
         }
     }
     void PickUp(GameObject other) {
-        PickedUpObject = Instantiate(other,gameObject.transform);
-        PickedUpObject.name = other.name;
+        PickedUpObject = other;
         PickedUpObjectParent = other.transform.parent;
-        Destroy(other, 0);
         PickedUpObject.transform.position = HeldPos.position;
 
     }
     void DropObject() {
-        GameObject temp = Instantiate(PickedUpObject, DropPos);
-        temp.transform.parent = PickedUpObjectParent;
-        temp.name = PickedUpObject.name;
-        Destroy(PickedUpObject);
+        PickedUpObject.transform.parent = PickedUpObjectParent;
+        PickedUpObject.transform.position = DropPos.position;
         PickedUpObject = null;
     }
 }
