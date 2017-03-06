@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : MonoBehaviour {
+public class Timer {
 
     public bool isCountingDown,isTimeUp;
 
     public float StartTime, EndTime, CurrentTime;
 
 	// Use this for initialization
-	void Start () {
+
+	public void Start () {
         CurrentTime = StartTime;
         isTimeUp = false;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
         if (isCountingDown)
         {
             CountDown();
@@ -29,6 +30,7 @@ public class Timer : MonoBehaviour {
         CurrentTime += Time.deltaTime;
         if (CurrentTime > EndTime) {
             isTimeUp = true;
+            CurrentTime = EndTime;
         }
     }
     void CountDown() {
@@ -36,6 +38,7 @@ public class Timer : MonoBehaviour {
         if (CurrentTime < EndTime)
         {
             isTimeUp = true;
+            CurrentTime = EndTime;
         }
     }
 }
