@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoombaLogic : MonoBehaviour
 {
-    public int TeamNumber;
-    GameObject[] PlayersOnTeam;
-    //
-    List<Vector3> LastPos;
-    public GameObject RoombaGround,Camera;
+    public int TeamNumber,score;
+    public GameObject RoombaGround, Camera;
     public List<RoombaMovementBox> MovementBoxs;
+    public SuckUp vacuum;
+    public Text UIScore;
+    GameObject[] PlayersOnTeam;
+    List<Vector3> LastPos;
+   
 
     //Movment
     bool Forward,Back,Left,Right;
@@ -44,6 +47,11 @@ public class RoombaLogic : MonoBehaviour
             RoombaBoundCheck();
             MoveRoomba();
         }
+        if (vacuum.isTriggered) {
+            score++;
+            UIScore.text = score.ToString();
+            vacuum.isTriggered = false;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -76,7 +84,7 @@ public class RoombaLogic : MonoBehaviour
             GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
         GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0,0, MoveX));
-        GetComponent<Rigidbody>().AddTorque(new Vector3(0,SpinY,0));
+        GetComponent<Rigidbody>().AddRelativeTorque(new Vector3(0,SpinY,0));
         Camera.transform.position = new Vector3(transform.position.x, Camera.transform.position.y, transform.position.z);
     }
     void MoveRoomba() {

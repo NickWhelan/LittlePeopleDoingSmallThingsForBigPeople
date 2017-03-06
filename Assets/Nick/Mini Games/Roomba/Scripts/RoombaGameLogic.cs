@@ -1,21 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoombaGameLogic : MonoBehaviour
 {
     GameObject _AllGameLogic;
+
     public GameObject RoombaA, RoombaB;
     public GameObject PlayerPrefab;
+    public bool DebugTest = false;
+    public List<GameObject> TeamA, TeamB;
+    public Text TimerText, Team1WinnerText, Team1WinnerSText, Team2WinnerText, Team2WinnerSText;
+
+    Timer timer;
     Vector3 RoombaALastPos, RoombaBLastPos;
 
-    public bool DebugTest= false;
 
-    public List<GameObject> TeamA,TeamB;
+
+
 
     // Use this for initialization
     void Start()
     {
+        timer = new Timer();
+        timer.isCountingDown = true;
+        timer.StartTime = 10;
+        timer.EndTime = 0;
+        timer.Start();
+
+
+       Team1WinnerText.enabled = false;
+        Team1WinnerSText.enabled = false;
+        Team2WinnerText.enabled = false;
+        Team2WinnerSText.enabled = false;
+
         RoombaALastPos = RoombaA.transform.position;
         RoombaBLastPos = RoombaB.transform.position;
         //Physics.IgnoreCollision(RoombaA.GetComponent<RoombaLogic>().RoombaGround.GetComponent<BoxCollider>(), RoombaB.GetComponent<RoombaLogic>().RoombaGround.GetComponent<BoxCollider>())
@@ -65,6 +84,38 @@ public class RoombaGameLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if (!timer.isTimeUp) {
+            timer.Update();
+            if (timer.CurrentTime < 10)
+            {
+                TimerText.text = string.Format("{0:0.00}", timer.CurrentTime);
+            }
+            else {
+                TimerText.text = ((int)timer.CurrentTime).ToString();
+            }
+            if (RoombaA.GetComponent<RoombaLogic>().score > RoombaB.GetComponent<RoombaLogic>().score)
+            {
+                Team1WinnerSText.text = Team1WinnerText.text = "Winner";
+                Team2WinnerSText.text = Team2WinnerText.text = "Loser";
+            }
+            else if (RoombaA.GetComponent<RoombaLogic>().score < RoombaB.GetComponent<RoombaLogic>().score)
+            {
+                Team1WinnerSText.text = Team1WinnerText.text = "Loser";
+                Team2WinnerSText.text = Team2WinnerText.text = "Winner";
+            }
+            else {
+                Team1WinnerSText.text = Team1WinnerText.text = "Tie";
+                Team2WinnerSText.text = Team2WinnerText.text = "Tie";
+            }
+
+        }
+        else
+        {
+            Team1WinnerSText.enabled = Team1WinnerText.enabled = true;
+            Team2WinnerSText.enabled = Team2WinnerText.enabled = true;
+        }
+
         Debug.DrawLine(new Vector3(RoombaA.transform.position.x, 1, RoombaA.transform.position.z), new Vector3(RoombaA.transform.position.x+ (RoombaA.transform.lossyScale.x / 2), 0.5f, RoombaA.transform.position.z));
         Debug.DrawLine(new Vector3(RoombaA.transform.position.x, 1, RoombaA.transform.position.z), new Vector3(RoombaA.transform.position.x, 0.5f, RoombaA.transform.position.z+(RoombaA.transform.lossyScale.z / 2)));
         if (Vector3.Distance(RoombaA.transform.position, RoombaB.transform.position) <= (RoombaA.transform.lossyScale.x/2) + (RoombaB.transform.lossyScale.x/2))

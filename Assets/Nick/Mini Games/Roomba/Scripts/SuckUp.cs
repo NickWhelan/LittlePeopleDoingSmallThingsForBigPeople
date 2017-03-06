@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class SuckUp : MonoBehaviour {
     public bool isTriggered;
-    public int Score;
 
     void OnTriggerEnter(Collider Other)
     {
-        if (Other.tag == "trash")
+        if (Other.tag == "SuckUp" && !isTriggered)
         {
             isTriggered = true;
+            Destroy(Other.gameObject);
         }
     }
     void OnTriggerExit(Collider Other)
     {
-        if (Other.tag == "trash")
+        if (Other.tag == "SuckUp")
         {
             isTriggered = false;
         }
