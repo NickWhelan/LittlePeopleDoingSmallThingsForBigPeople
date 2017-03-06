@@ -10,6 +10,8 @@ public class PlayerControlls : MonoBehaviour {
     public bool isOnMenu;
     public Vector3 movement;
 
+    Rigidbody rigidbody;
+
     KeyCode controllerA;
     KeyCode controllerB;
     KeyCode controllerX;
@@ -37,7 +39,7 @@ public class PlayerControlls : MonoBehaviour {
     // Use this for initialization
     void Start () {
         playerInfo = new Player(PlayerNum);
-       
+        rigidbody = gameObject.GetComponent<Rigidbody>();
 
         switch (playerInfo.PlayerNum)
         {
@@ -135,14 +137,17 @@ public class PlayerControlls : MonoBehaviour {
                 break;
         }
     }
+
+    void FixedUpdate() {
+        rigidbody.AddForce(movement * Speed);
+        rigidbody.velocity = new Vector3(Mathf.Clamp(GetComponent<Rigidbody>().velocity.x, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.y, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.z, -MaxVel, MaxVel));
+    }
+
     // Update is called once per frame
     void Update()
     {
         HandleControllerInput();
         HandleControllerAxisInput();
-        GetComponent<Rigidbody>().AddForce(movement * Speed);
-
-        GetComponent<Rigidbody>().velocity = new Vector3(Mathf.Clamp(GetComponent<Rigidbody>().velocity.x, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.y, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.z, -MaxVel, MaxVel));
     }
     void HandleControllerAxisInput()
     {

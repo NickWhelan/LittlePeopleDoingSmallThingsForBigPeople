@@ -6,12 +6,18 @@ using UnityEngine.UI;
 public class RoombaGameLogic : MonoBehaviour
 {
     GameObject _AllGameLogic;
+    
+
 
     public GameObject RoombaA, RoombaB;
     public GameObject PlayerPrefab;
     public bool DebugTest = false;
     public List<GameObject> TeamA, TeamB;
     public Text TimerText, Team1WinnerText, Team1WinnerSText, Team2WinnerText, Team2WinnerSText;
+
+    public GameObject Dirt;
+    public int NumberOfDirt;
+    public Transform Max, Min;
 
     Timer timer;
     Vector3 RoombaALastPos, RoombaBLastPos;
@@ -79,19 +85,29 @@ public class RoombaGameLogic : MonoBehaviour
         }
         RoombaA.GetComponent<RoombaLogic>().SetupTeam();
         RoombaB.GetComponent<RoombaLogic>().SetupTeam();
+
+        MakeDirt();
+    }
+
+    void MakeDirt() {
+        for (int i = 0; i < NumberOfDirt; i++) {
+            Instantiate(Dirt, new Vector3(Random.RandomRange(Max.position.x, Min.position.x), 1, Random.RandomRange(Max.position.z, Min.position.z)), Max.localRotation);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (!timer.isTimeUp) {
+
+        if (!timer.isTimeUp)
+        {
             timer.Update();
             if (timer.CurrentTime < 10)
             {
                 TimerText.text = string.Format("{0:0.00}", timer.CurrentTime);
             }
-            else {
+            else
+            {
                 TimerText.text = ((int)timer.CurrentTime).ToString();
             }
             if (RoombaA.GetComponent<RoombaLogic>().score > RoombaB.GetComponent<RoombaLogic>().score)
@@ -104,31 +120,37 @@ public class RoombaGameLogic : MonoBehaviour
                 Team1WinnerSText.text = Team1WinnerText.text = "Loser";
                 Team2WinnerSText.text = Team2WinnerText.text = "Winner";
             }
-            else {
+            else
+            {
                 Team1WinnerSText.text = Team1WinnerText.text = "Tie";
                 Team2WinnerSText.text = Team2WinnerText.text = "Tie";
             }
 
+
+
+            Debug.DrawLine(new Vector3(RoombaA.transform.position.x, 1, RoombaA.transform.position.z), new Vector3(RoombaA.transform.position.x + (RoombaA.transform.lossyScale.x / 2), 0.5f, RoombaA.transform.position.z));
+            Debug.DrawLine(new Vector3(RoombaA.transform.position.x, 1, RoombaA.transform.position.z), new Vector3(RoombaA.transform.position.x, 0.5f, RoombaA.transform.position.z + (RoombaA.transform.lossyScale.z / 2)));
+            if (Vector3.Distance(RoombaA.transform.position, RoombaB.transform.position) <= (RoombaA.transform.lossyScale.x / 2) + (RoombaB.transform.lossyScale.x / 2))
+            {
+                Debug.DrawLine(new Vector3(RoombaA.transform.position.x, 1, RoombaA.transform.position.z), new Vector3(RoombaB.transform.position.x, 1, RoombaB.transform.position.z), Color.red);
+                RoombaA.transform.position = RoombaALastPos;
+                RoombaB.transform.position = RoombaBLastPos;
+            }
+            else
+            {
+
+                RoombaALastPos = RoombaA.transform.position;
+                RoombaBLastPos = RoombaB.transform.position;
+            }
         }
         else
         {
             Team1WinnerSText.enabled = Team1WinnerText.enabled = true;
             Team2WinnerSText.enabled = Team2WinnerText.enabled = true;
-        }
-
-        Debug.DrawLine(new Vector3(RoombaA.transform.position.x, 1, RoombaA.transform.position.z), new Vector3(RoombaA.transform.position.x+ (RoombaA.transform.lossyScale.x / 2), 0.5f, RoombaA.transform.position.z));
-        Debug.DrawLine(new Vector3(RoombaA.transform.position.x, 1, RoombaA.transform.position.z), new Vector3(RoombaA.transform.position.x, 0.5f, RoombaA.transform.position.z+(RoombaA.transform.lossyScale.z / 2)));
-        if (Vector3.Distance(RoombaA.transform.position, RoombaB.transform.position) <= (RoombaA.transform.lossyScale.x/2) + (RoombaB.transform.lossyScale.x/2))
-        {
-            Debug.DrawLine(new Vector3(RoombaA.transform.position.x,1, RoombaA.transform.position.z), new Vector3(RoombaB.transform.position.x, 1, RoombaB.transform.position.z), Color.red);
-            RoombaA.transform.position = RoombaALastPos;
-            RoombaB.transform.position = RoombaBLastPos;
-        }
-        else
-        {
-
-            RoombaALastPos = RoombaA.transform.position;
-            RoombaBLastPos = RoombaB.transform.position;
+            RoombaA.GetComponent<RoombaLogic>().EndOfRound = true;
+            RoombaB.GetComponent<RoombaLogic>().EndOfRound = true;
+            RoombaA.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            RoombaB.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 }
