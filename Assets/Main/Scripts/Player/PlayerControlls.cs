@@ -37,7 +37,7 @@ public class PlayerControlls : MonoBehaviour {
     // Use this for initialization
     void Start () {
         playerInfo = new Player(PlayerNum);
-        GetComponent<Rigidbody>();
+       
 
         switch (playerInfo.PlayerNum)
         {
@@ -141,9 +141,8 @@ public class PlayerControlls : MonoBehaviour {
         HandleControllerInput();
         HandleControllerAxisInput();
         GetComponent<Rigidbody>().AddForce(movement * Speed);
-        
-        //rigidbody.velocity = new Vector3(Mathf.Clamp(rigidbody.velocity.x, -MaxVel, MaxVel), Mathf.Clamp(rigidbody.velocity.y, -MaxVel, MaxVel), Mathf.Clamp(rigidbody.velocity.z, -MaxVel, MaxVel));
-        //vel = rigidbody.velocity;
+
+        GetComponent<Rigidbody>().velocity = new Vector3(Mathf.Clamp(GetComponent<Rigidbody>().velocity.x, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.y, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.z, -MaxVel, MaxVel));
     }
     void HandleControllerAxisInput()
     {
