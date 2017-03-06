@@ -5,17 +5,23 @@ using UnityEngine;
 public class CDLogic : MonoBehaviour
 { 
     Rigidbody rigidbody;
-    
+
+    Transform origParent;
+
+    RigidbodyConstraints otherObjectConstraints;
+
     [Range(1, 100)]
     public float torqueVal;
 
+
+    private AudioSource audSource;
 
     // Use this for initialization
     void Start()
     {
         Physics.IgnoreCollision(GetComponent<MeshCollider>(), GetComponent<MeshCollider>(), true);
         rigidbody = GetComponent<Rigidbody>();
-        rigidbody.AddTorque(new Vector3(0, torqueVal, 0));
+        audSource = GameObject.FindGameObjectWithTag("Swapper").GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -26,13 +32,8 @@ public class CDLogic : MonoBehaviour
     /// <param name="linearVelocity"></param>
     public void spinUpDisc(Vector3 linearVelocity)
     {
-        float linVelAlongX = linearVelocity.x;
-        float angVelAlongY = 0;
+        audSource.pitch = Mathf.Clamp(linearVelocity.x, 0, 1);
 
-        if (linearVelocity != Vector3.zero)
-            angVelAlongY = (2 * Mathf.PI) / linVelAlongX;
-
-        angVelAlongY = (linVelAlongX * linVelAlongX) / gameObject.transform.localScale.x;
         rigidbody.transform.Rotate(new Vector3(0, -linearVelocity.x, 0));
     }
 
@@ -42,41 +43,32 @@ public class CDLogic : MonoBehaviour
     }
 
     //Collision
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            Debug.Log("Boop");
-            collision.gameObject.transform.parent = transform;
-        }
-    }
-
-
-    private void OnCollisionExit(Collision collision)
-    {
-        collision.gameObject.transform.parent = null;
-    }
-
+    
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player" && other.transform.parent != null)
         {
-            other.transform.parent = null;
+            other.transform.parent = origParent;
         }
-        rigidbody.AddTorque(new Vector3(0, torqueVal, 0));
     }
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player" && other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
+        if (other.name.Contains("Player") && other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
         {
+            otherObjectConstraints = other.GetComponent<Rigidbody>().constraints;
             other.transform.parent = null;
-            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            otherObjectConstraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             Debug.Log("Hello Player " + other.GetComponent<PlayerControlls>().PlayerNum);
-            spinUpDisc(other.GetComponent<Rigidbody>().velocity);
+            spinUpDisc(other.GetComponent<PlayerControlls>().movement);
         }
-        else if(other.tag == "Player" && !other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
+        else if(other.name.Contains("Player") && !other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
         {
-            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+            otherObjectConstraints = RigidbodyConstraints.FreezeRotation;
+        }
+        if(other.name.Contains("Player"))
+        {
+            other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, 13.78f, other.gameObject.transform.position.z);
         }
     }
 }

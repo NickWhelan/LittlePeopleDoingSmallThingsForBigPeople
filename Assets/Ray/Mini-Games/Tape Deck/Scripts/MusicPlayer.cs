@@ -24,7 +24,6 @@ public class MusicPlayer : MonoBehaviour
     {
         disc = GameObject.FindGameObjectWithTag("Disc");
         audSource = GameObject.FindGameObjectWithTag("Swapper").GetComponent<AudioSource>();
-        
     }
 
     // Update is called once per frame
@@ -34,42 +33,26 @@ public class MusicPlayer : MonoBehaviour
         {
             audSource.pitch -= Time.deltaTime * pitchOutRate;
         }
+        else if (audSource.pitch < 0)
+        {
+            audSource.pitch = 0;
+        }
     }
 
-    private void OnCollisionEnter(Collision c)
+    private void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.tag == "Player")
         {
-            // Debug.Log("Start Playing: " + audSource.clip.name);
-            //audSource.Play();
             isCollidingWithPlayer = true;
             isActive = true;
-            //swapPoint.SetActive(true);
         }
     }
 
     private void OnTriggerStay(Collider c)
     {
-        if (c.tag == "Player")
+        if(c.gameObject.name.Contains("Player") && audSource.pitch <= 1 && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
         {
-            audSource.clip = audClip;
-            if (isCollidingWithPlayer && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed
-                || c.gameObject.GetComponent<PlayerControlls>().ButtonXPressed)
-            {
-                //Increase the pitch of the song with each button press to a max of one
-                //0 means the song is stopped
-                //1 is normal speed
-                //2 is double speed
-                //3 is triple speed
-                if (audSource.pitch < 1.0f)
-                {
-                    audSource.pitch += Time.deltaTime * pitchInRate;
-                }
-                else
-                {
-                    audSource.pitch = 1.0f;
-                }
-            }
+            audSource.pitch += Time.deltaTime * pitchInRate;
         }
     }
 
@@ -83,7 +66,7 @@ public class MusicPlayer : MonoBehaviour
         audSource.Stop();
     }
 
-    private void OnCollisionExit(Collision c)
+    private void OnTriggerExit(Collider c)
     {
         if (c.gameObject.tag == "Player")
         {

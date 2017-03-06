@@ -6,20 +6,25 @@ public class TrackSwitcher : MonoBehaviour {
     [Header("Public Objects")]
     public GameObject[] mBoxes;
     public AudioClip[] audioTracks;
+
+    private AudioClip playingClip;
+
     public GameObject[] swapPoints;
     public GameObject volumeSlider;
-    public GameObject cd;
     private AudioSource audSource;
-    private int activeBox;
+
+    private int activeBox = 0;
+
     // Use this for initialization
     void Start () {
         audSource = GetComponent<AudioSource>();
-        audSource.Stop();
     }
 
     // Update is called once per frame
     void Update () {
         audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
+        audSource.volume = 1;
+        //audSource.pitch = 1;
 	}
 
     private void OnCollisionEnter(Collision collision)
@@ -28,19 +33,16 @@ public class TrackSwitcher : MonoBehaviour {
         {
             if (mBoxes[i].GetComponent<MusicPlayer>().isActive && !audSource.isPlaying)
             {
-                mBoxes[activeBox].GetComponent<MusicPlayer>().StopSong();
                 swapPoints[activeBox].SetActive(false);
-
-                print(mBoxes[i] + "is enabled");
-
-                audSource.clip = audioTracks[i];
-
-                mBoxes[i].GetComponent<MusicPlayer>().PlaySong();
-
-                Debug.Log(audSource.isPlaying + " " + audSource.clip);
-
+                activeBox = i;
+                playingClip = audSource.clip = audioTracks[i];
                 swapPoints[i].SetActive(true);
-
+            }
+            else if(mBoxes[i].GetComponent<MusicPlayer>().isActive && audSource.isPlaying && audioTracks[i] != playingClip)
+            {
+                swapPoints[activeBox].SetActive(false);
+                swapPoints[i].SetActive(true);
+                playingClip = audSource.clip = audioTracks[i];
                 activeBox = i;
             }
         }

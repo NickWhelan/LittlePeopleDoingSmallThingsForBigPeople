@@ -4,41 +4,63 @@ using UnityEngine;
 
 public class PickingUp : MonoBehaviour
 {
-    public Transform HeldPos,DropPos;
+    public Transform HeldPos, DropPos;
 
     PlayerControlls playerControlls;
- 
+
     GameObject PickedUpObject;
     Transform PickedUpObjectParent;
     public bool hitobj;
+
+    Rigidbody rigidBody;
     // Use this for initialization
     void Start()
     {
         PickedUpObject = null;
-        playerControlls =  GetComponentInParent<PlayerControlls>();
-       //amIGrabbing = false;
+        playerControlls = GetComponentInParent<PlayerControlls>();
     }
-    // Update is called once per frame
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Grabbable Object")
-            && PickedUpObject == null && playerControlls.ButtonRBPressed)
+        if (other.gameObject.GetComponent<Rigidbody>() && other.gameObject.layer == LayerMask.NameToLayer("Grabbable Object"))
         {
-            PickUp(other.gameObject);
-        }
+            rigidBody = other.gameObject.GetComponent<Rigidbody>();
+            rigidBody.velocity = Vector3.zero;
 
-        if (PickedUpObject != null && !playerControlls.ButtonRBPressed)
+            if (other.gameObject.layer == LayerMask.NameToLayer("Grabbable Object")
+                && PickedUpObject == null && playerControlls.ButtonRBPressed)
+            {
+                rigidBody.useGravity = false;
+                rigidBody.isKinematic = true;
+                PickUp(other.gameObject);
+            }
+
+            if (PickedUpObject != null && !playerControlls.ButtonRBPressed)
+            {
+                DropObject();
+                rigidBody.useGravity = true;
+                rigidBody.isKinematic = false;
+                rigidBody = null;
+            }
+
+        }
+        else if (!other.gameObject.GetComponent<Rigidbody>() && other.gameObject.layer == LayerMask.NameToLayer("Grabbable Object"))
         {
-            DropObject();
+            Debug.Log("There is no rigidbody! I need a Rigidbody to grab things!");
         }
     }
-    void PickUp(GameObject other) {
+
+    void PickUp(GameObject other)
+    {
         PickedUpObject = other;
         PickedUpObjectParent = other.transform.parent;
         PickedUpObject.transform.position = HeldPos.position;
+        PickedUpObject.transform.parent = transform;
 
     }
-    void DropObject() {
+
+    void DropObject()
+    {
         PickedUpObject.transform.parent = PickedUpObjectParent;
         PickedUpObject.transform.position = DropPos.position;
         PickedUpObject = null;
