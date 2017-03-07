@@ -18,6 +18,7 @@ public class RoombaGameLogic : MonoBehaviour
     public GameObject Dirt;
     public int NumberOfDirt;
     public Transform Max, Min;
+    public Color color;
 
     Timer timer;
     Vector3 RoombaALastPos, RoombaBLastPos;
@@ -31,7 +32,7 @@ public class RoombaGameLogic : MonoBehaviour
     {
         timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 10;
+        timer.StartTime = 60;
         timer.EndTime = 0;
         timer.Start();
 
@@ -85,13 +86,15 @@ public class RoombaGameLogic : MonoBehaviour
         }
         RoombaA.GetComponent<RoombaLogic>().SetupTeam();
         RoombaB.GetComponent<RoombaLogic>().SetupTeam();
-
         MakeDirt();
     }
 
     void MakeDirt() {
         for (int i = 0; i < NumberOfDirt; i++) {
-            Instantiate(Dirt, new Vector3(Random.RandomRange(Max.position.x, Min.position.x), 1, Random.RandomRange(Max.position.z, Min.position.z)), Max.localRotation);
+            GameObject Temp =Instantiate(Dirt, new Vector3(Random.RandomRange(Max.position.x, Min.position.x), 0.8f, Random.RandomRange(Max.position.z, Min.position.z)), Max.localRotation);
+            Temp.name = "Dirt " + i;
+            
+            Temp.GetComponent<Renderer>().material.color = color; 
         }
     }
 
