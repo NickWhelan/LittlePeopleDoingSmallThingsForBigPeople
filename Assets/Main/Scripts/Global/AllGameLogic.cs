@@ -10,8 +10,6 @@ public class AllGameLogic : MonoBehaviour {
     public string CurrentScene = "Menu";
     // Use this for initialization
     void Start () {
-        Players = new List<PlayerControlls>();
-      
     }
     void Awake()
     {

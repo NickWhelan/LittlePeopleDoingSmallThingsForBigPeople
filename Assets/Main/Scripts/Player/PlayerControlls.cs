@@ -7,7 +7,7 @@ public class PlayerControlls : MonoBehaviour {
     public float Speed = 1;
     public float MaxVel;
     public int PlayerNum;
-    public bool isOnMenu;
+    public bool isOnMenu,Frozen;
     public Vector3 movement;
 
     Rigidbody rigidbody;
@@ -138,9 +138,13 @@ public class PlayerControlls : MonoBehaviour {
         }
     }
 
-    void FixedUpdate() {
-        rigidbody.AddForce(movement * Speed);
-        rigidbody.velocity = new Vector3(Mathf.Clamp(GetComponent<Rigidbody>().velocity.x, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.y, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.z, -MaxVel, MaxVel));
+    void FixedUpdate()
+    {
+        if (!Frozen)
+        {
+            rigidbody.AddForce(movement * Speed);
+            rigidbody.velocity = new Vector3(Mathf.Clamp(GetComponent<Rigidbody>().velocity.x, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.y, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.z, -MaxVel, MaxVel));
+        }
     }
 
     // Update is called once per frame

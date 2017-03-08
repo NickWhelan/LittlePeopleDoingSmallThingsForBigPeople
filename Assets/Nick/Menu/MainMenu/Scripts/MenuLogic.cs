@@ -13,19 +13,20 @@ public class MenuLogic : MonoBehaviour {
     public  GUIEffects uiEffects;
     public Text m_StartText, m_StartTextShadow;
 
-    bool TeamA, TeamB;
+    public Plug[] Team1plugs, Team2plugs;
+    bool Team1Ready, Team2Ready;
+    int TeamAplayers, TeamBplayers;
+
     bool stage2,loadGame;
     float activePlayers;
 
     void Awake() {
-        stage2 = loadGame = TeamA = TeamB = false;
+        stage2 = loadGame = false;
         m_StartTextShadow.color = m_StartText.color = new Vector4(0,0,0,0);
     }
 
     void Start()
     {
-        
-
         uiEffects.m_Text = m_StartText;
         uiEffects.m_TextShadow = m_StartTextShadow;
 
@@ -34,53 +35,55 @@ public class MenuLogic : MonoBehaviour {
         uiEffects.m_EndTrans.transform.localScale = new Vector3(uiEffects.m_EndTrans.transform.localScale.x*1.2f, uiEffects.m_EndTrans.transform.localScale.y * 1.2f, uiEffects.m_EndTrans.transform.localScale.z);
     }
 
-        void FixedUpdate() {
-        if (!TeamA || !TeamB)
+    void FixedUpdate()
+    {
+        TeamReady();
+        if (Team1Ready && Team2Ready)
         {
-            activePlayers = 0;
-            foreach (PlayerControlls player in gamelogic.Players)
+            if (!stage2)
             {
-                if (player.playerInfo.Team == 1)
-                {
-                    TeamA = true;
-                    activePlayers++;
-                }
-                else if (player.playerInfo.Team == 2)
-                {
-                    TeamB = true;
-                    activePlayers++;
-                }
-            }
-        }
-        else if (TeamA && TeamB)
-        {
-            if (!stage2) {
                 m_StartText.color = Color.white;
                 m_StartTextShadow.color = Color.black;
                 uiEffects.ScaleText();
             }
 
-            foreach (PlayerControlls player in gamelogic.Players)
+            if (gamelogic.Players[0].ButtonStartPressed)
             {
-                if (player.ButtonStartPressed)
+                if (!stage2)
                 {
-                    if (!stage2)
+                    stage2 = true;
+                    m_StartTextShadow.color = m_StartText.color = new Vector4(0, 0, 0, 0);
+                    foreach (PlayerControlls player in gamelogic.Players)
                     {
-                        stage2 = true;
-                        m_StartTextShadow.color = m_StartText.color = new Vector4(0, 0, 0, 0);
+                        player.Frozen = true;
                     }
                 }
-                else if (player.ButtonBPressed && stage2) {
-                    stage2 = false;
-
+            }
+            else if (stage2)
+            {
+                foreach (PlayerControlls player in gamelogic.Players)
+                {
+                    if (player.ButtonBPressed)
+                    {
+                        stage2 = false;
+                        foreach (PlayerControlls player2 in gamelogic.Players)
+                        {
+                            player2.Frozen = false;
+                        }
+                    }
+                }
+                if (gamelogic.Players[0].ButtonRBPressed && !loadGame)
+                {
+                    loadGame = true;
+                    SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
                 }
             }
-            if (gamelogic.Players[0].ButtonRBPressed && stage2 && !loadGame)
-            {
-                loadGame = true;
-                SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
-            }
         }
+        else
+        {
+            m_StartTextShadow.color = m_StartText.color = new Vector4(0, 0, 0, 0);
+        }
+
     }
 
     void Update() {
@@ -97,5 +100,41 @@ public class MenuLogic : MonoBehaviour {
             cam.transform.position = Vector3.Lerp(cam.transform.position, Stage2Pos.position, 0.1f);
             cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Stage2Pos.rotation, 0.1f);
         }
+    }
+
+    void TeamReady() {
+        TeamAplayers = TeamBplayers = 0;
+        foreach (Plug plug in Team1plugs)
+        {
+            if (plug.isPlugged)
+            {
+                TeamAplayers++;
+
+            }
+        }
+        foreach (Plug plug in Team2plugs)
+        {
+            if (plug.isPlugged)
+            {
+                TeamBplayers++;
+            }
+        }
+        if (TeamAplayers > 0)
+        {
+            Team1Ready = true;
+        }
+        else
+        {
+            Team1Ready = false;
+        }
+        if (TeamBplayers > 0)
+        {
+            Team2Ready = true;
+        }
+        else
+        {
+            Team2Ready = false;
+        }
+
     }
 }
