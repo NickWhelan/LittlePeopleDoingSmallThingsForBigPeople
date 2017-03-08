@@ -55,16 +55,15 @@ public class CDLogic : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (other.name.Contains("Player") && other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
-        {
-            otherObjectConstraints = other.GetComponent<Rigidbody>().constraints;
+        { 
             other.transform.parent = null;
-            otherObjectConstraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
             Debug.Log("Hello Player " + other.GetComponent<PlayerControlls>().PlayerNum);
             spinUpDisc(other.GetComponent<PlayerControlls>().movement);
         }
         else if(other.name.Contains("Player") && !other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
         {
-            otherObjectConstraints = RigidbodyConstraints.FreezeRotation;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         }
         if(other.name.Contains("Player"))
         {
