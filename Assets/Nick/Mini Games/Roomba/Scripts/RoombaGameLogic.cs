@@ -58,9 +58,8 @@ public class RoombaGameLogic : MonoBehaviour
                 GameObject TempPlayer = PlayerPrefab;
                 if (player.playerInfo.Team > 0)
                 {
-
-                    TempPlayer.GetComponent<PlayerControlls>().PlayerNum = player.playerInfo.PlayerNum;
                     TempPlayer.GetComponent<PlayerControlls>().playerInfo = player.playerInfo;
+                    TempPlayer.GetComponent<PlayerControlls>().PlayerNum = player.playerInfo.PlayerNum;
                 }
                 if (player.playerInfo.Team == 1)
                 {
