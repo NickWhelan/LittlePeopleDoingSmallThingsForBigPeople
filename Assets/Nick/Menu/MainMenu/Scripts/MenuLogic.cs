@@ -37,7 +37,9 @@ public class MenuLogic : MonoBehaviour {
 
         uiEffects.m_StartTrans.transform.position = m_StartText.transform.position;
         uiEffects.m_EndTrans.transform.position = m_StartText.transform.position;
-        uiEffects.m_EndTrans.transform.localScale = new Vector3(uiEffects.m_EndTrans.transform.localScale.x * 1.2f, uiEffects.m_EndTrans.transform.localScale.y * 1.2f, uiEffects.m_EndTrans.transform.localScale.z);
+        uiEffects.m_EndTrans.transform.localScale = new Vector3(uiEffects.m_EndTrans.transform.localScale.x * 2f, uiEffects.m_EndTrans.transform.localScale.y * 2f, uiEffects.m_EndTrans.transform.localScale.z);
+        uiEffects.m_EndTransVaule = uiEffects.m_EndTrans;
+
 
         Plugs = new List<GameObject>();
         PlayersReady = new List<bool>();
@@ -101,7 +103,7 @@ public class MenuLogic : MonoBehaviour {
             {
                 m_StartText.color = Color.white;
                 m_StartTextShadow.color = Color.black;
-                uiEffects.ScaleText();
+                //uiEffects.ScaleText();
             }
 
             if (_AllGameLogic.Players[0].ButtonStartPressed)
@@ -154,7 +156,9 @@ public class MenuLogic : MonoBehaviour {
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 6, 1), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 1;
                     Plugs[Plugs.Count - 1].name = "Plug 1";
-                    _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+                    Plugs[Plugs.Count - 1].GetComponent<LineRenderer>().startColor = Plugs[Plugs.Count - 1].GetComponent<Renderer>().material.color;
+                   _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+                   
                 }
                 else if (Input.GetKeyDown(KeyCode.Return) && !PlayersReady[0])
                 {
@@ -178,6 +182,7 @@ public class MenuLogic : MonoBehaviour {
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -2, 1), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 3;
                     Plugs[Plugs.Count - 1].name = "Plug 3";
+                    Plugs[Plugs.Count - 1].GetComponent<LineRenderer>().startColor = Color.green;
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick4Button7) || Input.GetKeyDown(KeyCode.Alpha4)) && !PlayersReady[3])
@@ -186,6 +191,7 @@ public class MenuLogic : MonoBehaviour {
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -6, 1), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 4;
                     Plugs[Plugs.Count - 1].name = "Plug 4";
+                    Plugs[Plugs.Count - 1].GetComponent<LineRenderer>().startColor = Color.red;
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
                 }
                
