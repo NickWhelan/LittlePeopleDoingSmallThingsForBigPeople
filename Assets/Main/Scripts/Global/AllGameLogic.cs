@@ -13,6 +13,7 @@ public class AllGameLogic : MonoBehaviour {
     }
     void Awake()
     {
+        Players = new List<PlayerControlls>();
         SceneManager.sceneLoaded += SetactiveScene;
         DontDestroyOnLoad(this);
     }

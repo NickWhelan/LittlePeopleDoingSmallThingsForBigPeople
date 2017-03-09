@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class RoombaGameLogic : MonoBehaviour
 {
-    GameObject _AllGameLogic;
+    AllGameLogic _AllGameLogic;
     
 
 
@@ -23,7 +24,7 @@ public class RoombaGameLogic : MonoBehaviour
     Timer timer;
     Vector3 RoombaALastPos, RoombaBLastPos;
 
-
+    bool EndGame;
 
 
 
@@ -32,7 +33,7 @@ public class RoombaGameLogic : MonoBehaviour
     {
         timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 60;
+        timer.StartTime = 10;
         timer.EndTime = 0;
         timer.Start();
 
@@ -42,10 +43,12 @@ public class RoombaGameLogic : MonoBehaviour
         Team2WinnerText.enabled = false;
         Team2WinnerSText.enabled = false;
 
-        RoombaALastPos = RoombaA.transform.position;
+        EndGame = false;
+
+       RoombaALastPos = RoombaA.transform.position;
         RoombaBLastPos = RoombaB.transform.position;
         //Physics.IgnoreCollision(RoombaA.GetComponent<RoombaLogic>().RoombaGround.GetComponent<BoxCollider>(), RoombaB.GetComponent<RoombaLogic>().RoombaGround.GetComponent<BoxCollider>())
-        _AllGameLogic = GameObject.Find("OverWatch");
+        _AllGameLogic = GameObject.Find("OverWatch").GetComponent<AllGameLogic>();
 
         TeamA = new List<GameObject>();
         TeamB = new List<GameObject>();
@@ -53,33 +56,37 @@ public class RoombaGameLogic : MonoBehaviour
         {
             int TeamAPlayerNum, TeamBPlayerNum;
             TeamAPlayerNum = TeamBPlayerNum = 1;
-            foreach (PlayerControlls player in _AllGameLogic.GetComponent<AllGameLogic>().Players)
+            for (int i=0; i < _AllGameLogic.Players.Count; i++)
             {
                 GameObject TempPlayer = PlayerPrefab;
-                if (player.playerInfo.Team > 0)
+                if (_AllGameLogic.Players[i].playerInfo.Team > 0)
                 {
-                    TempPlayer.GetComponent<PlayerControlls>().playerInfo = player.playerInfo;
-                    TempPlayer.GetComponent<PlayerControlls>().PlayerNum = player.playerInfo.PlayerNum;
+                    TempPlayer.GetComponent<PlayerControlls>().playerInfo = _AllGameLogic.Players[i].playerInfo;
+                    TempPlayer.GetComponent<PlayerControlls>().PlayerNum = _AllGameLogic.Players[i].playerInfo.PlayerNum;
                 }
-                if (player.playerInfo.Team == 1)
+                if (_AllGameLogic.Players[i].playerInfo.Team == 1)
                 {
                     TeamA.Add(Instantiate(TempPlayer, RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.position, RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.rotation));
                     TeamA[TeamA.Count - 1].transform.parent = RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum);
                     TeamA[TeamA.Count - 1].name = "Player";
-                    TeamA[TeamA.Count - 1].tag = "Player Team " + player.playerInfo.Team;
+                    TeamA[TeamA.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
                     TeamA[TeamA.Count - 1].layer = LayerMask.NameToLayer("Team 1");
                     TeamA[TeamA.Count - 1].transform.localScale = new Vector3(1, 1, 1);
                     TeamAPlayerNum++;
+                    //_AllGameLogic.Players[_AllGameLogic.Players[i].PlayerNum - 1] = TeamA[TeamA.Count - 1].GetComponent<PlayerControlls>();
+                    //_AllGameLogic.Players.Add(TeamA[TeamA.Count - 1].GetComponent<PlayerControlls>());
                 }
-                else if (player.playerInfo.Team == 2)
+                else if (_AllGameLogic.Players[i].playerInfo.Team == 2)
                 {
                     TeamB.Add(Instantiate(TempPlayer, RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum).transform.position, RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum).transform.rotation));
                     TeamB[TeamB.Count - 1].transform.parent = RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum);
                     TeamB[TeamB.Count - 1].name = "Player";
-                    TeamB[TeamB.Count - 1].tag = "Player Team " + player.playerInfo.Team;
+                    TeamB[TeamB.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
                     TeamB[TeamB.Count - 1].layer = LayerMask.NameToLayer("Team 2");
                     TeamB[TeamB.Count - 1].transform.localScale = new Vector3(1, 1, 1);
                     TeamBPlayerNum++;
+                    //_AllGameLogic.Players[_AllGameLogic.Players[i].PlayerNum - 1] = TeamA[TeamB.Count - 1].GetComponent<PlayerControlls>();
+                    //_AllGameLogic.Players.Add(TeamB[TeamB.Count - 1].GetComponent<PlayerControlls>());
                 }
             }
         }
@@ -145,7 +152,7 @@ public class RoombaGameLogic : MonoBehaviour
                 RoombaBLastPos = RoombaB.transform.position;
             }
         }
-        else
+        else if (!EndGame)
         {
             Team1WinnerSText.enabled = Team1WinnerText.enabled = true;
             Team2WinnerSText.enabled = Team2WinnerText.enabled = true;
@@ -153,6 +160,18 @@ public class RoombaGameLogic : MonoBehaviour
             RoombaB.GetComponent<RoombaLogic>().EndOfRound = true;
             RoombaA.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             RoombaB.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            EndGame = true;
         }
+        else if (EndGame) {
+            print("end");
+            if (_AllGameLogic.Players[0].ButtonStartPressed) {
+                SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
+            }
+            else if (_AllGameLogic.Players[0].ButtonSelectPressed)
+            {
+                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            }
+        }
+
     }
 }
