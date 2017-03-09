@@ -15,7 +15,7 @@ public class AllGameLogic : MonoBehaviour {
     {
         Players = new List<PlayerControlls>();
         SceneManager.sceneLoaded += SetactiveScene;
-        DontDestroyOnLoad(this);
+        
     }
 
     void SetactiveScene(Scene scene, LoadSceneMode mode)

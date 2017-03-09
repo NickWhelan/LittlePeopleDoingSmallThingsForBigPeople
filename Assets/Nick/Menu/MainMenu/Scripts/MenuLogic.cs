@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuLogic : MonoBehaviour {
-    public AllGameLogic _AllGameLogic;
+    AllGameLogic _AllGameLogic;
     public Transform Stage1Pos, Stage2Pos;
     public Camera cam;
 
@@ -14,7 +14,7 @@ public class MenuLogic : MonoBehaviour {
     public Text m_StartText, m_StartTextShadow;
 
 
-    public GameObject PlugPrefab;
+    public GameObject PlugPrefab, AllGameLogicPrefab;
     public List<GameObject> Plugs; 
     public Plug[] Team1plugs, Team2plugs;
     bool Team1Ready, Team2Ready;
@@ -37,13 +37,57 @@ public class MenuLogic : MonoBehaviour {
 
         uiEffects.m_StartTrans.transform.position = m_StartText.transform.position;
         uiEffects.m_EndTrans.transform.position = m_StartText.transform.position;
-        uiEffects.m_EndTrans.transform.localScale = new Vector3(uiEffects.m_EndTrans.transform.localScale.x*1.2f, uiEffects.m_EndTrans.transform.localScale.y * 1.2f, uiEffects.m_EndTrans.transform.localScale.z);
+        uiEffects.m_EndTrans.transform.localScale = new Vector3(uiEffects.m_EndTrans.transform.localScale.x * 1.2f, uiEffects.m_EndTrans.transform.localScale.y * 1.2f, uiEffects.m_EndTrans.transform.localScale.z);
 
         Plugs = new List<GameObject>();
         PlayersReady = new List<bool>();
-        for (int i = 0; i < 4; i++) {
-            PlayersReady.Add(new bool());
-            PlayersReady[i] = false;
+
+
+        if (GameObject.Find("OverWatch"))
+        {
+            _AllGameLogic = GameObject.Find("OverWatch").GetComponent<AllGameLogic>();
+            for (int i = 0; i < _AllGameLogic.Players.Count; i++)
+            {
+                GameObject TempPlug = PlugPrefab;
+                TempPlug.GetComponent<PlayerControlls>().playerInfo = _AllGameLogic.Players[i].playerInfo;
+                TempPlug.GetComponent<PlayerControlls>().PlayerNum = _AllGameLogic.Players[i].playerInfo.PlayerNum;
+
+                PlayersReady.Add(new bool());
+                PlayersReady[i] = true;
+                int Playernum = TempPlug.GetComponent<PlayerControlls>().PlayerNum;
+                switch (TempPlug.GetComponent<PlayerControlls>().PlayerNum)
+                {
+                    case 5:
+                    case 1:
+                        Plugs.Add(Instantiate(TempPlug, new Vector3(-11.5f, 6, 1), Quaternion.identity));
+                        break;
+                    case 2:
+                        Plugs.Add(Instantiate(TempPlug, new Vector3(-11.5f, 2, 1), Quaternion.identity));
+                        break;
+                    case 3:
+                        Plugs.Add(Instantiate(TempPlug, new Vector3(-11.5f, -2, 1), Quaternion.identity));
+                        break;
+                    case 4:
+                        Plugs.Add(Instantiate(TempPlug, new Vector3(-11.5f, -6, 1), Quaternion.identity));
+                        break;
+
+                }
+                _AllGameLogic.Players[i] = Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>();
+            }
+        }
+        else
+        {
+            GameObject temp = Instantiate(AllGameLogicPrefab, transform);
+            temp.transform.parent = null;
+            temp.name = "OverWatch";
+            _AllGameLogic = temp.GetComponent<AllGameLogic>();
+            DontDestroyOnLoad(temp);
+            for (int i = 0; i < 4; i++)
+            {
+                PlayersReady.Add(new bool());
+                PlayersReady[i] = false;
+            }
+
         }
     }
 
@@ -102,13 +146,14 @@ public class MenuLogic : MonoBehaviour {
     void Update() {
 
         if (!stage2) {
-            if (Input.anyKeyDown)
+            if (Input.anyKeyDown && _AllGameLogic.Players.Count < 4)
             {
                 if ((Input.GetKeyDown(KeyCode.Joystick1Button7)) && !PlayersReady[0])
                 {
                     PlayersReady[0] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 6, 1), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 1;
+                    Plugs[Plugs.Count - 1].name = "Plug 1";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
                 }
                 else if (Input.GetKeyDown(KeyCode.Return) && !PlayersReady[0])
@@ -116,6 +161,7 @@ public class MenuLogic : MonoBehaviour {
                     PlayersReady[0] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 6, 1), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 5;
+                    Plugs[Plugs.Count - 1].name = "Plug 1";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick2Button7)|| Input.GetKeyDown(KeyCode.Alpha2)) && !PlayersReady[1])
@@ -123,6 +169,7 @@ public class MenuLogic : MonoBehaviour {
                     PlayersReady[1] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 2, 1), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 2;
+                    Plugs[Plugs.Count - 1].name = "Plug 2";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick3Button7) || Input.GetKeyDown(KeyCode.Alpha3)) && !PlayersReady[2])
@@ -130,6 +177,7 @@ public class MenuLogic : MonoBehaviour {
                     PlayersReady[2] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -2, 1), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 3;
+                    Plugs[Plugs.Count - 1].name = "Plug 3";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick4Button7) || Input.GetKeyDown(KeyCode.Alpha4)) && !PlayersReady[3])
@@ -137,6 +185,7 @@ public class MenuLogic : MonoBehaviour {
                     PlayersReady[3] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -6, 1), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 4;
+                    Plugs[Plugs.Count - 1].name = "Plug 4";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
                 }
                

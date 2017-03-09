@@ -56,7 +56,7 @@ public class RoombaGameLogic : MonoBehaviour
         {
             int TeamAPlayerNum, TeamBPlayerNum;
             TeamAPlayerNum = TeamBPlayerNum = 1;
-            for (int i=0; i < _AllGameLogic.Players.Count; i++)
+            for (int i = 0; i < _AllGameLogic.Players.Count; i++)
             {
                 GameObject TempPlayer = PlayerPrefab;
                 if (_AllGameLogic.Players[i].playerInfo.Team > 0)
@@ -89,7 +89,31 @@ public class RoombaGameLogic : MonoBehaviour
                     //_AllGameLogic.Players.Add(TeamB[TeamB.Count - 1].GetComponent<PlayerControlls>());
                 }
             }
+
+            
+                bool found;
+            for (int i = 0; i < _AllGameLogic.Players.Count; i++)
+            {
+                found = false;
+                for (int j = 0; j < TeamA.Count && !found; j++)
+                {
+                    if (TeamA[j].GetComponent<PlayerControlls>().PlayerNum == _AllGameLogic.Players[i].PlayerNum)
+                    {
+                        _AllGameLogic.Players[i] = TeamA[j].GetComponent<PlayerControlls>();
+                        found = true;
+                    }
+                }
+                for (int j = 0; j < TeamB.Count && !found; j++)
+                {
+                    if (TeamB[j].GetComponent<PlayerControlls>().PlayerNum == _AllGameLogic.Players[i].PlayerNum)
+                    {
+                        _AllGameLogic.Players[i] = TeamB[j].GetComponent<PlayerControlls>();
+                        found = true;
+                    }
+                }
+            }
         }
+
         RoombaA.GetComponent<RoombaLogic>().SetupTeam();
         RoombaB.GetComponent<RoombaLogic>().SetupTeam();
         MakeDirt();
@@ -163,13 +187,12 @@ public class RoombaGameLogic : MonoBehaviour
             EndGame = true;
         }
         else if (EndGame) {
-            print("end");
             if (_AllGameLogic.Players[0].ButtonStartPressed) {
                 SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
             }
             else if (_AllGameLogic.Players[0].ButtonSelectPressed)
             {
-                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                SceneManager.LoadScene("Menu", LoadSceneMode.Single);
             }
         }
 

@@ -15,8 +15,6 @@ public class GUIEffects:MonoBehaviour {
 
     void Start()
     {
-        m_StartTrans = new GameObject();
-        m_EndTrans = new GameObject();
         StartTween = true;
         EndTween = false;
     }
