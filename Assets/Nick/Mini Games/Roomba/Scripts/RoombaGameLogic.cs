@@ -54,27 +54,34 @@ public class RoombaGameLogic : MonoBehaviour
         TeamB = new List<GameObject>();
         if (!DebugTest)
         {
+            //these are temp to determin the slot in in the roomba to spawn
+            //here is where it is used:   RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.position
             int TeamAPlayerNum, TeamBPlayerNum;
+            //set to one because the first ones name is "Team A player 1" rather than ""Team A player 0"
             TeamAPlayerNum = TeamBPlayerNum = 1;
+            //this loops though all the players in the game. This is set in the main menu
             for (int i = 0; i < _AllGameLogic.Players.Count; i++)
             {
+                //load a temp gameobject that i change
                 GameObject TempPlayer = PlayerPrefab;
                 if (_AllGameLogic.Players[i].playerInfo.Team > 0)
                 {
+                    // make the PlayerControlls the same as the one in the menu
                     TempPlayer.GetComponent<PlayerControlls>().playerInfo = _AllGameLogic.Players[i].playerInfo;
                     TempPlayer.GetComponent<PlayerControlls>().PlayerNum = _AllGameLogic.Players[i].playerInfo.PlayerNum;
                 }
+                //check to see the team of the player
                 if (_AllGameLogic.Players[i].playerInfo.Team == 1)
                 {
+                    //spawn the TempPlayer in the right spot and add it to the Team A's player list
                     TeamA.Add(Instantiate(TempPlayer, RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.position, RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.rotation));
+                    //change its name and layer info
                     TeamA[TeamA.Count - 1].transform.parent = RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum);
                     TeamA[TeamA.Count - 1].name = "Player";
                     TeamA[TeamA.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
                     TeamA[TeamA.Count - 1].layer = LayerMask.NameToLayer("Team 1");
                     TeamA[TeamA.Count - 1].transform.localScale = new Vector3(1, 1, 1);
                     TeamAPlayerNum++;
-                    //_AllGameLogic.Players[_AllGameLogic.Players[i].PlayerNum - 1] = TeamA[TeamA.Count - 1].GetComponent<PlayerControlls>();
-                    //_AllGameLogic.Players.Add(TeamA[TeamA.Count - 1].GetComponent<PlayerControlls>());
                 }
                 else if (_AllGameLogic.Players[i].playerInfo.Team == 2)
                 {
@@ -85,25 +92,28 @@ public class RoombaGameLogic : MonoBehaviour
                     TeamB[TeamB.Count - 1].layer = LayerMask.NameToLayer("Team 2");
                     TeamB[TeamB.Count - 1].transform.localScale = new Vector3(1, 1, 1);
                     TeamBPlayerNum++;
-                    //_AllGameLogic.Players[_AllGameLogic.Players[i].PlayerNum - 1] = TeamA[TeamB.Count - 1].GetComponent<PlayerControlls>();
-                    //_AllGameLogic.Players.Add(TeamB[TeamB.Count - 1].GetComponent<PlayerControlls>());
                 }
             }
 
-            
-                bool found;
+            //loop through the AllGameLogic list of players and set them to the players in the scene
+            bool found;
             for (int i = 0; i < _AllGameLogic.Players.Count; i++)
             {
                 found = false;
-                for (int j = 0; j < TeamA.Count && !found; j++)
+                //only loop if the player player isn't found and is on the correcret team
+                //I loop though TeamA and and TeamB sepratly because i dont have a single player list for the scene
+                for (int j = 0; j < TeamA.Count && !found && _AllGameLogic.Players[i].playerInfo.Team == 1; j++)
                 {
+                    //check to see if the player numbers are equal
+                    //if they are set the gobal player ref to be the one in the scene
+                    //and set found to true so it breaks from the loop and skips the next one. 
                     if (TeamA[j].GetComponent<PlayerControlls>().PlayerNum == _AllGameLogic.Players[i].PlayerNum)
                     {
                         _AllGameLogic.Players[i] = TeamA[j].GetComponent<PlayerControlls>();
                         found = true;
                     }
                 }
-                for (int j = 0; j < TeamB.Count && !found; j++)
+                for (int j = 0; j < TeamB.Count && !found && _AllGameLogic.Players[i].playerInfo.Team == 2; j++)
                 {
                     if (TeamB[j].GetComponent<PlayerControlls>().PlayerNum == _AllGameLogic.Players[i].PlayerNum)
                     {
