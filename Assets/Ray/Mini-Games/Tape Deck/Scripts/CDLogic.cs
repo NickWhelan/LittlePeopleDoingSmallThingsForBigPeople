@@ -43,12 +43,19 @@ public class CDLogic : MonoBehaviour
     }
 
     //Collision
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.name.Contains("Player"))
+        {
+            other.gameObject.GetComponent<Rigidbody>().useGravity = false;
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" && other.transform.parent != null)
+        if (other.name.Contains("Player"))
         {
-            other.transform.parent = origParent;
+            other.gameObject.GetComponent<Rigidbody>().useGravity = true;
         }
     }
 
@@ -67,7 +74,8 @@ public class CDLogic : MonoBehaviour
         }
         if(other.name.Contains("Player"))
         {
-            other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, 13.78f, other.gameObject.transform.position.z);
+            
+            other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, 14.5f, other.gameObject.transform.position.z);
         }
     }
 }
