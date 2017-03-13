@@ -61,16 +61,16 @@ public class MenuLogic : MonoBehaviour {
                 {
                     case 5:
                     case 1:
-                        Plugs.Add(Instantiate(TempPlug, new Vector3(-11.5f, 6, 1), Quaternion.identity));
+                        Plugs.Add(Instantiate(TempPlug, new Vector3(-9.5f, 6, 1), Quaternion.identity));
                         break;
                     case 2:
-                        Plugs.Add(Instantiate(TempPlug, new Vector3(-11.5f, 2, 1), Quaternion.identity));
+                        Plugs.Add(Instantiate(TempPlug, new Vector3(-9.5f, 2, 1), Quaternion.identity));
                         break;
                     case 3:
-                        Plugs.Add(Instantiate(TempPlug, new Vector3(-11.5f, -2, 1), Quaternion.identity));
+                        Plugs.Add(Instantiate(TempPlug, new Vector3(-9.5f, -2, 1), Quaternion.identity));
                         break;
                     case 4:
-                        Plugs.Add(Instantiate(TempPlug, new Vector3(-11.5f, -6, 1), Quaternion.identity));
+                        Plugs.Add(Instantiate(TempPlug, new Vector3(-9.5f, -6, 1), Quaternion.identity));
                         break;
 
                 }
