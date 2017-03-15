@@ -91,6 +91,8 @@ public class MenuLogic : MonoBehaviour {
             }
 
         }
+        _AllGameLogic.addGame("Roomba");
+        _AllGameLogic.addGame("Tape Deck");
     }
 
 
@@ -134,7 +136,9 @@ public class MenuLogic : MonoBehaviour {
                 if (_AllGameLogic.Players[0].ButtonRBPressed && !loadGame)
                 {
                     loadGame = true;
-                    SceneManager.LoadScene("Tape Deck", LoadSceneMode.Single);
+                    _AllGameLogic.CurrentGame=1;
+                    print(_AllGameLogic.CurrentGame);
+                    SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
                 }
             }
         }
@@ -144,7 +148,6 @@ public class MenuLogic : MonoBehaviour {
         }
 
     }
-
     void Update() {
 
         if (!stage2) {

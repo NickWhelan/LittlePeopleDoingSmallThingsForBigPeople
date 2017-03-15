@@ -202,7 +202,16 @@ public class RoombaGameLogic : MonoBehaviour
             }
             else if (_AllGameLogic.Players[0].ButtonSelectPressed)
             {
-                SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+                _AllGameLogic.CurrentGame++;
+                if (_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame] != null)
+                {
+                    SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
+                }
+                else {
+                    _AllGameLogic.CurrentGame = 0;
+                    SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
+
+                }
             }
         }
 

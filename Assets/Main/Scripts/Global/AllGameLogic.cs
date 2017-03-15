@@ -6,13 +6,18 @@ using UnityEngine.SceneManagement;
 public class AllGameLogic : MonoBehaviour {
     [SerializeField]
     public List<PlayerControlls> Players;
+    public List<string> MiniGamePlayList;
+    public int CurrentGame;
 
     public string CurrentScene = "Menu";
     // Use this for initialization
     void Start () {
+       
     }
     void Awake()
     {
+        CurrentGame = 0;
+        MiniGamePlayList.Add("Menu");
         Players = new List<PlayerControlls>();
         SceneManager.sceneLoaded += SetactiveScene;
         
@@ -32,5 +37,15 @@ public class AllGameLogic : MonoBehaviour {
     public void RemovePlayer(PlayerControlls oldPlayer)
     {
         Players.Remove(oldPlayer);
+    }
+
+    public void addGame(string GamesName)
+    {
+        MiniGamePlayList.Add(GamesName);
+    }
+
+    public void RemovePlayer(string GamesName)
+    {
+        MiniGamePlayList.Remove(GamesName);
     }
 }
