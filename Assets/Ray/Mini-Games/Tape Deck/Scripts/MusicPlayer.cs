@@ -11,7 +11,7 @@ public class MusicPlayer : MonoBehaviour
 
     private float pitchInRate = 1;
 
-    private float pitchOutRate = .2f;
+    private float pitchOutRate = .02f;
 
    // public GameObject swapPoint;
   
@@ -50,10 +50,10 @@ public class MusicPlayer : MonoBehaviour
 
     private void OnTriggerStay(Collider c)
     {
-        if(c.gameObject.name.Contains("Player") && audSource.pitch <= 1 && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
-        {
-            audSource.pitch += Time.deltaTime * pitchInRate;
-        }
+        //if(c.gameObject.name.Contains("Player") && audSource.pitch <= 1 && c.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
+        //{
+        //    audSource.pitch += Time.deltaTime * pitchInRate;
+        //}
     }
 
     public void PlaySong()

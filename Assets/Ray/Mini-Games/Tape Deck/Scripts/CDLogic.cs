@@ -32,9 +32,10 @@ public class CDLogic : MonoBehaviour
     /// <param name="linearVelocity"></param>
     public void spinUpDisc(Vector3 linearVelocity)
     {
-        audSource.pitch = Mathf.Clamp(linearVelocity.x, 0, 1);
+        float pitchVol = linearVelocity.x;
+        audSource.pitch = Mathf.Clamp(pitchVol, 0, 1);
 
-        rigidbody.transform.Rotate(new Vector3(0, -linearVelocity.x, 0));
+        rigidbody.transform.Rotate(new Vector3(0, -linearVelocity.x * 5, 0));
     }
 
     public void spinUpDisc()

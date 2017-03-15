@@ -15,15 +15,17 @@ public class TapeDeckGameLogic : MonoBehaviour {
     List<GameObject> playerList;
     
     AllGameLogic _AllGameLogic;
-    
-	// Use this for initialization
-	void Start () {
-        _AllGameLogic = GameObject.Find("OverWatch").GetComponent<AllGameLogic>();
-        playerList = new List<GameObject>();
 
-        if(!DebugTest)
+    // Use this for initialization
+    void Start()
+    {
+        if (!DebugTest)
         {
-            for(int i = 0; i < _AllGameLogic.Players.Count; i++)
+            _AllGameLogic = GameObject.Find("OverWatch").GetComponent<AllGameLogic>();
+            playerList = new List<GameObject>();
+
+
+            for (int i = 0; i < _AllGameLogic.Players.Count; i++)
             {
                 GameObject tempPlayer = playerPrefab;
 
@@ -34,21 +36,22 @@ public class TapeDeckGameLogic : MonoBehaviour {
                 playerList[i].name = "Player";
                 playerList[i].tag = "Player Team 1";
                 playerList[i].layer = LayerMask.NameToLayer("Team 1");
-                //playerList[i].transform.localScale = new Vector3(1, 1, 1);
 
                 playerCount++;
             }
 
-            for(int i = 0; i < _AllGameLogic.Players.Count; i++)
+            for (int i = 0; i < _AllGameLogic.Players.Count; i++)
             {
                 _AllGameLogic.Players[i] = playerList[i].GetComponent<PlayerControlls>();
             }
         }
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+
 }
