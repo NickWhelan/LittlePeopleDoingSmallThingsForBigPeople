@@ -14,9 +14,12 @@ public class MenuLogic : MonoBehaviour {
     public Text m_StartText, m_StartTextShadow;
 
 
-    public GameObject PlugPrefab, AllGameLogicPrefab;
+    public GameObject PlugPrefab, AllGameLogicPrefab, CablesPrefab;
     public List<GameObject> Plugs; 
     public Plug[] Team1plugs, Team2plugs;
+    public List<GameObject> Cables;
+
+
     bool Team1Ready, Team2Ready;
     int TeamAplayers, TeamBplayers;
 
@@ -156,46 +159,75 @@ public class MenuLogic : MonoBehaviour {
                 if ((Input.GetKeyDown(KeyCode.Joystick1Button7)) && !PlayersReady[0])
                 {
                     PlayersReady[0] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 6, 1), Quaternion.identity));
+                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 6, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 1;
                     Plugs[Plugs.Count - 1].name = "Plug 1";
-                    Plugs[Plugs.Count - 1].GetComponent<LineRenderer>().startColor = Plugs[Plugs.Count - 1].GetComponent<Renderer>().material.color;
-                   _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
                    
+                   _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+
+                    Cables.Add(Instantiate(CablesPrefab));
+                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
+                    temp_rope.ChangeColor(Plugs[Plugs.Count - 1].GetComponent<Renderer>().material.color);
+                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
+                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
                 }
                 else if (Input.GetKeyDown(KeyCode.Return) && !PlayersReady[0])
                 {
+                    Cables.Add(Instantiate(CablesPrefab));
+                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
+                   
+
                     PlayersReady[0] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 6, 1), Quaternion.identity));
+                    PlugPrefab.transform.position = new Vector3(10, 6, 10);
+
+                    Plugs.Add(Instantiate(PlugPrefab));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 5;
                     Plugs[Plugs.Count - 1].name = "Plug 1";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
+                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
+
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick2Button7)|| Input.GetKeyDown(KeyCode.Alpha2)) && !PlayersReady[1])
                 {
                     PlayersReady[1] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 2, 1), Quaternion.identity));
+                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 2, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 2;
                     Plugs[Plugs.Count - 1].name = "Plug 2";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+
+                    Cables.Add(Instantiate(CablesPrefab));
+                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
+                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
+                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick3Button7) || Input.GetKeyDown(KeyCode.Alpha3)) && !PlayersReady[2])
                 {
                     PlayersReady[2] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -2, 1), Quaternion.identity));
+                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -2, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 3;
                     Plugs[Plugs.Count - 1].name = "Plug 3";
                     Plugs[Plugs.Count - 1].GetComponent<LineRenderer>().startColor = Color.green;
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+
+                    Cables.Add(Instantiate(CablesPrefab));
+                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
+                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
+                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick4Button7) || Input.GetKeyDown(KeyCode.Alpha4)) && !PlayersReady[3])
                 {
                     PlayersReady[3] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -6, 1), Quaternion.identity));
+                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -6, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 4;
                     Plugs[Plugs.Count - 1].name = "Plug 4";
                     Plugs[Plugs.Count - 1].GetComponent<LineRenderer>().startColor = Color.red;
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+
+                    Cables.Add(Instantiate(CablesPrefab));
+                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
+                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
+                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
                 }
                
             }
