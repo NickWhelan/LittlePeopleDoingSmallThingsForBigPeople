@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Rope : MonoBehaviour {
 
-    public int int_NumberOfJoints;
-  
+
     public GameObject JointObj,StartObj, EndObj,PlugObj;
     public Transform trans_CordParent;
+    public List<Material> Materials;
 
+        int int_NumberOfJoints;
     float float_LengthBettweenJoints;
     List<GameObject> list_Joint_Objs;
-    List<CharacterJoint> list_Joints;
+    List<HingeJoint> list_Joints;
     LineRenderer line_Cord;
     // Use this for initialization
     void Start () {
@@ -20,7 +21,7 @@ public class Rope : MonoBehaviour {
 
     public void setup() {
         list_Joint_Objs = new List<GameObject>();
-        list_Joints = new List<CharacterJoint>();
+        list_Joints = new List<HingeJoint>();
        print(float_LengthBettweenJoints = 0.05f);
         print(Vector3.Distance(StartObj.transform.position, EndObj.transform.position));
        print(int_NumberOfJoints = (int)(Vector3.Distance(StartObj.transform.position, EndObj.transform.position) / float_LengthBettweenJoints));
@@ -30,7 +31,7 @@ public class Rope : MonoBehaviour {
         line_Cord.SetWidth(0.1f, 0.1f);
 
         line_Cord.numPositions = int_NumberOfJoints + 1;
-        PlugObj.transform.position = transform.position;
+        transform.position = PlugObj.transform.position;
         StartObj.transform.position = new Vector3(PlugObj.transform.position.x + (PlugObj.transform.localScale.x / 2), PlugObj.transform.position.y, PlugObj.transform.position.z);
        
 
@@ -47,7 +48,7 @@ public class Rope : MonoBehaviour {
             list_Joint_Objs.Add(Instantiate(JointObj));
             list_Joint_Objs[i].GetComponent<Rigidbody>().mass = 0.05f;
             list_Joint_Objs[i].GetComponent<Rigidbody>().drag = 2.5f;
-            list_Joints.Add(list_Joint_Objs[i].AddComponent<CharacterJoint>());
+            list_Joints.Add(list_Joint_Objs[i].AddComponent<HingeJoint>());
 
             list_Joint_Objs[i].name = "Joint " + i;
             list_Joint_Objs[i].transform.position = new Vector3(temp_X, transform.position.y, transform.position.z);
@@ -64,7 +65,7 @@ public class Rope : MonoBehaviour {
             list_Joints[i-1].anchor = new Vector3(list_Joint_Objs[i].transform.position.x - list_Joint_Objs[i].transform.position.x, 0, 0);
             list_Joints[i - 1].autoConfigureConnectedAnchor = false;
             list_Joints[i-1].connectedAnchor = Vector3.zero;
-            list_Joints[i - 1].swingAxis = new Vector3(1, 1, 1);
+            list_Joints[i - 1].axis = new Vector3(1, 1, 1);
             list_Joints[i - 1].enableCollision = true;
             
 
@@ -72,16 +73,39 @@ public class Rope : MonoBehaviour {
         }
 
         list_Joint_Objs.Add(EndObj);
-        list_Joints.Add(EndObj.GetComponent<CharacterJoint>());
+        list_Joints.Add(EndObj.GetComponent<HingeJoint>());
         list_Joints[list_Joints.Count-1].connectedBody = list_Joint_Objs[list_Joint_Objs.Count - 2].GetComponent<Rigidbody>();
-        list_Joints[list_Joints.Count-1].anchor = new Vector3(list_Joint_Objs[list_Joints.Count -2].transform.position.x - list_Joint_Objs[list_Joints.Count-1].transform.position.x, 0, 0);
+        list_Joints[list_Joints.Count - 1].anchor = new Vector3(list_Joint_Objs[list_Joints.Count - 1].transform.position.x - list_Joint_Objs[list_Joints.Count - 1].transform.position.x, 0, 0);
+        list_Joints[list_Joints.Count - 1].autoConfigureConnectedAnchor = false;
+        list_Joints[list_Joints.Count - 1].connectedAnchor = Vector3.zero;
+        list_Joints[list_Joints.Count - 1].axis = new Vector3(1, 1, 1);
+        //list_Joints[list_Joints.Count-1].anchor = new Vector3(list_Joint_Objs[list_Joints.Count -2].transform.position.x - list_Joint_Objs[list_Joints.Count-1].transform.position.x, 0, 0);
     }
-    public void ChangeColor(Color color) {
+    public void Changecolor(Player.Character Character)
+    {
 
-        line_Cord.material.color = color;
+        switch (Character)
+        {
+            case Player.Character.Astronaut:
+                line_Cord.material = Materials[0];
+                break;
+            case Player.Character.BigBusinessOwner:
+                line_Cord.material = Materials[1];
+                break;
+            case Player.Character.Cowboy:
+                line_Cord.material = Materials[2];
+                break;
+            case Player.Character.Ninja:
+                line_Cord.material = Materials[3];
+                break;
+            case Player.Character.Mafioso:
+                line_Cord.material = Materials[0];
+                break;
+        }
     }
-    void FixedUpdate() {
-        if (PlugObj)
+
+        void FixedUpdate() {
+        if (PlugObj && list_Joint_Objs != null)
         {
             StartObj.transform.position = new Vector3(PlugObj.transform.position.x + (PlugObj.transform.localScale.x / 2), PlugObj.transform.position.y, PlugObj.transform.position.z);
             for (int i = 0; i < list_Joint_Objs.Count; i++)

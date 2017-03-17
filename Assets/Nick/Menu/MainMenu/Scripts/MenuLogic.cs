@@ -161,31 +161,30 @@ public class MenuLogic : MonoBehaviour {
                     PlayersReady[0] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 6, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 1;
+                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 1";
-                   
+
                    _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
 
-                    Cables.Add(Instantiate(CablesPrefab));
-                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
-                    temp_rope.ChangeColor(Plugs[Plugs.Count - 1].GetComponent<Renderer>().material.color);
+                    Rope temp_rope = Cables[0].GetComponent<Rope>();
                     temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
+                    temp_rope.setup();
+                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
                 }
                 else if (Input.GetKeyDown(KeyCode.Return) && !PlayersReady[0])
                 {
-                    Cables.Add(Instantiate(CablesPrefab));
-                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
-                   
-
                     PlayersReady[0] = true;
                     PlugPrefab.transform.position = new Vector3(10, 6, 10);
-
                     Plugs.Add(Instantiate(PlugPrefab));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 5;
+                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 1";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+
+                    Rope temp_rope = Cables[0].GetComponent<Rope>();
                     temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
+                    temp_rope.setup();
+                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
 
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick2Button7)|| Input.GetKeyDown(KeyCode.Alpha2)) && !PlayersReady[1])
@@ -193,43 +192,46 @@ public class MenuLogic : MonoBehaviour {
                     PlayersReady[1] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 2, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 2;
+                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 2";
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
 
-                    Cables.Add(Instantiate(CablesPrefab));
-                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
-                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
+                    Rope temp_rope = Cables[1].GetComponent<Rope>();
+                   temp_rope.PlugObj = Plugs[Plugs.Count - 1];
+                    temp_rope.setup();
+                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick3Button7) || Input.GetKeyDown(KeyCode.Alpha3)) && !PlayersReady[2])
                 {
                     PlayersReady[2] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -2, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 3;
+                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 3";
-                    Plugs[Plugs.Count - 1].GetComponent<LineRenderer>().startColor = Color.green;
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
 
-                    Cables.Add(Instantiate(CablesPrefab));
-                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
+                    Rope temp_rope = Cables[2].GetComponent<Rope>();
                     temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
+                    temp_rope.setup();
+                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick4Button7) || Input.GetKeyDown(KeyCode.Alpha4)) && !PlayersReady[3])
                 {
                     PlayersReady[3] = true;
                     Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -6, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 4;
+                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 4";
-                    Plugs[Plugs.Count - 1].GetComponent<LineRenderer>().startColor = Color.red;
                     _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
 
-                    Cables.Add(Instantiate(CablesPrefab));
-                    Rope temp_rope = Cables[Cables.Count - 1].GetComponent<Rope>();
+                    Rope temp_rope = Cables[3].GetComponent<Rope>();
+                    //temp_rope.ChangeColor(Plugs[Plugs.Count - 1].GetComponent<Renderer>().material.color);
                     temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.EndObj.transform.position = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Random.Range(30, 40)));
+                    temp_rope.setup();
+                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+
                 }
-               
+
             }
 
         }

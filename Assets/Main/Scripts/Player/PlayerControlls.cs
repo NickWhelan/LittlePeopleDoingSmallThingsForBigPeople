@@ -37,10 +37,9 @@ public class PlayerControlls : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
+    public void Start () {
         playerInfo = new Player(PlayerNum);
         rigidbody = gameObject.GetComponent<Rigidbody>();
-
         switch (playerInfo.PlayerNum)
         {
             case 1:
@@ -109,19 +108,19 @@ public class PlayerControlls : MonoBehaviour {
         {
             
             case Player.Character.Astronaut:
-                gameObject.GetComponent<Renderer>().material.color = Color.black;
+                //gameObject.GetComponent<Renderer>().material.color = Color.black;
                 break;
             case Player.Character.BigBusinessOwner:
-                gameObject.GetComponent<Renderer>().material.color = Color.white;
+                //gameObject.GetComponent<Renderer>().material.color = Color.white;
                 break;
             case Player.Character.Cowboy:
-                gameObject.GetComponent<Renderer>().material.color = Color.green;
+                //gameObject.GetComponent<Renderer>().material.color = Color.green;
                 break;
             case Player.Character.Ninja:
-                gameObject.GetComponent<Renderer>().material.color = Color.red;
+               // gameObject.GetComponent<Renderer>().material.color = Color.red;
                 break;
             case Player.Character.Mafioso:
-                gameObject.GetComponent<Renderer>().material.color = Color.black;
+                //gameObject.GetComponent<Renderer>().material.color = Color.black;
                 break;
             case Player.Character.Mathematician:
                 break;
