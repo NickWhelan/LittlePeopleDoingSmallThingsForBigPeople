@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrackSwitcher : MonoBehaviour {
+public class TrackSwitcher : MonoBehaviour
+{
     [SerializeField]
     TapeDeckGameLogic tapeDeckGameLogic;
 
@@ -14,32 +15,37 @@ public class TrackSwitcher : MonoBehaviour {
 
     public GameObject[] swapPoints;
     public GameObject volumeSlider;
-    private AudioSource audSource;
+    private AudioSource[] audSources;
 
     private int activeBox = 0;
 
     // Use this for initialization
-    void Start () {
-        audSource = GetComponent<AudioSource>();
+    void Start()
+    {
+        audSources = GetComponents<AudioSource>();
         tapeDeckGameLogic = GameObject.FindGameObjectWithTag("Overlord").GetComponent<TapeDeckGameLogic>();
     }
 
     // Update is called once per frame
-    void Update () {
-        audSource.volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
-        audSource.volume = 1;
-        //audSource.pitch = 1;
-        if(audSource.volume < 1)
+    void Update()
+    {
+        for (int i = 0; i < audSources.Length; i++)
         {
-            tapeDeckGameLogic.volumeLevel.text = string.Format("{0:0.00}", audSource.volume);
-        }
-        else
-        {
-            tapeDeckGameLogic.volumeLevel.text = audSource.volume.ToString();
-        }
-        if(audSource.pitch < 1)
-        {
-            tapeDeckGameLogic.pitchLevel.text = string.Format("{0:0.00}", audSource.pitch);
+            audSources[i].volume = volumeSlider.GetComponent<VolumeSlider>().volumeLevel;
+            audSources[i].volume = 1;
+            //audSource.pitch = 1;
+            if (audSources[i].volume < 1)
+            {
+                tapeDeckGameLogic.volumeLevel.text = string.Format("{0:0.00}", audSources[i].volume);
+            }
+            else
+            {
+                tapeDeckGameLogic.volumeLevel.text = audSources[i].volume.ToString();
+            }
+            if (audSources[i].pitch < 1)
+            {
+                tapeDeckGameLogic.pitchLevel.text = string.Format("{0:0.00}", audSources[i].pitch);
+            }
         }
     }
 
@@ -47,22 +53,23 @@ public class TrackSwitcher : MonoBehaviour {
     {
         for (int i = 0; i < mBoxes.Length; i++)
         {
-            if (mBoxes[i].GetComponent<MusicPlayer>().isActive && !audSource.isPlaying)
-            {
-                swapPoints[activeBox].SetActive(false);
-                activeBox = i;
-                playingClip = audSource.clip = audioTracks[i];
-                
-                swapPoints[i].SetActive(true);
-            }
-            else if(mBoxes[i].GetComponent<MusicPlayer>().isActive && audSource.isPlaying && audioTracks[i] != playingClip)
-            {
-                swapPoints[activeBox].SetActive(false);
-                swapPoints[i].SetActive(true);
-                playingClip = audSource.clip = audioTracks[i];
-                activeBox = i;
-            }
-            tapeDeckGameLogic.songName.text = playingClip.name;
+            /*if (mBoxes[i].GetComponent<MusicPlayer>().isActive && !audSource.isPlaying)
+              {
+                  swapPoints[activeBox].SetActive(false);
+                  activeBox = i;
+                  playingClip = audSource.clip = audioTracks[i];
+
+                  swapPoints[i].SetActive(true);
+              }
+              else if(mBoxes[i].GetComponent<MusicPlayer>().isActive && audSource.isPlaying && audioTracks[i] != playingClip)
+              {
+                  swapPoints[activeBox].SetActive(false);
+                  swapPoints[i].SetActive(true);
+                  playingClip = audSource.clip = audioTracks[i];
+                  activeBox = i;
+              }
+              tapeDeckGameLogic.songName.text = playingClip.name;
+          }*/
         }
     }
 }
