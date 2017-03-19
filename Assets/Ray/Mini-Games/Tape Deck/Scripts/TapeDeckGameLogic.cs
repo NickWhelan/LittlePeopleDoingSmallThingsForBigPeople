@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TapeDeckGameLogic : MonoBehaviour {
-    public GameObject playerPrefab, spawnPoints;
+    public GameObject playerPrefab;
     public bool DebugTest = false;
 
-    //TODO: Make use of these text variables to display volume, pitch and the name of the song being played
-    public Text songName, volumeLevel, pitchLevel;
+    public GameObject TapeDeckA, TapeDeckB;
 
-    public int playerCount = 1;
+    public int playerCount;
 
-    List<GameObject> playerList;
+    List<GameObject> playerList, TeamAList, TeamBList;
     
     AllGameLogic _AllGameLogic;
 
@@ -21,23 +19,44 @@ public class TapeDeckGameLogic : MonoBehaviour {
     {
         if (!DebugTest)
         {
+            int TeamAPlayerNum, TeamBPlayerNum;
+
+            TeamAPlayerNum = TeamBPlayerNum = playerCount = 1;
+
             _AllGameLogic = GameObject.Find("OverWatch").GetComponent<AllGameLogic>();
             playerList = new List<GameObject>();
-
+            TeamAList = new List<GameObject>();
+            TeamBList = new List<GameObject>();
 
             for (int i = 0; i < _AllGameLogic.Players.Count; i++)
             {
                 GameObject tempPlayer = playerPrefab;
 
-                tempPlayer.GetComponent<PlayerControlls>().playerInfo = _AllGameLogic.Players[i].playerInfo;
-                tempPlayer.GetComponent<PlayerControlls>().PlayerNum = _AllGameLogic.Players[i].playerInfo.PlayerNum;
-
-                playerList.Add(Instantiate(tempPlayer, spawnPoints.transform.FindChild("Player " + playerCount + " Spawn").transform.position, spawnPoints.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
-                playerList[i].name = "Player";
-                playerList[i].tag = "Player Team 1";
-                playerList[i].layer = LayerMask.NameToLayer("Team 1");
-
-                playerCount++;
+                if (_AllGameLogic.Players[i].playerInfo.Team > 0)
+                {
+                    tempPlayer.GetComponent<PlayerControlls>().playerInfo = _AllGameLogic.Players[i].playerInfo;
+                    tempPlayer.GetComponent<PlayerControlls>().PlayerNum = _AllGameLogic.Players[i].playerInfo.PlayerNum;
+                }
+                if (_AllGameLogic.Players[i].playerInfo.Team == 1)
+                {
+                    TeamAList.Add(Instantiate(tempPlayer, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.position, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
+                    playerList.Add(tempPlayer);
+                    TeamAList[TeamAList.Count - 1].name = "Player";
+                    TeamAList[TeamAList.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
+                    TeamAList[TeamAList.Count - 1].layer = LayerMask.NameToLayer("Team 1");
+                    TeamAPlayerNum++;
+                    playerCount++;
+                }
+                else if(_AllGameLogic.Players[i].playerInfo.Team == 2)
+                {
+                    TeamBList.Add(Instantiate(tempPlayer, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.position, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
+                    playerList.Add(tempPlayer);
+                    TeamBList[TeamBList.Count - 1].name = "Player";
+                    TeamBList[TeamBList.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
+                    TeamBList[TeamBList.Count - 1].layer = LayerMask.NameToLayer("Team 1");
+                    TeamBPlayerNum++;
+                    playerCount++;
+                }
             }
 
             for (int i = 0; i < _AllGameLogic.Players.Count; i++)

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
@@ -22,19 +20,19 @@ public class MusicController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
         audSources = GetComponents<AudioSource>();
         for (int i = 0; i < audSources.Length; i++)
         {
             audSources[i].enabled = false;
+            audSources[i].pitch = 0;
         }
-
     }
 
     private void Update()
     {
         UpdateVolume(audVolume = slider.volumeLevel);
-        if(audPitch >= 1)
+
+        if (audPitch >= 1)
             UpdatePitch((audPitch - 0.00001f));
     }
 
@@ -56,24 +54,36 @@ public class MusicController : MonoBehaviour
 
     void UpdateSong(string songName)
     {
+        Debug.Log("DOING THE SONG");
+
         switch (songName)
         {
-            case "In Too Deep":
-                audSources[0].clip = musicBoxControllers[0].audioClips[1];
-                audSources[1].clip = musicBoxControllers[1].audioClips[1];
-                audSources[2].clip = musicBoxControllers[2].audioClips[1];
-                audSources[3].clip = musicBoxControllers[3].audioClips[1];
+            case "20th Century Boy":
+                for (int i = 0; i < musicBoxControllers.Length; i++)
+                {
+                    audSources[i].clip = musicBoxControllers[i].audioClips[0];
+                }
                 break;
 
-            case "20th Century Boy":
-                audSources[0].clip = musicBoxControllers[0].audioClips[0];
-                audSources[1].clip = musicBoxControllers[1].audioClips[0];
-                audSources[2].clip = musicBoxControllers[2].audioClips[0];
-                audSources[3].clip = musicBoxControllers[3].audioClips[0];
+            case "In Too Deep":
+                for (int i = 0; i < musicBoxControllers.Length; i++)
+                {
+                    audSources[i].clip = musicBoxControllers[i].audioClips[1];
+                }
                 break;
 
             case "Derezzed":
-                Debug.Log("BITCH THIS AINT DONE YET. :V");
+                for (int i = 0; i < musicBoxControllers.Length - 1; i++)
+                {
+                    audSources[i].clip = musicBoxControllers[i].audioClips[2];
+                }
+                break;
+
+            case "Sail Away":
+                for (int i = 0; i < musicBoxControllers.Length; i++)
+                {
+                    audSources[i].clip = musicBoxControllers[i].audioClips[3];
+                }
                 break;
 
             default:
@@ -82,58 +92,78 @@ public class MusicController : MonoBehaviour
         }
     }
 
+    public void SetActiveSong(MusicBoxController _activeBox)
+    {
+        _activeBox.IsActiveSong = true;
+        Debug.Log("PRIMED AND READY.");
+        _activeBox.GetComponent<Renderer>().material.color = Color.yellow;
+        for (int i = 0; i < musicBoxControllers.Length; i++)
+        {
+            if (musicBoxControllers[i] != _activeBox)
+            {
+                Debug.Log("turning off: " + musicBoxControllers[i].name);
+                musicBoxControllers[i].IsActiveSong = false;
+                musicBoxControllers[i].GetComponent<Renderer>().material.color = Color.red;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Instrument")
+        if (other.tag.Contains("Instrument"))
         {
+            if (other.GetComponent<MusicBoxController>().IsActiveSong)
+                UpdateSong(other.GetComponent<MusicBoxController>().songName);
 
-            Debug.Log(other.name);
-            for (int i = 0; i < audSources.Length; i++)
+            for(int i = 0; i < musicBoxControllers.Length; i++)
             {
-                if (other.GetComponent<MusicBoxController>().isActiveSong)
+                if (audSources[i].clip.name.Contains(other.name) && !origStarted)
                 {
-                    UpdateSong(other.GetComponent<MusicBoxController>().songName);
-                }
-                if (audSources[i].clip.name.Contains(other.name) &&!origStarted)
-                {
-                    origSource = audSources[i];
-                    Debug.Log(origSource.clip.name);
                     audSources[i].enabled = true;
+                    origSource = audSources[i];
                     origStarted = true;
                 }
-                if (audSources[i].clip.name.Contains(other.name) && origStarted)
+                else if(audSources[i].clip.name.Contains(other.name) && audSources[i].clip != null)
                 {
                     audSources[i].enabled = true;
-                    audSources[i].time = origSource.time;
                 }
+                other.GetComponent<Renderer>().material.color = Color.green;
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Instrument")
+        if (other.tag.Contains("Instrument"))
         {
+            if (other.GetComponent<MusicBoxController>().IsActiveSong)
+            {
+                other.GetComponent<Renderer>().material.color = Color.yellow;
+            }
+            else
+            {
+                other.GetComponent<Renderer>().material.color = Color.red;
+            }
             for (int i = 0; i < audSources.Length; i++)
             {
-                if (audSources[i].clip.name.Contains(other.name) && origSource.clip.name.Contains(other.name))
+                if (audSources[i].enabled && origSource.name.Contains(other.name))
                 {
                     audSources[i].enabled = false;
-                    origSource = audSources[Random.Range(0, 4)];
-                    for(int j = 0; j < 5; j++)
+                    for (int j = 0; j < 5; j++)
                     {
-                        origSource = audSources[Random.Range(0, 4)];
+                        if (audSources[j].enabled)
+                        {
+                            origSource = audSources[j];
+                            break;
+                        }
+                        else
+                        {
+                            origSource = null;
+                            origStarted = false;
+                        }
                     }
-
-                    //origStarted = false;
-                    Debug.Log("New Source: " + origSource.clip.name);
-                }
-                else if(audSources[i].clip.name.Contains(other.name))
-                {
-                    audSources[i].enabled = false;
                 }
             }
-
         }
     }
 }

@@ -60,7 +60,7 @@ public class CDLogic : MonoBehaviour
         if (other.name.Contains("Player"))
         {
             other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, 14.25f, other.gameObject.transform.position.z);
-            if (other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed)
+            if (other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed && !other.gameObject.GetComponent<PlayerControlls>().ButtonRBPressed)
             {
                 other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
                 Debug.Log("Hello Player " + other.GetComponent<PlayerControlls>().PlayerNum);
