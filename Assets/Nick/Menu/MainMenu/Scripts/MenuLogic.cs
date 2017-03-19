@@ -159,7 +159,7 @@ public class MenuLogic : MonoBehaviour {
                 if ((Input.GetKeyDown(KeyCode.Joystick1Button7)) && !PlayersReady[0])
                 {
                     PlayersReady[0] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 6, 10), Quaternion.identity));
+                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 6, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 1;
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 1";
@@ -174,7 +174,7 @@ public class MenuLogic : MonoBehaviour {
                 else if (Input.GetKeyDown(KeyCode.Return) && !PlayersReady[0])
                 {
                     PlayersReady[0] = true;
-                    PlugPrefab.transform.position = new Vector3(10, 6, 10);
+                    PlugPrefab.transform.position = new Vector3(1, 6, 10);
                     Plugs.Add(Instantiate(PlugPrefab));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 5;
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
@@ -190,7 +190,7 @@ public class MenuLogic : MonoBehaviour {
                 else if ((Input.GetKeyDown(KeyCode.Joystick2Button7)|| Input.GetKeyDown(KeyCode.Alpha2)) && !PlayersReady[1])
                 {
                     PlayersReady[1] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, 2, 10), Quaternion.identity));
+                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 4, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 2;
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 2";
@@ -204,7 +204,7 @@ public class MenuLogic : MonoBehaviour {
                 else if ((Input.GetKeyDown(KeyCode.Joystick3Button7) || Input.GetKeyDown(KeyCode.Alpha3)) && !PlayersReady[2])
                 {
                     PlayersReady[2] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -2, 10), Quaternion.identity));
+                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 2, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 3;
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 3";
@@ -218,7 +218,7 @@ public class MenuLogic : MonoBehaviour {
                 else if ((Input.GetKeyDown(KeyCode.Joystick4Button7) || Input.GetKeyDown(KeyCode.Alpha4)) && !PlayersReady[3])
                 {
                     PlayersReady[3] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(10, -6, 10), Quaternion.identity));
+                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 0, 10), Quaternion.identity));
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 4;
                     Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
                     Plugs[Plugs.Count - 1].name = "Plug 4";

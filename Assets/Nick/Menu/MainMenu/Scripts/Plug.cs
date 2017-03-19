@@ -14,8 +14,8 @@ public class Plug : MonoBehaviour {
     // Use this for initialization
     void Start () {
         playernum = -1;
-        Room.GetComponent<Renderer>().material.color = Color.gray;
-        BaseColor = Room.GetComponent<Renderer>().material.color;
+        //Room.GetComponent<Renderer>().material.color = Color.gray;
+        //BaseColor = Room.GetComponent<Renderer>().material.color;
     }
     void OnTriggerEnter(Collider Other)
     {
