@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Plug : MonoBehaviour {
-    public GameObject Room;
- 
+    public Light[] lights;
+
     [Range(1,2)]
     public int Team;
 
@@ -14,8 +14,10 @@ public class Plug : MonoBehaviour {
     // Use this for initialization
     void Start () {
         playernum = -1;
-        //Room.GetComponent<Renderer>().material.color = Color.gray;
-        //BaseColor = Room.GetComponent<Renderer>().material.color;
+        foreach (Light light in lights)
+        {
+            light.enabled = false;
+        }
     }
     void OnTriggerEnter(Collider Other)
     {
@@ -23,9 +25,14 @@ public class Plug : MonoBehaviour {
         if (!isPlugged)
         {
             Other.GetComponent<PlayerControlls>().playerInfo.Team = Team;
-            Changecolor(Other.GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+
             isPlugged = true;
             playernum = Other.GetComponent<PlayerControlls>().PlayerNum;
+            foreach (Light light in lights) {
+                light.enabled = true;
+                Changecolor(Other.GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+            }
+
         }
 
     }
@@ -34,7 +41,10 @@ public class Plug : MonoBehaviour {
         if (isPlugged &&  playernum == Other.GetComponent<PlayerControlls>().PlayerNum)
         {
             Other.GetComponent<PlayerControlls>().playerInfo.Team = -1;
-            //Room.GetComponent<Renderer>().material.color = BaseColor;
+            foreach (Light light in lights)
+            {
+                light.enabled = false;
+            }
             isPlugged = false;
             playernum = -1;
         }
@@ -42,25 +52,38 @@ public class Plug : MonoBehaviour {
 
     void Changecolor(Player.Character Character) {
         /*
+        Astronaut=1,
+        BigBusinessOwner=2,
+        Cowboy=3,
+        Ninja=4,
+        Mafioso=5,
+        */
         switch (Character) {
+            case Player.Character.Mafioso: 
             case Player.Character.Astronaut:
-                Room.GetComponent<Renderer>().material.color = Color.black;
+                foreach (Light light in lights)
+                {
+                    light.color = Color.gray;
+                }
                 break;
             case Player.Character.BigBusinessOwner:
-                Room.GetComponent<Renderer>().material.color = Color.white;
+                foreach (Light light in lights)
+                {
+                    light.color = Color.white;
+                }
                 break;
             case Player.Character.Cowboy:
-                Room.GetComponent<Renderer>().material.color = Color.green;
+                foreach (Light light in lights)
+                {
+                    light.color = Color.green;
+                }
                 break;
             case Player.Character.Ninja:
-                Room.GetComponent<Renderer>().material.color = Color.red;
+                foreach (Light light in lights)
+                {
+                    light.color = Color.red;
+                }
                 break;
-            case Player.Character.Mafioso:
-                Room.GetComponent<Renderer>().material.color = Color.black;
-                break;
-
-        }*/
-
-        
+        }
     }
 }

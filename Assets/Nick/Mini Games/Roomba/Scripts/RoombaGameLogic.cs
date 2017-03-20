@@ -33,7 +33,7 @@ public class RoombaGameLogic : MonoBehaviour
     {
         timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 6;
+        timer.StartTime = 60;
         timer.EndTime = 0;
         timer.Start();
 

@@ -104,36 +104,39 @@ public class PlayerControlls : MonoBehaviour {
                 controllerStart = KeyCode.Return;
                 break;
         }
-        switch (playerInfo.CurrentCharacter)
+        if (gameObject.GetComponent<Renderer>() != null)
         {
-            
-            case Player.Character.Astronaut:
-                //gameObject.GetComponent<Renderer>().material.color = Color.black;
-                break;
-            case Player.Character.BigBusinessOwner:
-                //gameObject.GetComponent<Renderer>().material.color = Color.white;
-                break;
-            case Player.Character.Cowboy:
-                //gameObject.GetComponent<Renderer>().material.color = Color.green;
-                break;
-            case Player.Character.Ninja:
-               // gameObject.GetComponent<Renderer>().material.color = Color.red;
-                break;
-            case Player.Character.Mafioso:
-                //gameObject.GetComponent<Renderer>().material.color = Color.black;
-                break;
-            case Player.Character.Mathematician:
-                break;
-            case Player.Character.RockSinger:
-                break;
-            case Player.Character.StrangeDoctor:
-                break;
-            case Player.Character.Survivalist:
-                break;
-            case Player.Character.WaitStaff:
-                break;
-            case Player.Character.Budgie:
-                break;
+            switch (playerInfo.CurrentCharacter)
+            {
+
+                case Player.Character.Astronaut:
+                    gameObject.GetComponent<Renderer>().material.color = Color.black;
+                    break;
+                case Player.Character.BigBusinessOwner:
+                    gameObject.GetComponent<Renderer>().material.color = Color.white;
+                    break;
+                case Player.Character.Cowboy:
+                    gameObject.GetComponent<Renderer>().material.color = Color.green;
+                    break;
+                case Player.Character.Ninja:
+                    gameObject.GetComponent<Renderer>().material.color = Color.red;
+                    break;
+                case Player.Character.Mafioso:
+                    gameObject.GetComponent<Renderer>().material.color = Color.black;
+                    break;
+                case Player.Character.Mathematician:
+                    break;
+                case Player.Character.RockSinger:
+                    break;
+                case Player.Character.StrangeDoctor:
+                    break;
+                case Player.Character.Survivalist:
+                    break;
+                case Player.Character.WaitStaff:
+                    break;
+                case Player.Character.Budgie:
+                    break;
+            }
         }
     }
 

@@ -14,7 +14,7 @@ public class MenuLogic : MonoBehaviour {
     public Text m_StartText, m_StartTextShadow;
 
 
-    public GameObject PlugPrefab, AllGameLogicPrefab, CablesPrefab;
+    public GameObject PlugPrefab, AllGameLogicPrefab;
     public List<GameObject> Plugs; 
     public Plug[] Team1plugs, Team2plugs;
     public List<GameObject> Cables;
@@ -91,7 +91,6 @@ public class MenuLogic : MonoBehaviour {
                 }
                 temp_rope.PlugObj = Plugs[Plugs.Count - 1];
                 temp_rope.setup();
-                temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
 
                 _AllGameLogic.Players[i] = Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>();
             }
@@ -157,7 +156,9 @@ public class MenuLogic : MonoBehaviour {
                     loadGame = true;
                     _AllGameLogic.CurrentGame=1;
                     print(_AllGameLogic.CurrentGame);
+                    SceneManager.UnloadScene("Menu");
                     SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
+
                 }
             }
         }
@@ -198,7 +199,7 @@ public class MenuLogic : MonoBehaviour {
 
         _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
 
-        Rope temp_rope;
+        Rope temp_rope = Cables[0].GetComponent<Rope>();
 
         if (_PlayerNum == 5)
         {
@@ -209,7 +210,6 @@ public class MenuLogic : MonoBehaviour {
         }
             temp_rope.PlugObj = Plugs[Plugs.Count - 1];
             temp_rope.setup();
-            temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
     }
 
     void Update() {
@@ -238,7 +238,6 @@ public class MenuLogic : MonoBehaviour {
                     AddPlug(4);
 
                 }
-
             }
 
         }
@@ -251,7 +250,6 @@ public class MenuLogic : MonoBehaviour {
         }
         else if (stage2 && cam.transform.position != Stage2Pos.position)
         {
-
             cam.transform.position = Vector3.Lerp(cam.transform.position, Stage2Pos.position, 0.1f);
             cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, Stage2Pos.rotation, 0.1f);
         }

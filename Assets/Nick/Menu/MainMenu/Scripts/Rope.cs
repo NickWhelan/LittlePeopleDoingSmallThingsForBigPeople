@@ -7,9 +7,9 @@ public class Rope : MonoBehaviour {
 
     public GameObject JointObj,StartObj, EndObj,PlugObj;
     public Transform trans_CordParent;
-    public List<Material> Materials;
+    public Material material;
 
-        int int_NumberOfJoints;
+    int int_NumberOfJoints;
     float float_LengthBettweenJoints;
     List<GameObject> list_Joint_Objs;
     List<HingeJoint> list_Joints;
@@ -26,7 +26,11 @@ public class Rope : MonoBehaviour {
         line_Cord = gameObject.AddComponent<LineRenderer>();
         line_Cord.material.color = Color.black;
         line_Cord.SetWidth(0.1f, 0.1f);
+        line_Cord.material = material;
+        line_Cord.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 
+        float_LengthBettweenJoints = 0.05f;
+        int_NumberOfJoints = (int)( Vector3.Distance(StartObj.transform.position, EndObj.transform.position) / float_LengthBettweenJoints);
         line_Cord.numPositions = int_NumberOfJoints + 1;
         transform.position = PlugObj.transform.position;
         StartObj.transform.position = new Vector3(PlugObj.transform.position.x + (PlugObj.transform.localScale.x / 2), PlugObj.transform.position.y, PlugObj.transform.position.z);
@@ -64,9 +68,6 @@ public class Rope : MonoBehaviour {
             list_Joints[i-1].connectedAnchor = Vector3.zero;
             list_Joints[i - 1].axis = new Vector3(1, 1, 1);
             list_Joints[i - 1].enableCollision = true;
-            
-
-
         }
 
         list_Joint_Objs.Add(EndObj);
@@ -77,28 +78,6 @@ public class Rope : MonoBehaviour {
         list_Joints[list_Joints.Count - 1].connectedAnchor = Vector3.zero;
         list_Joints[list_Joints.Count - 1].axis = new Vector3(1, 1, 1);
         //list_Joints[list_Joints.Count-1].anchor = new Vector3(list_Joint_Objs[list_Joints.Count -2].transform.position.x - list_Joint_Objs[list_Joints.Count-1].transform.position.x, 0, 0);
-    }
-    public void Changecolor(Player.Character Character)
-    {
-
-        switch (Character)
-        {
-            case Player.Character.Astronaut:
-                line_Cord.material = Materials[0];
-                break;
-            case Player.Character.BigBusinessOwner:
-                line_Cord.material = Materials[1];
-                break;
-            case Player.Character.Cowboy:
-                line_Cord.material = Materials[2];
-                break;
-            case Player.Character.Ninja:
-                line_Cord.material = Materials[3];
-                break;
-            case Player.Character.Mafioso:
-                line_Cord.material = Materials[0];
-                break;
-        }
     }
 
         void FixedUpdate() {
