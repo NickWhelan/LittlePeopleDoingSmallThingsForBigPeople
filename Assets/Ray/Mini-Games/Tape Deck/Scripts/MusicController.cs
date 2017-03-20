@@ -122,15 +122,13 @@ public class MusicController : MonoBehaviour
                 musicBoxControllers[i].GetComponent<Renderer>().material.color = Color.red;
             }
         }
+        UpdateSong(_activeBox.songName);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Contains("Instrument"))
         {
-            if (other.GetComponent<MusicBoxController>().IsActiveSong)
-                UpdateSong(other.GetComponent<MusicBoxController>().songName);
-
             for(int i = 0; i < musicBoxControllers.Length; i++)
             {
                 if (audSources[i].clip.name.Contains(other.name) && !origStarted)
