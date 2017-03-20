@@ -65,16 +65,16 @@ public class MenuLogic : MonoBehaviour {
                 {
                     case 5:
                     case 1:
-                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 6, 10), Quaternion.identity));
+                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 6, 10), Quaternion.identity));
                         break;
                     case 2:
-                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 4, 10), Quaternion.identity));
+                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 4, 10), Quaternion.identity));
                         break;
                     case 3:
-                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 2, 10), Quaternion.identity));
+                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 0, 10), Quaternion.identity));
                         break;
                     case 4:
-                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 0, 10), Quaternion.identity));
+                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, -2, 10), Quaternion.identity));
                         break;
                 }
                 Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = Playernum;

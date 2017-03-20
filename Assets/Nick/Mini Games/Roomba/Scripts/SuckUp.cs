@@ -7,7 +7,7 @@ public class SuckUp : MonoBehaviour {
 
     void OnTriggerEnter(Collider Other)
     {
-        if (Other.tag == "SuckUp" && !isTriggered)
+        if (Other.tag == "dirt" && !isTriggered)
         {
             isTriggered = true;
             Destroy(Other.gameObject);
@@ -15,7 +15,7 @@ public class SuckUp : MonoBehaviour {
     }
     void OnTriggerExit(Collider Other)
     {
-        if (Other.tag == "SuckUp")
+        if (Other.tag == "dirt")
         {
             isTriggered = false;
         }

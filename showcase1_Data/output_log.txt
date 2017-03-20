@@ -1,0 +1,303 @@
+Initialize engine version: 5.5.0f3 (38b4efef76f0)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics 5500 (ID=0x1616)
+    Vendor:   Intel
+    VRAM:     2153 MB
+    Driver:   10.18.15.4274
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+- Completed reload, in  0.058 seconds
+Platform assembly: C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Nick\Documents\Humber Game\Little People Doing Small Tasks For Big People\LittlePeopleDoingSmallThingsForBigPeople\showcase1_Data\Managed\System.dll (this message is harmless)
+<RI> Initializing input.
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI.Hid> Failed to create device file:
+ 2 The system cannot find the file specified.
+
+ 
+(Filename:  Line: 54)
+
+<RI> Input initialized.
+desktop: 1680x1050 59Hz; virtual: 3046x1050 at 0,0
+<RI> Initialized touch support.
+UnloadTime: 5.972544 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 7b3c -> priority: 1 
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading the last loaded scene Assets/Nick/Menu/MainMenu/Menu.unity(build index: 0), is not supported. Please use SceneManager.LoadScene()/EditorSceneManager.OpenScene() to switch to another scene.
+ 
+(Filename:  Line: 198)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 8.020619 ms
+
+Unloading 67 unused Assets to reduce memory usage. Loaded Objects now: 498.
+Total: 0.634017 ms (FindLiveObjects: 0.076977 ms CreateObjectMapping: 0.039655 ms MarkObjects: 0.353631 ms  DeleteObjects: 0.162819 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.904629 ms
+
+Unloading 534 unused Assets to reduce memory usage. Loaded Objects now: 695.
+Total: 0.749250 ms (FindLiveObjects: 0.093306 ms CreateObjectMapping: 0.038722 ms MarkObjects: 0.197343 ms  DeleteObjects: 0.419412 ms)
+
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading the last loaded scene Assets/Nick/Menu/MainMenu/Menu.unity(build index: 0), is not supported. Please use SceneManager.LoadScene()/EditorSceneManager.OpenScene() to switch to another scene.
+ 
+(Filename:  Line: 198)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.384002 ms
+
+Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 498.
+Total: 0.411947 ms (FindLiveObjects: 0.053184 ms CreateObjectMapping: 0.017261 ms MarkObjects: 0.233266 ms  DeleteObjects: 0.107768 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.716150 ms
+
+Unloading 534 unused Assets to reduce memory usage. Loaded Objects now: 695.
+Total: 0.793104 ms (FindLiveObjects: 0.102170 ms CreateObjectMapping: 0.035922 ms MarkObjects: 0.205274 ms  DeleteObjects: 0.449270 ms)
+
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading the last loaded scene Assets/Nick/Menu/MainMenu/Menu.unity(build index: 0), is not supported. Please use SceneManager.LoadScene()/EditorSceneManager.OpenScene() to switch to another scene.
+ 
+(Filename:  Line: 198)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.384247 ms
+
+Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 498.
+Total: 0.413347 ms (FindLiveObjects: 0.057849 ms CreateObjectMapping: 0.014929 ms MarkObjects: 0.232799 ms  DeleteObjects: 0.107302 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.510409 ms
+
+Unloading 534 unused Assets to reduce memory usage. Loaded Objects now: 695.
+Total: 0.886877 ms (FindLiveObjects: 0.090973 ms CreateObjectMapping: 0.036856 ms MarkObjects: 0.228134 ms  DeleteObjects: 0.529980 ms)
+
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading the last loaded scene Assets/Nick/Menu/MainMenu/Menu.unity(build index: 0), is not supported. Please use SceneManager.LoadScene()/EditorSceneManager.OpenScene() to switch to another scene.
+ 
+(Filename:  Line: 198)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.441164 ms
+
+Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 498.
+Total: 0.370426 ms (FindLiveObjects: 0.055983 ms CreateObjectMapping: 0.012596 ms MarkObjects: 0.200608 ms  DeleteObjects: 0.100770 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.236800 ms
+
+Unloading 534 unused Assets to reduce memory usage. Loaded Objects now: 695.
+Total: 0.865417 ms (FindLiveObjects: 0.094239 ms CreateObjectMapping: 0.039655 ms MarkObjects: 0.238864 ms  DeleteObjects: 0.492191 ms)
+
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading the last loaded scene Assets/Nick/Menu/MainMenu/Menu.unity(build index: 0), is not supported. Please use SceneManager.LoadScene()/EditorSceneManager.OpenScene() to switch to another scene.
+ 
+(Filename:  Line: 198)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.808325 ms
+
+Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 498.
+Total: 0.429676 ms (FindLiveObjects: 0.055517 ms CreateObjectMapping: 0.014462 ms MarkObjects: 0.244929 ms  DeleteObjects: 0.114300 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.052519 ms
+
+Unloading 534 unused Assets to reduce memory usage. Loaded Objects now: 695.
+Total: 0.985315 ms (FindLiveObjects: 0.201541 ms CreateObjectMapping: 0.048519 ms MarkObjects: 0.254726 ms  DeleteObjects: 0.480061 ms)
+
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading the last loaded scene Assets/Nick/Menu/MainMenu/Menu.unity(build index: 0), is not supported. Please use SceneManager.LoadScene()/EditorSceneManager.OpenScene() to switch to another scene.
+ 
+(Filename:  Line: 198)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 6.019664 ms
+
+Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 498.
+Total: 0.395152 ms (FindLiveObjects: 0.078843 ms CreateObjectMapping: 0.019594 ms MarkObjects: 0.188478 ms  DeleteObjects: 0.107302 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.822052 ms
+
+Unloading 534 unused Assets to reduce memory usage. Loaded Objects now: 695.
+Total: 0.879879 ms (FindLiveObjects: 0.102637 ms CreateObjectMapping: 0.039655 ms MarkObjects: 0.240264 ms  DeleteObjects: 0.496856 ms)
+
+1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading the last loaded scene Assets/Nick/Menu/MainMenu/Menu.unity(build index: 0), is not supported. Please use SceneManager.LoadScene()/EditorSceneManager.OpenScene() to switch to another scene.
+ 
+(Filename:  Line: 198)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.373517 ms
+
+Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 498.
+Total: 0.566370 ms (FindLiveObjects: 0.066247 ms CreateObjectMapping: 0.018661 ms MarkObjects: 0.354097 ms  DeleteObjects: 0.126896 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.107792 ms
+
+Unloading 534 unused Assets to reduce memory usage. Loaded Objects now: 695.
+Total: 0.811299 ms (FindLiveObjects: 0.096105 ms CreateObjectMapping: 0.036389 ms MarkObjects: 0.225801 ms  DeleteObjects: 0.452536 ms)
+
