@@ -22,9 +22,6 @@ public class Rope : MonoBehaviour {
     public void setup() {
         list_Joint_Objs = new List<GameObject>();
         list_Joints = new List<HingeJoint>();
-       print(float_LengthBettweenJoints = 0.05f);
-        print(Vector3.Distance(StartObj.transform.position, EndObj.transform.position));
-       print(int_NumberOfJoints = (int)(Vector3.Distance(StartObj.transform.position, EndObj.transform.position) / float_LengthBettweenJoints));
 
         line_Cord = gameObject.AddComponent<LineRenderer>();
         line_Cord.material.color = Color.black;

@@ -59,24 +59,40 @@ public class MenuLogic : MonoBehaviour {
 
                 PlayersReady.Add(new bool());
                 PlayersReady[i] = true;
+                
                 int Playernum = TempPlug.GetComponent<PlayerControlls>().PlayerNum;
-                switch (TempPlug.GetComponent<PlayerControlls>().PlayerNum)
+                switch (Playernum)
                 {
                     case 5:
                     case 1:
-                        Plugs.Add(Instantiate(TempPlug, new Vector3(-9.5f, 6, 1), Quaternion.identity));
+                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 6, 10), Quaternion.identity));
                         break;
                     case 2:
-                        Plugs.Add(Instantiate(TempPlug, new Vector3(-9.5f, 2, 1), Quaternion.identity));
+                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 4, 10), Quaternion.identity));
                         break;
                     case 3:
-                        Plugs.Add(Instantiate(TempPlug, new Vector3(-9.5f, -2, 1), Quaternion.identity));
+                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 2, 10), Quaternion.identity));
                         break;
                     case 4:
-                        Plugs.Add(Instantiate(TempPlug, new Vector3(-9.5f, -6, 1), Quaternion.identity));
+                        Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 0, 10), Quaternion.identity));
                         break;
-
                 }
+                Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = Playernum;
+                Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
+                Plugs[Plugs.Count - 1].name = "Plug " + Playernum;
+                _AllGameLogic.Players[i] = Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>();
+                Rope temp_rope;
+                if (Playernum == 5)
+                {
+                    temp_rope = Cables[0].GetComponent<Rope>();
+                }
+                else {
+                    temp_rope = Cables[Playernum - 1].GetComponent<Rope>();
+                }
+                temp_rope.PlugObj = Plugs[Plugs.Count - 1];
+                temp_rope.setup();
+                temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+
                 _AllGameLogic.Players[i] = Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>();
             }
         }
@@ -151,6 +167,51 @@ public class MenuLogic : MonoBehaviour {
         }
 
     }
+    void AddPlug(int _PlayerNum) {
+        if (_PlayerNum == 5)
+        {
+            PlayersReady[0] = true;
+        }
+        else
+        {
+            PlayersReady[_PlayerNum - 1] = true;
+        }
+        switch (_PlayerNum)
+        {
+            case 5:
+            case 1:
+                Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 6, 10), Quaternion.identity));
+                break;
+            case 2:
+                Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 4, 10), Quaternion.identity));
+                break;
+            case 3:
+                Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 2, 10), Quaternion.identity));
+                break;
+            case 4:
+                Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 0, 10), Quaternion.identity));
+                break;
+        }
+        Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = _PlayerNum;
+        Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
+        Plugs[Plugs.Count - 1].name = "Plug " + _PlayerNum;
+
+        _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
+
+        Rope temp_rope;
+
+        if (_PlayerNum == 5)
+        {
+            temp_rope = Cables[0].GetComponent<Rope>();
+        }
+        else {
+            temp_rope = Cables[_PlayerNum - 1].GetComponent<Rope>();
+        }
+            temp_rope.PlugObj = Plugs[Plugs.Count - 1];
+            temp_rope.setup();
+            temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+    }
+
     void Update() {
 
         if (!stage2) {
@@ -158,77 +219,23 @@ public class MenuLogic : MonoBehaviour {
             {
                 if ((Input.GetKeyDown(KeyCode.Joystick1Button7)) && !PlayersReady[0])
                 {
-                    PlayersReady[0] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 6, 10), Quaternion.identity));
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 1;
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
-                    Plugs[Plugs.Count - 1].name = "Plug 1";
-
-                   _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
-
-                    Rope temp_rope = Cables[0].GetComponent<Rope>();
-                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.setup();
-                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+                    AddPlug(1);
                 }
                 else if (Input.GetKeyDown(KeyCode.Return) && !PlayersReady[0])
                 {
-                    PlayersReady[0] = true;
-                    PlugPrefab.transform.position = new Vector3(1, 6, 10);
-                    Plugs.Add(Instantiate(PlugPrefab));
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 5;
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
-                    Plugs[Plugs.Count - 1].name = "Plug 1";
-                    _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
-
-                    Rope temp_rope = Cables[0].GetComponent<Rope>();
-                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.setup();
-                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
-
+                    AddPlug(5);
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick2Button7)|| Input.GetKeyDown(KeyCode.Alpha2)) && !PlayersReady[1])
                 {
-                    PlayersReady[1] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 4, 10), Quaternion.identity));
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 2;
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
-                    Plugs[Plugs.Count - 1].name = "Plug 2";
-                    _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
-
-                    Rope temp_rope = Cables[1].GetComponent<Rope>();
-                   temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.setup();
-                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+                    AddPlug(2);
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick3Button7) || Input.GetKeyDown(KeyCode.Alpha3)) && !PlayersReady[2])
                 {
-                    PlayersReady[2] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 2, 10), Quaternion.identity));
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 3;
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
-                    Plugs[Plugs.Count - 1].name = "Plug 3";
-                    _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
-
-                    Rope temp_rope = Cables[2].GetComponent<Rope>();
-                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.setup();
-                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+                    AddPlug(3);
                 }
                 else if ((Input.GetKeyDown(KeyCode.Joystick4Button7) || Input.GetKeyDown(KeyCode.Alpha4)) && !PlayersReady[3])
                 {
-                    PlayersReady[3] = true;
-                    Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 0, 10), Quaternion.identity));
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = 4;
-                    Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
-                    Plugs[Plugs.Count - 1].name = "Plug 4";
-                    _AllGameLogic.addPlayer(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>());
-
-                    Rope temp_rope = Cables[3].GetComponent<Rope>();
-                    //temp_rope.ChangeColor(Plugs[Plugs.Count - 1].GetComponent<Renderer>().material.color);
-                    temp_rope.PlugObj = Plugs[Plugs.Count - 1];
-                    temp_rope.setup();
-                    temp_rope.Changecolor(Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().playerInfo.CurrentCharacter);
+                    AddPlug(4);
 
                 }
 

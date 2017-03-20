@@ -34,14 +34,14 @@ public class Plug : MonoBehaviour {
         if (isPlugged &&  playernum == Other.GetComponent<PlayerControlls>().PlayerNum)
         {
             Other.GetComponent<PlayerControlls>().playerInfo.Team = -1;
-            Room.GetComponent<Renderer>().material.color = BaseColor;
+            //Room.GetComponent<Renderer>().material.color = BaseColor;
             isPlugged = false;
             playernum = -1;
         }
     }
 
     void Changecolor(Player.Character Character) {
-
+        /*
         switch (Character) {
             case Player.Character.Astronaut:
                 Room.GetComponent<Renderer>().material.color = Color.black;
@@ -59,7 +59,7 @@ public class Plug : MonoBehaviour {
                 Room.GetComponent<Renderer>().material.color = Color.black;
                 break;
 
-        }
+        }*/
 
         
     }

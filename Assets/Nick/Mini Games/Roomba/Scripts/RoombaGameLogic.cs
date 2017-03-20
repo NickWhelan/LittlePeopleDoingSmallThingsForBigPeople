@@ -33,7 +33,7 @@ public class RoombaGameLogic : MonoBehaviour
     {
         timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 60;
+        timer.StartTime = 6;
         timer.EndTime = 0;
         timer.Start();
 
@@ -198,7 +198,7 @@ public class RoombaGameLogic : MonoBehaviour
         }
         else if (EndGame) {
             if (_AllGameLogic.Players[0].ButtonStartPressed) {
-                SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
+                SceneManager.LoadScene("Menu", LoadSceneMode.Single);
             }
             else if (_AllGameLogic.Players[0].ButtonSelectPressed)
             {
