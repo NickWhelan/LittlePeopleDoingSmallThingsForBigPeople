@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class RoombaLogic : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class RoombaLogic : MonoBehaviour
     public bool EndOfRound = false;
     GameObject[] PlayersOnTeam;
     List<Vector3> LastPos;
-   
+
+    LineRenderer line;
 
     //Movment
     bool Forward,Back,Left,Right;
@@ -23,14 +25,15 @@ public class RoombaLogic : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        line = gameObject.AddComponent<LineRenderer>();
+        line.SetWidth(0.05f, 0.05f);
+        line.material.color = Color.black;
         rigidbody = GetComponent<Rigidbody>();
-      LastPos = new List<Vector3>();
+        LastPos = new List<Vector3>();
     }
 
     public void SetupTeam() {
         PlayersOnTeam = GameObject.FindGameObjectsWithTag("Player Team " + TeamNumber);
-
-
         foreach (GameObject Player in PlayersOnTeam)
         {
            //Physics.IgnoreCollision(GetComponent<SphereCollider>(), Player.GetComponent<CapsuleCollider>())
@@ -46,6 +49,19 @@ public class RoombaLogic : MonoBehaviour
     }
 
     void FixedUpdate() {
+        line.SetPosition(0, this.transform.position);
+        float Dist = 10000;
+        Vector3 temp_Dirt = Vector3.zero;
+        foreach (GameObject dirt in GameObject.FindGameObjectsWithTag("dirt"))
+        {
+            if (Vector3.Distance(dirt.transform.position, transform.position) < Dist)
+            {
+                Dist = Vector3.Distance(dirt.transform.position, transform.position);
+                temp_Dirt = dirt.transform.position;
+            }
+        }
+        line.SetPosition(1, temp_Dirt);
+
         if (PlayersOnTeam.Length > 0)
         {
             RoombaBoundCheck();

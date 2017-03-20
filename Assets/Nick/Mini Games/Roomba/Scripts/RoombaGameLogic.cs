@@ -18,7 +18,7 @@ public class RoombaGameLogic : MonoBehaviour
 
     public GameObject Dirt;
     public int NumberOfDirt;
-    public Transform Max, Min;
+    public Transform Max, Min,RoombaMax,RoombaMin;
     public Color color;
 
     Timer timer;
@@ -36,7 +36,7 @@ public class RoombaGameLogic : MonoBehaviour
         timer.StartTime = 60;
         timer.EndTime = 0;
         timer.Start();
-
+       
 
        Team1WinnerText.enabled = false;
         Team1WinnerSText.enabled = false;
@@ -131,9 +131,23 @@ public class RoombaGameLogic : MonoBehaviour
 
     void MakeDirt() {
         for (int i = 0; i < NumberOfDirt; i++) {
-            GameObject Temp =Instantiate(Dirt, new Vector3(Random.RandomRange(Max.position.x, Min.position.x), 0.8f, Random.RandomRange(Max.position.z, Min.position.z)), Max.localRotation);
+            GameObject Temp = Instantiate(Dirt); ;
+            bool spawned = false;
+            while (!spawned)
+            {
+                float RandomX = Random.Range(Max.position.x, Min.position.x);
+                float RandomZ = Random.Range(Max.position.z, Min.position.z);
+                if ((RandomX < RoombaMin.position.x && RandomZ < RoombaMin.position.z) ||
+                    (RandomX > RoombaMax.position.x && RandomZ > RoombaMax.position.z) ||
+                    (RandomX < RoombaMin.position.x && RandomZ > RoombaMax.position.z) ||
+                    (RandomX > RoombaMax.position.x && RandomZ < RoombaMin.position.z))
+                {
+                    Temp.transform.position = new Vector3(RandomX, 0.8f, RandomZ);
+                    spawned = true;
+                }
+            }
             Temp.name = "Dirt " + i;
-            
+            Temp.tag = "dirt";
             Temp.GetComponent<Renderer>().material.color = color; 
         }
     }
