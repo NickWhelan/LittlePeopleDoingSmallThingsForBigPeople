@@ -54,35 +54,51 @@ public class MusicController : MonoBehaviour
 
     void UpdateSong(string songName)
     {
-        Debug.Log("DOING THE SONG");
+        Debug.Log("PLAYING SONG " + songName);
 
         switch (songName)
         {
             case "20th Century Boy":
                 for (int i = 0; i < musicBoxControllers.Length; i++)
                 {
-                    audSources[i].clip = musicBoxControllers[i].audioClips[0];
+                    if(!musicBoxControllers[i].gameObject.activeInHierarchy)
+                    {
+                        musicBoxControllers[i].gameObject.SetActive(true);
+                    }
+                    audSources[i].clip = musicBoxControllers[0].audioClips[i];
                 }
                 break;
 
             case "In Too Deep":
                 for (int i = 0; i < musicBoxControllers.Length; i++)
                 {
-                    audSources[i].clip = musicBoxControllers[i].audioClips[1];
+                    if (!musicBoxControllers[i].gameObject.activeInHierarchy)
+                    {
+                        musicBoxControllers[i].gameObject.SetActive(true);
+                    }
+                    audSources[i].clip = musicBoxControllers[1].audioClips[i];
                 }
                 break;
 
             case "Derezzed":
                 for (int i = 0; i < musicBoxControllers.Length - 1; i++)
                 {
-                    audSources[i].clip = musicBoxControllers[i].audioClips[2];
+                    if (i == 2)
+                    {
+                        musicBoxControllers[i + 1].gameObject.SetActive(false);
+                    }
+                    audSources[i].clip = musicBoxControllers[2].audioClips[i];
                 }
                 break;
 
             case "Sail Away":
                 for (int i = 0; i < musicBoxControllers.Length; i++)
                 {
-                    audSources[i].clip = musicBoxControllers[i].audioClips[3];
+                    if (!musicBoxControllers[i].gameObject.activeInHierarchy)
+                    {
+                        musicBoxControllers[i].gameObject.SetActive(true);
+                    }
+                    audSources[i].clip = musicBoxControllers[3].audioClips[i];
                 }
                 break;
 
@@ -162,6 +178,10 @@ public class MusicController : MonoBehaviour
                             origStarted = false;
                         }
                     }
+                }
+                else if(audSources[i].clip.name.Contains(other.name))
+                {
+                    audSources[i].enabled = false;
                 }
             }
         }

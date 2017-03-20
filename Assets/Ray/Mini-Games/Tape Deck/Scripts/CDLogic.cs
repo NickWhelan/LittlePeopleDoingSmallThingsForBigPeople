@@ -18,7 +18,14 @@ public class CDLogic : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        musicController = GameObject.FindGameObjectWithTag("Music Control").GetComponent<MusicController>();
+        if (tag == "Disc")
+        {
+            musicController = GameObject.FindGameObjectWithTag("Music Control").GetComponent<MusicController>();
+        }
+        else
+        {
+            musicController = GameObject.FindGameObjectWithTag("Music Control 2").GetComponent<MusicController>();
+        }
         musicController.UpdatePitch(0);
         Physics.IgnoreCollision(GetComponent<MeshCollider>(), GetComponent<MeshCollider>(), true);
         rigidbody = GetComponent<Rigidbody>();
