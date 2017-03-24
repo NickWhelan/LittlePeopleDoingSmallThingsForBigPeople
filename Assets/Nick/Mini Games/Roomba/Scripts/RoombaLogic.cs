@@ -13,6 +13,7 @@ public class RoombaLogic : MonoBehaviour
     public Text UIScore;
     public Rigidbody rigidbody;
     public bool EndOfRound = false;
+    public Material LineMat;
     GameObject[] PlayersOnTeam;
     List<Vector3> LastPos;
 
@@ -27,7 +28,7 @@ public class RoombaLogic : MonoBehaviour
     {
         line = gameObject.AddComponent<LineRenderer>();
         line.SetWidth(0.05f, 0.05f);
-        line.material.color = Color.black;
+        line.material = LineMat; 
         rigidbody = GetComponent<Rigidbody>();
         LastPos = new List<Vector3>();
     }

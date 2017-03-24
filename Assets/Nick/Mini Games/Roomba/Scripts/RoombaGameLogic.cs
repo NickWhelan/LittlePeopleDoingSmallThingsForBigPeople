@@ -137,10 +137,9 @@ public class RoombaGameLogic : MonoBehaviour
             {
                 float RandomX = Random.Range(Max.position.x, Min.position.x);
                 float RandomZ = Random.Range(Max.position.z, Min.position.z);
-                if ((RandomX < RoombaMin.position.x && RandomZ < RoombaMin.position.z) ||
-                    (RandomX > RoombaMax.position.x && RandomZ > RoombaMax.position.z) ||
-                    (RandomX < RoombaMin.position.x && RandomZ > RoombaMax.position.z) ||
-                    (RandomX > RoombaMax.position.x && RandomZ < RoombaMin.position.z))
+                if (
+                    (RandomX < RoombaMin.position.x || RandomX > RoombaMax.position.x)||
+                    (RandomZ < RoombaMin.position.z || RandomZ > RoombaMax.position.z))
                 {
                     Temp.transform.position = new Vector3(RandomX, 0.8f, RandomZ);
                     spawned = true;
