@@ -23,7 +23,7 @@ public class MenuLogic : MonoBehaviour {
     bool Team1Ready, Team2Ready;
     int TeamAplayers, TeamBplayers;
 
-    List<bool> PlayersReady;
+    public List<bool> PlayersReady;
 
     bool stage2,loadGame;
     float activePlayers;
@@ -45,8 +45,13 @@ public class MenuLogic : MonoBehaviour {
 
 
         Plugs = new List<GameObject>();
-        PlayersReady = new List<bool>();
 
+        PlayersReady = new List<bool>();
+        for (int i = 0; i < 4; i++)
+        {
+            PlayersReady.Add(new bool());
+            PlayersReady[i] = false;
+        }
 
         if (GameObject.Find("OverWatch"))
         {
@@ -56,9 +61,6 @@ public class MenuLogic : MonoBehaviour {
                 GameObject TempPlug = PlugPrefab;
                 TempPlug.GetComponent<PlayerControlls>().playerInfo = _AllGameLogic.Players[i].playerInfo;
                 TempPlug.GetComponent<PlayerControlls>().PlayerNum = _AllGameLogic.Players[i].playerInfo.PlayerNum;
-
-                PlayersReady.Add(new bool());
-                PlayersReady[i] = true;
                 
                 int Playernum = TempPlug.GetComponent<PlayerControlls>().PlayerNum;
                 switch (Playernum)
@@ -66,16 +68,20 @@ public class MenuLogic : MonoBehaviour {
                     case 5:
                     case 1:
                         Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 6, 10), Quaternion.identity));
+                        PlayersReady[0] = true;
                         break;
                     case 2:
                         Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 4, 10), Quaternion.identity));
+                        PlayersReady[1] = true;
                         break;
                     case 3:
                         Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 0, 10), Quaternion.identity));
+                        PlayersReady[2] = true;
                         break;
                     case 4:
+                        PlayersReady[3] = true;
                         Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, -2, 10), Quaternion.identity));
-                        break;
+                        break;   
                 }
                 Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = Playernum;
                 Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().Start();
@@ -102,12 +108,6 @@ public class MenuLogic : MonoBehaviour {
             temp.name = "OverWatch";
             _AllGameLogic = temp.GetComponent<AllGameLogic>();
             DontDestroyOnLoad(temp);
-            for (int i = 0; i < 4; i++)
-            {
-                PlayersReady.Add(new bool());
-                PlayersReady[i] = false;
-            }
-
         }
         _AllGameLogic.addGame("Roomba");
         _AllGameLogic.addGame("Tape Deck");
@@ -156,7 +156,6 @@ public class MenuLogic : MonoBehaviour {
                     loadGame = true;
                     _AllGameLogic.CurrentGame=1;
                     print(_AllGameLogic.CurrentGame);
-                    SceneManager.UnloadScene("Menu");
                     SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
 
                 }
@@ -215,7 +214,7 @@ public class MenuLogic : MonoBehaviour {
     void Update() {
 
         if (!stage2) {
-            if (Input.anyKeyDown && _AllGameLogic.Players.Count < 4)
+            if (Input.anyKeyDown)
             {
                 if ((Input.GetKeyDown(KeyCode.Joystick1Button7)) && !PlayersReady[0])
                 {

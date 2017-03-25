@@ -33,7 +33,7 @@ public class RoombaGameLogic : MonoBehaviour
     {
         timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 60;
+        timer.StartTime = 2;
         timer.EndTime = 0;
         timer.Start();
        
@@ -120,6 +120,14 @@ public class RoombaGameLogic : MonoBehaviour
                         _AllGameLogic.Players[i] = TeamB[j].GetComponent<PlayerControlls>();
                         found = true;
                     }
+                }
+            }
+            //print(_AllGameLogic.Players[2] == null);
+            for (int i = _AllGameLogic.Players.Count-1; i > 0; i--)
+            {
+                if (_AllGameLogic.Players[i] == null)
+                {
+                    _AllGameLogic.Players.RemoveAt(i);
                 }
             }
         }

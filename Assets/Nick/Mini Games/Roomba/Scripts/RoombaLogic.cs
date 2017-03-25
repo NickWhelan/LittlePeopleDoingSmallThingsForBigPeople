@@ -14,7 +14,9 @@ public class RoombaLogic : MonoBehaviour
     public Rigidbody rigidbody;
     public bool EndOfRound = false;
     public Material LineMat;
+
     GameObject[] PlayersOnTeam;
+    int[] PlayersOnMats;
     List<Vector3> LastPos;
 
     LineRenderer line;
@@ -31,6 +33,13 @@ public class RoombaLogic : MonoBehaviour
         line.material = LineMat; 
         rigidbody = GetComponent<Rigidbody>();
         LastPos = new List<Vector3>();
+       
+        PlayersOnMats = new int[4];
+        PlayersOnMats[0] = 0;
+        PlayersOnMats[1] = 0;
+        PlayersOnMats[2] = 0;
+        PlayersOnMats[3] = 0;
+
     }
 
     public void SetupTeam() {
@@ -80,11 +89,25 @@ public class RoombaLogic : MonoBehaviour
         if (!EndOfRound) {
             if (Forward && !Back)
             {
-                MoveX = 10;
+                if (PlayersOnMats[0] == 1)
+                {
+                    MoveX = 10;
+                }
+                else if (PlayersOnMats[0] > 1) {
+                    MoveX = 15;
+                }
+                
             }
             else if (Back && !Forward)
             {
-                MoveX = -10;
+                if (PlayersOnMats[1] == 1)
+                {
+                    MoveX = -10;
+                }
+                else if (PlayersOnMats[1] > 1)
+                {
+                    MoveX = 15;
+                }
             }
             else if ((Forward && Back) || (!Forward && !Back))
             {
@@ -93,11 +116,25 @@ public class RoombaLogic : MonoBehaviour
             }
             if (Left && !Right)
             {
-                SpinY = -5;
+                if (PlayersOnMats[2] == 1)
+                {
+                    SpinY = -5;
+                }
+                else if (PlayersOnMats[2] > 1)
+                {
+                    SpinY = -10;
+                }
             }
             else if (Right && !Left)
             {
-                SpinY = 5;
+                if (PlayersOnMats[3] == 1)
+                {
+                    SpinY = -5;
+                }
+                else if (PlayersOnMats[3] > 1)
+                {
+                    SpinY = -10;
+                }
             }
             else if ((Right && Left) || (!Right && !Left))
             {
@@ -115,18 +152,22 @@ public class RoombaLogic : MonoBehaviour
             if (mat.name == "Forward")
             {
                 Forward = mat.isTriggered;
+                PlayersOnMats[0] = mat.playersInside;
             }
             else if (mat.name == "Back")
             {
                 Back = mat.isTriggered;
+                PlayersOnMats[1] = mat.playersInside;
             }
             else if (mat.name == "Left")
             {
                 Left = mat.isTriggered;
+                PlayersOnMats[2] = mat.playersInside;
             }
             else if (mat.name == "Right")
             {
                 Right = mat.isTriggered;
+                PlayersOnMats[3] = mat.playersInside;
             }
             
         }
