@@ -33,7 +33,7 @@ public class RoombaGameLogic : MonoBehaviour
     {
         timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 60;
+        timer.StartTime = 2;
         timer.EndTime = 0;
         timer.Start();
        
@@ -122,6 +122,14 @@ public class RoombaGameLogic : MonoBehaviour
                     }
                 }
             }
+            //print(_AllGameLogic.Players[2] == null);
+            for (int i = _AllGameLogic.Players.Count-1; i > 0; i--)
+            {
+                if (_AllGameLogic.Players[i] == null)
+                {
+                    _AllGameLogic.Players.RemoveAt(i);
+                }
+            }
         }
 
         RoombaA.GetComponent<RoombaLogic>().SetupTeam();
@@ -137,10 +145,9 @@ public class RoombaGameLogic : MonoBehaviour
             {
                 float RandomX = Random.Range(Max.position.x, Min.position.x);
                 float RandomZ = Random.Range(Max.position.z, Min.position.z);
-                if ((RandomX < RoombaMin.position.x && RandomZ < RoombaMin.position.z) ||
-                    (RandomX > RoombaMax.position.x && RandomZ > RoombaMax.position.z) ||
-                    (RandomX < RoombaMin.position.x && RandomZ > RoombaMax.position.z) ||
-                    (RandomX > RoombaMax.position.x && RandomZ < RoombaMin.position.z))
+                if (
+                    (RandomX < RoombaMin.position.x || RandomX > RoombaMax.position.x)||
+                    (RandomZ < RoombaMin.position.z || RandomZ > RoombaMax.position.z))
                 {
                     Temp.transform.position = new Vector3(RandomX, 0.8f, RandomZ);
                     spawned = true;
