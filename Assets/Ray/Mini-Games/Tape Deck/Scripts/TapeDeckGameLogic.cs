@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TapeDeckGameLogic : MonoBehaviour {
     public GameObject playerPrefab;
@@ -9,6 +10,9 @@ public class TapeDeckGameLogic : MonoBehaviour {
     public GameObject TapeDeckA, TapeDeckB;
 
     public int playerCount;
+
+    public Text scoreTextOne, scoreTextTwo;
+    float teamAScore, teamBScore;
 
     List<GameObject> playerList, TeamAList, TeamBList;
     
@@ -66,11 +70,19 @@ public class TapeDeckGameLogic : MonoBehaviour {
         }
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-
+    public IEnumerator UpdateScore(int Team, float score)
+    {
+        if (Team == 0)
+        {
+            teamAScore += score;
+            scoreTextOne.text = teamAScore.ToString();
+        }
+        else
+        {
+            teamBScore += score;
+            scoreTextTwo.text = teamAScore.ToString();
+        }
+        yield return null;
+    }
 }
