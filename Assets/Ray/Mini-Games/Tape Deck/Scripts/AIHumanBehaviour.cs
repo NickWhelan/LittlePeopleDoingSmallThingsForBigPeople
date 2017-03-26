@@ -26,10 +26,10 @@ public class AIHumanBehaviour : MonoBehaviour {
         get { return i_chosenPitchLevel; }
     }
 
-    public Text s_chosenSongName,
-        s_chosenVolumeLevel,
-        s_chosenPitchLevel,
-        s_multiplierText;
+    public Text t_chosenSongName,
+        t_chosenVolumeLevel,
+        t_chosenPitchLevel,
+        t_multiplierText;
 
     public bool firstTimeRun = true;
 
@@ -39,35 +39,41 @@ public class AIHumanBehaviour : MonoBehaviour {
         get { return _multiplierLevel; }
         set { _multiplierLevel = value; }
     }
+
+    float multiplierTick = 0;
+
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("SetUpHuman", 1.0f, 5.0f);
+        InvokeRepeating("SetUpHuman", 1.0f, 1.0f);
     }
 
     void SetUpHuman()
     {
         if (firstTimeRun)
         {
-            s_multiplierText.text = "x0";
+            StartCoroutine(WriteText("Multiplier: x0", t_multiplierText));
             firstTimeRun = false;
         }
-        s_chosenSongName.text = "Song Name: ";
-        o_chosenSong = musicBoxes[Random.Range(0, 3)];
+       // t_chosenSongName.text = "Song Name: ";
+        o_chosenSong = musicBoxes[Random.Range(0, 4)];
         i_chosenVolumeLevel = Random.Range(0, 101);
-        s_chosenVolumeLevel.text = "Volume: " + i_chosenVolumeLevel.ToString();
-        i_chosenPitchLevel = Random.Range(49, 100);
-        s_chosenPitchLevel.text = "Pitch: " + i_chosenPitchLevel.ToString();
 
-        
-        StartCoroutine(WriteText());
+        t_chosenVolumeLevel.text = "Volume: " + i_chosenVolumeLevel.ToString();
+        StartCoroutine(WriteText("Volume: " + i_chosenVolumeLevel.ToString(), t_chosenVolumeLevel));
+
+        i_chosenPitchLevel = Random.Range(49, 100);
+        StartCoroutine(WriteText("Pitch: " + i_chosenPitchLevel.ToString(), t_chosenPitchLevel));
+
+        StartCoroutine(WriteText(o_chosenSong.songName, t_chosenSongName));
     }
 
-    IEnumerator WriteText()
+    IEnumerator WriteText(string textToWrite, Text textToWriteTo)
     {
-        for(int i = 0; i <= s_chosenSongName.text.Length;++i)
+        textToWriteTo.text = "";
+        for(int i = 0; i <= textToWrite.Length; ++i)
         {
-            s_chosenSongName.text += o_chosenSong.songName[i];
+            textToWriteTo.text += textToWrite[i];
 
             yield return new WaitForSeconds(delay);
         }
@@ -80,6 +86,9 @@ public class AIHumanBehaviour : MonoBehaviour {
         {
             Debug.Log("Booooop");
         }
+
+
+
         yield return  null;
     }
 
@@ -89,7 +98,16 @@ public class AIHumanBehaviour : MonoBehaviour {
         if (_volume == tempNum)
         {
             Debug.Log("Beeeeep");
+            multiplierTick += Time.deltaTime;
         }
+        if (multiplierTick >= 5)
+        {
+            _multiplierLevel += 2;
+            t_multiplierText.text = "Multiplier: x" + _multiplierLevel.ToString();
+            StartCoroutine(WriteText("Multiplier: x" + _multiplierLevel.ToString(), t_multiplierText));
+            multiplierTick = 0;
+        }
+
         yield return null;
     }
 }
