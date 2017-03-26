@@ -9,6 +9,8 @@ public class MusicController : MonoBehaviour
     [SerializeField]
     MusicBoxController[] musicBoxControllers;
 
+    public AIHumanBehaviour humanBehaviour;
+
     [SerializeField]
     AudioSource origSource;
 
@@ -41,8 +43,9 @@ public class MusicController : MonoBehaviour
     {
         for (int i = 0; i < audSources.Length; i++)
         {
-            audSources[i].volume = _volume;
+            audSources[i].volume = (float)System.Math.Round(_volume, 2);
         }
+        humanBehaviour.StartCoroutine(humanBehaviour.UpdateVolumeLevel((float)System.Math.Round(_volume, 2)));
     }
 
     public void UpdatePitch(float _pitch)
@@ -51,6 +54,7 @@ public class MusicController : MonoBehaviour
         {
             audSources[i].pitch = _pitch;
         }
+        humanBehaviour.StartCoroutine(humanBehaviour.UpdatePitchLevel(_pitch));
     }
 
     void UpdateSong(string songName)

@@ -13,14 +13,14 @@ public class AIHumanBehaviour : MonoBehaviour {
     public float delay;
 
     [SerializeField]
-    private int i_chosenVolumeLevel;
+    private int i_chosenVolumeLevel = 50;
     public int ChosenVolumeLevel
     {
         get { return i_chosenVolumeLevel; }
     }
 
     [SerializeField]
-    private int i_chosenPitchLevel;
+    private int i_chosenPitchLevel = 50;
     public int ChosenPitchLevel
     {
         get { return i_chosenPitchLevel; }
@@ -47,6 +47,11 @@ public class AIHumanBehaviour : MonoBehaviour {
 
     void SetUpHuman()
     {
+        if (firstTimeRun)
+        {
+            s_multiplierText.text = "x0";
+            firstTimeRun = false;
+        }
         s_chosenSongName.text = "Song Name: ";
         o_chosenSong = musicBoxes[Random.Range(0, 3)];
         i_chosenVolumeLevel = Random.Range(0, 101);
@@ -54,41 +59,37 @@ public class AIHumanBehaviour : MonoBehaviour {
         i_chosenPitchLevel = Random.Range(49, 100);
         s_chosenPitchLevel.text = "Pitch: " + i_chosenPitchLevel.ToString();
 
-        if (firstTimeRun)
-        {
-            s_multiplierText.text = "x0";
-            firstTimeRun = false;
-        }
-        else
-        {
-            s_multiplierText.text = "x2";
-        }
+        
         StartCoroutine(WriteText());
     }
+
     IEnumerator WriteText()
     {
-
         for(int i = 0; i <= s_chosenSongName.text.Length;++i)
         {
             s_chosenSongName.text += o_chosenSong.songName[i];
 
             yield return new WaitForSeconds(delay);
         }
-        
     }
 
-    void UpdatePitchLevel()
+   public IEnumerator UpdatePitchLevel(float _pitch)
     {
-
+        float tempNum = i_chosenPitchLevel * 0.01f;
+        if (_pitch == tempNum)
+        {
+            Debug.Log("Booooop");
+        }
+        yield return  null;
     }
 
-    void UpdateVolumeLevel()
+    public IEnumerator UpdateVolumeLevel(float _volume)
     {
-
+        float tempNum = i_chosenVolumeLevel * 0.01f;
+        if (_volume == tempNum)
+        {
+            Debug.Log("Beeeeep");
+        }
+        yield return null;
     }
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

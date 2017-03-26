@@ -70,19 +70,4 @@ public class TapeDeckGameLogic : MonoBehaviour {
         }
 
     }
-
-    public IEnumerator UpdateScore(int Team, float score)
-    {
-        if (Team == 0)
-        {
-            teamAScore += score;
-            scoreTextOne.text = teamAScore.ToString();
-        }
-        else
-        {
-            teamBScore += score;
-            scoreTextTwo.text = teamAScore.ToString();
-        }
-        yield return null;
-    }
 }
