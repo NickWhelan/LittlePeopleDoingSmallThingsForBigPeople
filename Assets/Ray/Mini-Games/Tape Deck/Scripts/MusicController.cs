@@ -88,10 +88,6 @@ public class MusicController : MonoBehaviour
             case "Derezzed":
                 for (int i = 0; i < musicBoxControllers.Length - 1; i++)
                 {
-                    if (i == 2)
-                    {
-                        musicBoxControllers[i + 1].gameObject.SetActive(false);
-                    }
                     audSources[i].clip = musicBoxControllers[2].audioClips[i];
                 }
                 break;

@@ -7,8 +7,10 @@ public class AIHumanBehaviour : MonoBehaviour {
     public MusicBoxController[] musicBoxes;
 
     MusicBoxController o_chosenSong;
-    
 
+
+    public Shader lastShader;
+    
     //Delay for writing text to the screen
     [Range(0, 0.5f)]
     public float delay;
@@ -21,10 +23,10 @@ public class AIHumanBehaviour : MonoBehaviour {
     }
 
     [SerializeField]
-    private int i_chosenPitchLevel = 50;
-    public int ChosenPitchLevel
+    private float f_chosenPitchLevel = 50;
+    public float ChosenPitchLevel
     {
-        get { return i_chosenPitchLevel; }
+        get { return f_chosenPitchLevel; }
     }
 
     public Text t_chosenSongName,
@@ -56,7 +58,7 @@ public class AIHumanBehaviour : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("SetUpHuman", 1.0f, 1000.0f);
+        InvokeRepeating("SetUpHuman", 1.0f, 1.0f);
     }
 
     void SetUpHuman()
@@ -66,15 +68,41 @@ public class AIHumanBehaviour : MonoBehaviour {
             StartCoroutine(WriteText("Multiplier: x0", t_multiplierText));
             firstTimeRun = false;
         }
-        o_chosenSong = musicBoxes[Random.Range(0, 4)];
-        f_chosenVolumeLevel = (float)System.Math.Round((Random.Range(0.0f, 101.0f) * 0.01f), 2);
 
+        //If there is a chosen song, return its shader to normal
+        if (o_chosenSong != null)
+        {
+            o_chosenSong.GetComponent<Renderer>().material.shader = lastShader;
+        }
+        if (o_chosenSong != null && o_chosenSong.transform.childCount > 0 )
+        {
+            o_chosenSong.transform.GetChild(0).GetComponent<Renderer>().material.shader = lastShader;
+        }
+
+        //Pick a song
+        o_chosenSong = musicBoxes[Random.Range(0, 4)];
+
+        //If that song has a child, change that child shader
+        if(o_chosenSong.transform.childCount > 0)
+        {
+            lastShader = o_chosenSong.transform.GetChild(0).GetComponent<Renderer>().material.shader;
+            o_chosenSong.transform.GetChild(0).GetComponent<Renderer>().material.shader = Shader.Find("Custom/Surface Wobble");
+        }
+        else //Just change the shader
+        {
+            lastShader = o_chosenSong.GetComponent<Renderer>().material.shader;
+            o_chosenSong.GetComponent<Renderer>().material.shader = Shader.Find("Custom/Surface Wobble");
+        }
+
+        //Round the volume level to two decimal places to be the same as the volume 0.0f - 1.0f
+        f_chosenVolumeLevel = (float)System.Math.Round((Random.Range(0.0f, 101.0f) * 0.01f), 2);
         
-        //t_chosenVolumeLevel.text = "Volume: " + (f_chosenVolumeLevel * 100).ToString();
+        //Print the number to the screen using coroutines and multiply it back up to be between 0 - 100
         StartCoroutine(WriteText("Volume: " + (f_chosenVolumeLevel * 100).ToString(), t_chosenVolumeLevel));
 
-        i_chosenPitchLevel = Random.Range(49, 100);
-        StartCoroutine(WriteText("Pitch: " + i_chosenPitchLevel.ToString(), t_chosenPitchLevel));
+        //Pick a random pitch level, do the same as volume
+        f_chosenPitchLevel = (float)System.Math.Round((Random.Range(50.0f, 101.0f) * 0.01f), 2);
+        StartCoroutine(WriteText("Pitch: " + (f_chosenPitchLevel * 100).ToString(), t_chosenPitchLevel));
 
         StartCoroutine(WriteText(o_chosenSong.songName, t_chosenSongName));
     }
@@ -103,7 +131,7 @@ public class AIHumanBehaviour : MonoBehaviour {
 
     public IEnumerator UpdatePitchLevel(float _pitch)
     {
-        float tempNum = i_chosenPitchLevel * 0.01f;
+        float tempNum = f_chosenPitchLevel * 0.01f;
         if (_pitch == tempNum)
         {
             Debug.Log("Booooop");
