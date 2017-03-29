@@ -58,7 +58,7 @@ public class AIHumanBehaviour : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("SetUpHuman", 1.0f, 1.0f);
+        InvokeRepeating("SetUpHuman", 1.0f, 10.0f);
     }
 
     void SetUpHuman()
@@ -131,11 +131,17 @@ public class AIHumanBehaviour : MonoBehaviour {
 
     public IEnumerator UpdatePitchLevel(float _pitch)
     {
-        float tempNum = f_chosenPitchLevel * 0.01f;
+        float tempNum = f_chosenPitchLevel;
         if (_pitch == tempNum)
         {
             Debug.Log("Booooop");
             UpdateScore(_multiplierLevel);
+        }
+        if (multiplierTick >= _multiplierUpgradeRate && _multiplierLevel < 10)
+        {
+            _multiplierLevel += 2;
+            t_multiplierText.text = "Multiplier: x" + _multiplierLevel.ToString();
+            multiplierTick = 0;
         }
 
         yield return  null;
@@ -149,13 +155,12 @@ public class AIHumanBehaviour : MonoBehaviour {
             multiplierTick += Time.deltaTime;
             UpdateScore(_multiplierLevel);
         }
-        if (multiplierTick >= _multiplierUpgradeRate)
+        if (multiplierTick >= _multiplierUpgradeRate && _multiplierLevel < 10)
         {
             _multiplierLevel += 2;
             t_multiplierText.text = "Multiplier: x" + _multiplierLevel.ToString();
             multiplierTick = 0;
         }
-
         yield return null;
     }
 
@@ -164,12 +169,12 @@ public class AIHumanBehaviour : MonoBehaviour {
         if(multiplierToPass > 0)
         {
             score += (pointValue * multiplierToPass);
-            t_scoreText.text = "Score: " + score.ToString();
+            t_scoreText.text = score.ToString();
         }
         else
         {
             score += pointValue;
-            t_scoreText.text = "Score: " + score.ToString();
+            t_scoreText.text = score.ToString();
         }
     }
 }

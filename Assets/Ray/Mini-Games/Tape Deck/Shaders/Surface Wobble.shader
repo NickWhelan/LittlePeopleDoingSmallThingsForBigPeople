@@ -7,6 +7,8 @@
 
 			_OutlineWidth("Outline Width", float) = 1
 			_OutlineColor("Outline Color", Color) = (1,1,1,1)
+			_SinWobbleRange("Sin Wobble Range", Range(0, 10)) = 1
+			_CosWobbleRange("Cos Wobble Range", Range(0, 10)) = 1
 
 			//Disolve stuff
 			//_DissolveTexture("Cheese", 2D) = "white" {}
@@ -34,8 +36,10 @@
 		float4 _OutlineColor;
 		float _OutlineWidth;
 		sampler2D _MainTexture;
-
 		float4 _Color;
+
+		float _SinWobbleRange;
+		float _CosWobbleRange;
 
 		//sampler2D _DissolveTexture;
 		//float _DissolveAmount;
@@ -44,6 +48,7 @@
 		ENDCG
 
 	SubShader{
+
 		//Outline Pas
 		Pass {
 		Cull Front
@@ -55,7 +60,7 @@
 			v2f vert(appdata IN) {
 				v2f OUT;
 
-				IN.vertex.xyz += IN.normal.xyz * _OutlineWidth;
+				IN.vertex.xyz += IN.normal.xyz * _OutlineWidth * float4(sin(_Time.y * _SinWobbleRange), cos(_Time.y * _CosWobbleRange), 0, 0);
 
 				OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);
 				OUT.uv = IN.uv;
@@ -82,10 +87,9 @@
 			//Build the objects
 			v2f vert(appdata IN) {
 				v2f OUT;
-				IN.vertex.xyz += IN.normal.xyz * _ExtrudeAmount * float4(sin(_Time.y * 4), cos(_Time.y * 5), 0, 0);
+				IN.vertex.xyz += IN.normal.xyz * _ExtrudeAmount * float4(sin(_Time.y * _SinWobbleRange), cos(_Time.y * _CosWobbleRange), 0, 0);
 				OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);
 				OUT.uv = IN.uv;
-
 				return OUT;
 			}
 
@@ -94,9 +98,7 @@
 			fixed4 frag(v2f IN) : SV_Target{
 				float4 textureColor = tex2D(_MainTexture, IN.uv) * _Color;
 				//float4 dissolveColor = tex2D(_DissolveTexture, IN.uv);
-
 				//clip(dissolveColor.rgb - _DissolveAmount);
-
 				return textureColor;
 			}
 

@@ -70,7 +70,6 @@ public class CDLogic : MonoBehaviour
             if (other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed && !other.gameObject.GetComponent<PlayerControlls>().ButtonRBPressed)
             {
                 other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
-                Debug.Log("Hello Player " + other.GetComponent<PlayerControlls>().PlayerNum);
                 spinUpDisc(other.GetComponent<PlayerControlls>().movement);
             }
 
