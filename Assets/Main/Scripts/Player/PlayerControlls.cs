@@ -8,6 +8,7 @@ public class PlayerControlls : MonoBehaviour {
     public float MaxVel;
     public int PlayerNum;
     public bool isOnMenu,Frozen;
+    public bool AllowJump = false;
     public Vector3 movement;
 
     Rigidbody rigidbody;
@@ -146,6 +147,10 @@ public class PlayerControlls : MonoBehaviour {
         {
             rigidbody.AddForce(movement * Speed);
             rigidbody.velocity = new Vector3(Mathf.Clamp(GetComponent<Rigidbody>().velocity.x, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.y, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.z, -MaxVel, MaxVel));
+            if (ButtonAPressed && AllowJump)
+            {
+                rigidbody.AddForce(new Vector3(0, 20, 0));
+            }
         }
     }
 
