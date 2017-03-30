@@ -9,6 +9,8 @@ public class PlayerControlls : MonoBehaviour {
     public int PlayerNum;
     public bool isOnMenu,Frozen;
     public bool AllowJump = false;
+    public bool isJumping = false;
+    public bool invertXZ = false;
     public Vector3 movement;
 
     Rigidbody rigidbody;
@@ -147,9 +149,14 @@ public class PlayerControlls : MonoBehaviour {
         {
             rigidbody.AddForce(movement * Speed);
             rigidbody.velocity = new Vector3(Mathf.Clamp(GetComponent<Rigidbody>().velocity.x, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.y, -MaxVel, MaxVel), Mathf.Clamp(GetComponent<Rigidbody>().velocity.z, -MaxVel, MaxVel));
-            if (ButtonAPressed && AllowJump)
-            {
-                rigidbody.AddForce(new Vector3(0, 20, 0));
+            if (AllowJump) {
+                if (ButtonAPressed)
+                {
+                    rigidbody.AddForce(new Vector3(0, 20, 0));
+                    isJumping = true;
+                } else if (!ButtonAPressed) {
+                    isJumping = false;
+                }
             }
         }
     }
@@ -166,7 +173,14 @@ public class PlayerControlls : MonoBehaviour {
         {
             if (!isOnMenu)
             {
-                movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), 0.01f, Input.GetAxis("Vertical KeyBaord"));
+                if (invertXZ)
+                {
+                    movement = new Vector3(Input.GetAxis("Horizontal KeyBaord")*-1, 0.01f, Input.GetAxis("Vertical KeyBaord") * -1);
+                }
+                else
+                {
+                    movement = new Vector3(Input.GetAxis("Horizontal KeyBaord"), 0.01f, Input.GetAxis("Vertical KeyBaord"));
+                }
             }
             else
             {

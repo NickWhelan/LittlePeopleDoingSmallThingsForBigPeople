@@ -26,7 +26,23 @@ public class TapeDeckGameLogic : MonoBehaviour
 
     AllGameLogic _AllGameLogic;
 
+<<<<<<< HEAD
     bool gameOver = false;
+=======
+    public Image[] UIImages;
+
+    private void Awake()
+    {
+        Color leftCol = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1);
+        Color rightCol = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1);
+
+        for(int i = 0; i < UIImages.Length; i++)
+        {
+            UIImages[i].material.SetColor("_LeftColour", leftCol);
+            UIImages[i].material.SetColor("_RightColour", rightCol);
+        }
+    }
+>>>>>>> origin/master
 
     // Use this for initialization
     void Start()
