@@ -129,11 +129,11 @@ public class RoombaLogic : MonoBehaviour
             {
                 if (PlayersOnMats[3] == 1)
                 {
-                    SpinY = -5;
+                    SpinY = 5;
                 }
                 else if (PlayersOnMats[3] > 1)
                 {
-                    SpinY = -10;
+                    SpinY = 10;
                 }
             }
             else if ((Right && Left) || (!Right && !Left))
