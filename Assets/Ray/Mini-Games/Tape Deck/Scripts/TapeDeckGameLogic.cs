@@ -26,9 +26,8 @@ public class TapeDeckGameLogic : MonoBehaviour
 
     AllGameLogic _AllGameLogic;
 
-<<<<<<< HEAD
     bool gameOver = false;
-=======
+
     public Image[] UIImages;
 
     private void Awake()
@@ -42,7 +41,6 @@ public class TapeDeckGameLogic : MonoBehaviour
             UIImages[i].material.SetColor("_RightColour", rightCol);
         }
     }
->>>>>>> origin/master
 
     // Use this for initialization
     void Start()
