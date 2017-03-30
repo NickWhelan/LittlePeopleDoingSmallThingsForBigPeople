@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class TapeDeckGameLogic : MonoBehaviour {
+using UnityEngine.SceneManagement;
+public class TapeDeckGameLogic : MonoBehaviour
+{
     public GameObject playerPrefab;
     public bool DebugTest = false;
 
@@ -11,16 +12,38 @@ public class TapeDeckGameLogic : MonoBehaviour {
 
     public int playerCount;
 
-    public Text scoreTextOne, scoreTextTwo;
+    public Text timerText,
+        Team1WinnerText,
+        Team1WinnerSText,
+        Team2WinnerText,
+        Team2WinnerSText;
+
     float teamAScore, teamBScore;
 
+    Timer timer;
+
     List<GameObject> playerList, TeamAList, TeamBList;
-    
+
     AllGameLogic _AllGameLogic;
+
+    bool gameOver = false;
 
     // Use this for initialization
     void Start()
     {
+        timer = new Timer();
+        timer.isCountingDown = true;
+        timer.StartTime = 20;
+        timer.EndTime = 0;
+        timer.Start();
+
+        Team1WinnerText.enabled = false;
+        Team1WinnerSText.enabled = false;
+        Team2WinnerText.enabled = false;
+        Team2WinnerSText.enabled = false;
+
+        gameOver = false;
+
         if (!DebugTest)
         {
             int TeamAPlayerNum, TeamBPlayerNum;
@@ -51,7 +74,7 @@ public class TapeDeckGameLogic : MonoBehaviour {
                     TeamAPlayerNum++;
                     playerCount++;
                 }
-                else if(_AllGameLogic.Players[i].playerInfo.Team == 2)
+                else if (_AllGameLogic.Players[i].playerInfo.Team == 2)
                 {
                     TeamBList.Add(Instantiate(tempPlayer, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.position, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
                     playerList.Add(tempPlayer);
@@ -69,5 +92,64 @@ public class TapeDeckGameLogic : MonoBehaviour {
             }
         }
 
+    }
+
+    void Update()
+    {
+
+        if (!timer.isTimeUp)
+        {
+            timer.Update();
+            if (timer.CurrentTime < 10)
+            {
+                timerText.text = string.Format("{0:0.00}", timer.CurrentTime);
+            }
+            else
+            {
+                timerText.text = ((int)timer.CurrentTime).ToString();
+            }
+            if (TapeDeckA.GetComponent<AIHumanBehaviour>().score > TapeDeckB.GetComponent<AIHumanBehaviour>().score)
+            {
+                Team1WinnerSText.text = Team1WinnerText.text = "Winner";
+                Team2WinnerSText.text = Team2WinnerText.text = "Loser";
+            }
+            else if (TapeDeckA.GetComponent<AIHumanBehaviour>().score < TapeDeckB.GetComponent<AIHumanBehaviour>().score)
+            {
+                Team1WinnerSText.text = Team1WinnerText.text = "Loser";
+                Team2WinnerSText.text = Team2WinnerText.text = "Winner";
+            }
+            else
+            {
+                Team1WinnerSText.text = Team1WinnerText.text = "Tie";
+                Team2WinnerSText.text = Team2WinnerText.text = "Tie";
+            }
+        }
+        else if (!gameOver)
+        {
+            Team1WinnerSText.enabled = Team1WinnerText.enabled = true;
+            Team2WinnerSText.enabled = Team2WinnerText.enabled = true;
+            TapeDeckA.GetComponent<AIHumanBehaviour>().GameOver = true;
+            TapeDeckB.GetComponent<AIHumanBehaviour>().GameOver = true;
+        }
+        else if(gameOver)
+        {
+            if (_AllGameLogic.Players[0].ButtonStartPressed)
+            {
+                SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+            }
+            else if (_AllGameLogic.Players[0].ButtonSelectPressed)
+            {
+                _AllGameLogic.CurrentGame++;
+                if (_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame] != null)
+                {
+                    SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
+                }
+                else
+                {
+                    _AllGameLogic.CurrentGame = 0;
+                    SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
+                }
+            }
+        }
     }
 }

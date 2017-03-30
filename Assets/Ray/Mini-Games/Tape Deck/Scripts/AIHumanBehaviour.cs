@@ -7,7 +7,7 @@ public class AIHumanBehaviour : MonoBehaviour {
     public MusicBoxController[] musicBoxes;
 
     MusicBoxController o_chosenSong;
-
+    public MusicController musControl;
 
     public Shader lastShader;
     
@@ -47,6 +47,11 @@ public class AIHumanBehaviour : MonoBehaviour {
     //Used for score
     float multiplierTick = 0;
 
+    private bool _gameOver = false;
+    public bool GameOver
+    {
+        set { _gameOver = value; }
+    }
 
     [Range(1, 3)]
     public float _multiplierUpgradeRate;
@@ -58,9 +63,16 @@ public class AIHumanBehaviour : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("SetUpHuman", 1.0f, 10.0f);
+        InvokeRepeating("SetUpHuman", 1.0f, 30.0f);
     }
 
+    private void Update()
+    {
+        if(_gameOver)
+        {
+            CancelInvoke("SetUpHuman");
+        }
+    }
     void SetUpHuman()
     {
         if (firstTimeRun)
@@ -132,34 +144,39 @@ public class AIHumanBehaviour : MonoBehaviour {
     public IEnumerator UpdatePitchLevel(float _pitch)
     {
         float tempNum = f_chosenPitchLevel;
-        if (_pitch == tempNum)
+        if (!_gameOver)
         {
-            Debug.Log("Booooop");
-            UpdateScore(_multiplierLevel);
+            if (_pitch == tempNum)
+            {
+                Debug.Log("Booooop");
+                UpdateScore(_multiplierLevel);
+            }
+            if (multiplierTick >= _multiplierUpgradeRate && _multiplierLevel < 10)
+            {
+                _multiplierLevel += 2;
+                t_multiplierText.text = "Multiplier: x" + _multiplierLevel.ToString();
+                multiplierTick = 0;
+            }
         }
-        if (multiplierTick >= _multiplierUpgradeRate && _multiplierLevel < 10)
-        {
-            _multiplierLevel += 2;
-            t_multiplierText.text = "Multiplier: x" + _multiplierLevel.ToString();
-            multiplierTick = 0;
-        }
-
-        yield return  null;
+        yield return null;
     }
 
     public IEnumerator UpdateVolumeLevel(float _volume)
     {
-        float tempNum = f_chosenVolumeLevel;
-        if (_volume == tempNum)
+        float tempNum = f_chosenVolumeLevel; 
+        if (!_gameOver)
         {
-            multiplierTick += Time.deltaTime;
-            UpdateScore(_multiplierLevel);
-        }
-        if (multiplierTick >= _multiplierUpgradeRate && _multiplierLevel < 10)
-        {
-            _multiplierLevel += 2;
-            t_multiplierText.text = "Multiplier: x" + _multiplierLevel.ToString();
-            multiplierTick = 0;
+            if (_volume == tempNum)
+            {
+                multiplierTick += Time.deltaTime;
+                UpdateScore(_multiplierLevel);
+            }
+            if (multiplierTick >= _multiplierUpgradeRate && _multiplierLevel < 10)
+            {
+                _multiplierLevel += 2;
+                t_multiplierText.text = "Multiplier: x" + _multiplierLevel.ToString();
+                multiplierTick = 0;
+            }
         }
         yield return null;
     }
@@ -175,6 +192,18 @@ public class AIHumanBehaviour : MonoBehaviour {
         {
             score += pointValue;
             t_scoreText.text = score.ToString();
+        }
+    }
+
+    void CheckPlayingSong()
+    {
+        if (musControl.SongName == o_chosenSong.songName)
+        {
+            score += 10000;
+        }
+        else if (musControl.SongName != o_chosenSong.songName)
+        {
+            score -= 10000;
         }
     }
 }

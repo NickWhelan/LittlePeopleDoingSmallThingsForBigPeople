@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class CDLogic : MonoBehaviour
 {
@@ -14,7 +13,8 @@ public class CDLogic : MonoBehaviour
     public float torqueVal;
 
     MusicController musicController;
-    
+    float pitchVol;
+    public Text pitchText;
     // Use this for initialization
     void Start()
     {
@@ -29,6 +29,7 @@ public class CDLogic : MonoBehaviour
         musicController.UpdatePitch(0);
         Physics.IgnoreCollision(GetComponent<MeshCollider>(), GetComponent<MeshCollider>(), true);
         rigidbody = GetComponent<Rigidbody>();
+        
     }
 
     /// <summary>
@@ -39,9 +40,9 @@ public class CDLogic : MonoBehaviour
     /// <param name="linearVelocity"></param>
     public void spinUpDisc(Vector3 linearVelocity)
     {
-        float pitchVol = linearVelocity.x;
-       musicController.UpdatePitch(Mathf.Clamp((float)System.Math.Round(pitchVol, 2), 0, 1));
-
+        pitchVol = linearVelocity.x;
+        pitchText.text = System.Math.Round(pitchVol * 100, 0).ToString();
+        musicController.UpdatePitch(Mathf.Clamp((float)System.Math.Round(pitchVol, 2), 0, 1));
         rigidbody.transform.Rotate(new Vector3(0, -linearVelocity.x * 5, 0));
     }
 
@@ -66,6 +67,8 @@ public class CDLogic : MonoBehaviour
     {
         if (other.name.Contains("Player"))
         {
+            
+
             other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, 14.25f, other.gameObject.transform.position.z);
             if (other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed && !other.gameObject.GetComponent<PlayerControlls>().ButtonRBPressed)
             {

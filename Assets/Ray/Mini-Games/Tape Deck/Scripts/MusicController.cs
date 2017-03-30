@@ -11,6 +11,12 @@ public class MusicController : MonoBehaviour
 
     public AIHumanBehaviour humanBehaviour;
 
+    private string _songName;
+    public string SongName
+    {
+        get { return _songName; }
+    }
+
     [SerializeField]
     AudioSource origSource;
 
@@ -60,7 +66,7 @@ public class MusicController : MonoBehaviour
     void UpdateSong(string songName)
     {
         Debug.Log("PLAYING SONG " + songName);
-
+        _songName = songName;
         switch (songName)
         {
             case "20th Century Boy":
