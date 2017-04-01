@@ -12,6 +12,8 @@ public class TapeDeckGameLogic : MonoBehaviour
 
     public int playerCount;
 
+    public int timerLength;
+
     public Text timerText,
         Team1WinnerText,
         Team1WinnerSText,
@@ -47,7 +49,7 @@ public class TapeDeckGameLogic : MonoBehaviour
     {
         timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 20;
+        timer.StartTime = timerLength;
         timer.EndTime = 0;
         timer.Start();
 

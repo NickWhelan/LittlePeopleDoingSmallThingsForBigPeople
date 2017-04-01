@@ -41,7 +41,7 @@ public class CDLogic : MonoBehaviour
     public void spinUpDisc(Vector3 linearVelocity)
     {
         pitchVol = linearVelocity.x;
-        pitchText.text = System.Math.Round(pitchVol * 100, 0).ToString();
+        pitchText.text = "Pitch: " + System.Math.Round(pitchVol * 100, 0).ToString();
         musicController.UpdatePitch(Mathf.Clamp((float)System.Math.Round(pitchVol, 2), 0, 1));
         rigidbody.transform.Rotate(new Vector3(0, -linearVelocity.x * 5, 0));
     }
