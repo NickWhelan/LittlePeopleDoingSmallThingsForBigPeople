@@ -94,7 +94,16 @@ public class MusicController : MonoBehaviour
             case "Derezzed":
                 for (int i = 0; i < musicBoxControllers.Length - 1; i++)
                 {
-                    audSources[i].clip = musicBoxControllers[2].audioClips[i];
+                    Debug.Log(musicBoxControllers[i].name);
+                    if (i == 2)
+                    {
+                        musicBoxControllers[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        audSources[i].clip = musicBoxControllers[2].audioClips[i];
+                    }
+
                 }
                 break;
 
@@ -124,7 +133,6 @@ public class MusicController : MonoBehaviour
         {
             if (musicBoxControllers[i] != _activeBox)
             {
-                Debug.Log("turning off: " + musicBoxControllers[i].name);
                 musicBoxControllers[i].IsActiveSong = false;
                 musicBoxControllers[i].GetComponent<Renderer>().material.color = Color.red;
             }
@@ -147,6 +155,7 @@ public class MusicController : MonoBehaviour
                 else if(audSources[i].clip.name.Contains(other.name) && audSources[i].clip != null)
                 {
                     audSources[i].enabled = true;
+                    audSources[i].timeSamples = origSource.timeSamples;
                 }
                 other.GetComponent<Renderer>().material.color = Color.green;
             }

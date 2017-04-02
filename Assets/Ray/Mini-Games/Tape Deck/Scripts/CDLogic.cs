@@ -29,7 +29,8 @@ public class CDLogic : MonoBehaviour
         musicController.UpdatePitch(0);
         Physics.IgnoreCollision(GetComponent<MeshCollider>(), GetComponent<MeshCollider>(), true);
         rigidbody = GetComponent<Rigidbody>();
-        
+        pitchText.text = "/ " + System.Math.Round(pitchVol * 100, 0).ToString();
+
     }
 
     /// <summary>
@@ -41,7 +42,7 @@ public class CDLogic : MonoBehaviour
     public void spinUpDisc(Vector3 linearVelocity)
     {
         pitchVol = linearVelocity.x;
-        pitchText.text = "Pitch: " + System.Math.Round(pitchVol * 100, 0).ToString();
+        pitchText.text = " / " + System.Math.Round(pitchVol * 100, 0).ToString();
         musicController.UpdatePitch(Mathf.Clamp((float)System.Math.Round(pitchVol, 2), 0, 1));
         rigidbody.transform.Rotate(new Vector3(0, -linearVelocity.x * 5, 0));
     }

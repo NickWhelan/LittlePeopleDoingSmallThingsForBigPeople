@@ -98,8 +98,9 @@
 	{
 		half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
 
-		
-		color.g = sin(_Time.w);
+		color.r = sin(_Time.y);
+		color.g = sin(_Time.z);
+		color.b = sin(_Time.w);
 		color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
 
 #ifdef UNITY_UI_ALPHACLIP

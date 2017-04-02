@@ -15,7 +15,7 @@ public class VolumeSlider : MonoBehaviour {
         if(volumeLevel > 0)
             UpdateVolume();
 
-        volumeText.text = "Volume: " + (System.Math.Round(volumeLevel, 2) * 100).ToString();
+        volumeText.text = "/ " + (System.Math.Round(volumeLevel, 2) * 100).ToString();
     }
 
     public void UpdateVolume()

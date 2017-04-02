@@ -63,7 +63,8 @@ public class AIHumanBehaviour : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("SetUpHuman", 1.0f, 30.0f);
+        InvokeRepeating("SetUpHuman", 1.0f, 40.0f);
+        InvokeRepeating("CheckPlayingSong", 10.0f, 20.0f);
     }
 
     private void Update()
@@ -199,11 +200,11 @@ public class AIHumanBehaviour : MonoBehaviour {
     {
         if (musControl.SongName == o_chosenSong.songName)
         {
-            score += 10000;
+            score += 5000;
         }
         else if (musControl.SongName != o_chosenSong.songName)
         {
-            score -= 10000;
+            score -= 5000;
         }
     }
 }
