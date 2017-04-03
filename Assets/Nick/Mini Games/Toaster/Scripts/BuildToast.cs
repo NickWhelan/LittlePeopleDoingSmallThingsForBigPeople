@@ -22,11 +22,12 @@ public class BuildToast : MonoBehaviour {
             BreadCubes.Add(Instantiate(BreadCube));
             BreadCubes[i].transform.parent = BreadCubesParent;
             BreadCubes[i].name = "BreadCube ("+i +") "+ (int) startX + " " + (int) startY;
+            BreadCubes[i].tag = "Bread";
             BreadCubes[i].transform.position = new Vector3(startX, startY, transform.position.z);
             BreadCubes[i].transform.localScale = new Vector3(1, 1, 1);
 
             if (this.gameObject.layer == LayerMask.NameToLayer("Team 1")) {
-                BreadCubes[i].GetComponent<BoxCollider>().center = new Vector3(0, 0, -2);
+                BreadCubes[i].GetComponent<BoxCollider>().center = new Vector3(0, 0,0);
             }
 
             startX += BreadCubes[i].transform.localScale.x;

@@ -50,7 +50,10 @@ public class RayCastTest : MonoBehaviour {
             Debug.LogError("Collided Object doesn't have a MeshFilter");
             return;
         }
-        LocalHitPoint = new Vector3(hit.transform.position.x-hit.point.x, hit.transform.position.y - hit.point.y, hit.transform.position.z - hit.point.z);
+        LocalHitPoint = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+        Debug.DrawLine(LocalHitPoint, transform.position);
+        hit.transform.GetComponent<BreadTest>().FindVert(hit.point);
+
     }
 
 
