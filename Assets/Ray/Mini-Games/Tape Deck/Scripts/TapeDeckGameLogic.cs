@@ -25,7 +25,7 @@ public class TapeDeckGameLogic : MonoBehaviour
     Timer timer;
 
     List<GameObject> playerList, TeamAList, TeamBList;
-
+    
     AllGameLogic _AllGameLogic;
 
     bool gameOver = false;
@@ -83,8 +83,8 @@ public class TapeDeckGameLogic : MonoBehaviour
                 if (_AllGameLogic.Players[i].playerInfo.Team == 1)
                 {
                     TeamAList.Add(Instantiate(tempPlayer, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.position, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
-                    playerList.Add(tempPlayer);
-                    TeamAList[TeamAList.Count - 1].name = "Player";
+                    //playerList.Add(tempPlayer);
+                    TeamAList[TeamAList.Count - 1].name = "Player " + playerCount;
                     TeamAList[TeamAList.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
                     TeamAList[TeamAList.Count - 1].layer = LayerMask.NameToLayer("Team 1");
                     TeamAPlayerNum++;
@@ -92,9 +92,9 @@ public class TapeDeckGameLogic : MonoBehaviour
                 }
                 else if (_AllGameLogic.Players[i].playerInfo.Team == 2)
                 {
-                    TeamBList.Add(Instantiate(tempPlayer, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.position, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
-                    playerList.Add(tempPlayer);
-                    TeamBList[TeamBList.Count - 1].name = "Player";
+                    TeamBList.Add(Instantiate(tempPlayer, TapeDeckB.transform.FindChild("Player " + playerCount + " Spawn").transform.position, TapeDeckB.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
+                    //playerList.Add(tempPlayer);
+                    TeamBList[TeamBList.Count - 1].name = "Player " + playerCount;
                     TeamBList[TeamBList.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
                     TeamBList[TeamBList.Count - 1].layer = LayerMask.NameToLayer("Team 1");
                     TeamBPlayerNum++;
@@ -102,14 +102,46 @@ public class TapeDeckGameLogic : MonoBehaviour
                 }
             }
 
+            //loop through the AllGameLogic list of players and set them to the players in the scene
+            bool found;
             for (int i = 0; i < _AllGameLogic.Players.Count; i++)
             {
-                _AllGameLogic.Players[i] = playerList[i].GetComponent<PlayerControlls>();
+                found = false;
+                //only loop if the player player isn't found and is on the correcret team
+                //I loop though TeamA and and TeamB sepratly because i dont have a single player list for the scene
+                for (int j = 0; j < TeamAList.Count && !found && _AllGameLogic.Players[i].playerInfo.Team == 1; j++)
+                {
+                    //check to see if the player numbers are equal
+                    //if they are set the gobal player ref to be the one in the scene
+                    //and set found to true so it breaks from the loop and skips the next one. 
+                    if (TeamAList[j].GetComponent<PlayerControlls>().PlayerNum == _AllGameLogic.Players[i].PlayerNum)
+                    {
+                        _AllGameLogic.Players[i] = TeamAList[j].GetComponent<PlayerControlls>();
+                        found = true;
+                    }
+                }
+                for (int j = 0; j < TeamBList.Count && !found && _AllGameLogic.Players[i].playerInfo.Team == 2; j++)
+                {
+                    if (TeamBList[j].GetComponent<PlayerControlls>().PlayerNum == _AllGameLogic.Players[i].PlayerNum)
+                    {
+                        _AllGameLogic.Players[i] = TeamBList[j].GetComponent<PlayerControlls>();
+                        found = true;
+                    }
+                }
+            }
+            //print(_AllGameLogic.Players[2] == null);
+            for (int i = _AllGameLogic.Players.Count - 1; i > 0; i--)
+            {
+                if (_AllGameLogic.Players[i] == null)
+                {
+                    _AllGameLogic.Players.RemoveAt(i);
+                }
             }
         }
 
     }
 
+   
     void Update()
     {
 
@@ -142,10 +174,12 @@ public class TapeDeckGameLogic : MonoBehaviour
         }
         else if (!gameOver)
         {
+            gameOver = true;
             Team1WinnerSText.enabled = Team1WinnerText.enabled = true;
             Team2WinnerSText.enabled = Team2WinnerText.enabled = true;
             TapeDeckA.GetComponent<AIHumanBehaviour>().GameOver = true;
             TapeDeckB.GetComponent<AIHumanBehaviour>().GameOver = true;
+
         }
         else if(gameOver)
         {
@@ -164,8 +198,10 @@ public class TapeDeckGameLogic : MonoBehaviour
                 {
                     _AllGameLogic.CurrentGame = 0;
                     SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
+
                 }
             }
         }
     }
+
 }

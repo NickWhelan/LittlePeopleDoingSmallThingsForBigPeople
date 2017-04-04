@@ -72,6 +72,7 @@ public class AIHumanBehaviour : MonoBehaviour {
         if(_gameOver)
         {
             CancelInvoke("SetUpHuman");
+            CancelInvoke("CheckPlayingSong");
         }
     }
     void SetUpHuman()
