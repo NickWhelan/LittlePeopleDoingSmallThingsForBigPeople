@@ -12,7 +12,10 @@ public class BreadTest : MonoBehaviour {
 
         VectorandTemp = new List<Vector4>();
         foreach (Vector3 vert in mesh.mesh.vertices) {
-            VectorandTemp.Add(new Vector4(vert.x * transform.localScale.x, vert.y * transform.localScale.y, vert.z * transform.localScale.z, 0));
+            if (vert.z <= 0)
+            {
+               VectorandTemp.Add(new Vector4(vert.x * transform.localScale.x, vert.y * transform.localScale.y, vert.z * transform.localScale.z, 0));
+            }
         }
 	}
 
@@ -22,7 +25,8 @@ public class BreadTest : MonoBehaviour {
             if (Vector2.Distance(new Vector3(transform.localPosition.x + VectorandTemp[i].x, transform.localPosition.y + VectorandTemp[i].y), new Vector2(HitPoint.x,HitPoint.y)) < 0.8f ){
                 Debug.DrawLine(HitPoint, transform.position + new Vector3(VectorandTemp[i].x, VectorandTemp[i].y, VectorandTemp[i].z), Color.green);
                 Debug.DrawRay(transform.position + new Vector3(VectorandTemp[i].x, VectorandTemp[i].y, VectorandTemp[i].z),Vector3.forward, Color.red);
-               
+                VectorandTemp[i].Set(VectorandTemp[i].x, VectorandTemp[i].y,VectorandTemp[i].z,VectorandTemp[i].w + 0.5f);
+                print(i);
             }
         }
     }
