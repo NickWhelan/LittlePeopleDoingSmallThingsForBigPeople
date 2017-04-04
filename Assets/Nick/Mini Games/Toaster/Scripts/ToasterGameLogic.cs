@@ -20,7 +20,7 @@ public class ToasterGameLogic : MonoBehaviour {
     void Start () {
         timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 60;
+        timer.StartTime = 10;
         timer.EndTime = 0;
         timer.Start();
 
@@ -127,16 +127,26 @@ public class ToasterGameLogic : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update () {
-        timer.Update();
-        if (timer.CurrentTime < 10)
+    // Update is called once per frame
+    void Update() {
+        if (!timer.isTimeUp)
         {
-            TimerText.text = string.Format("{0:0.00}", timer.CurrentTime);
+            timer.Update();
+            if (timer.CurrentTime < 10)
+            {
+                TimerText.text = string.Format("{0:0.00}", timer.CurrentTime);
+            }
+            else
+            {
+                TimerText.text = ((int)timer.CurrentTime).ToString();
+            }
         }
         else
         {
-            TimerText.text = ((int)timer.CurrentTime).ToString();
+            Bread1.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+            Destroy(Bread1.gameObject, 5);
+            Bread2.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+            Destroy(Bread2.gameObject, 5);
         }
     }
 }
