@@ -33,7 +33,7 @@ public class FlameThrower : MonoBehaviour {
             return;
         }
         Debug.DrawLine(hit.point, transform.position);
-        hit.transform.GetComponent<BreadTest>().FindVert(hit.point);
+        hit.transform.GetComponent<Toast>().FindVert(hit.point);
     }
 
 

@@ -11,6 +11,7 @@ public class TosterPlayerManager : MonoBehaviour {
 	}
 
     void FixedUpdate() {
+        
         foreach (GameObject player in Players) {
             player.transform.localPosition = new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, Mathf.Clamp(player.transform.localPosition.z, MinPlayerBounds.z, MaxPlayerBounds.z));
         }
