@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ToasterGameLogic : MonoBehaviour {
     AllGameLogic _AllGameLogic;
@@ -10,17 +11,20 @@ public class ToasterGameLogic : MonoBehaviour {
     public GameObject PlayerPrefabTeamA, PlayerPrefabTeamB;
     public bool DebugTest,EndGame;
     public Text TimerText, Team1WinnerText, Team1WinnerSText, Team2WinnerText, Team2WinnerSText;
-
-    public GameObject TeamAPlayers, TeamBPlayers;
+    public Text Team1ScoreText, Team2ScoreText;
 
     public GameObject ToasterTeam1, ToasterTeam2;
 
+
+    float Team1Score, Team2Score;
+    
     Timer timer;
     // Use this for initialization
     void Start () {
-        timer = new Timer();
+        Team1Score = Team2Score = 0;
+       timer = new Timer();
         timer.isCountingDown = true;
-        timer.StartTime = 10;
+        timer.StartTime = 60;
         timer.EndTime = 0;
         timer.Start();
 
@@ -114,10 +118,9 @@ public class ToasterGameLogic : MonoBehaviour {
             }
         }
 
-        TeamAPlayers.GetComponent<TosterPlayerManager>().Players = TeamA;
-        TeamBPlayers.GetComponent<TosterPlayerManager>().Players = TeamB;
+        ToasterTeam1.GetComponent<TosterPlayerManager>().Players = TeamA;
+        ToasterTeam2.GetComponent<TosterPlayerManager>().Players = TeamB;
 
-        //print(_AllGameLogic.Players[2] == null);
         for (int i = _AllGameLogic.Players.Count - 1; i > 0; i--)
         {
             if (_AllGameLogic.Players[i] == null)
@@ -125,6 +128,43 @@ public class ToasterGameLogic : MonoBehaviour {
                 _AllGameLogic.Players.RemoveAt(i);
             }
         }
+    }
+
+    void FixedUpdate() {
+        if (timer.isTimeUp) {
+            if (!Team1WinnerText.enabled)
+            {
+                if (Team1Score > Team2Score)
+                {
+                    Team1WinnerSText.text = Team1WinnerText.text = "Winner";
+                    Team2WinnerSText.text = Team2WinnerText.text = "Loser";
+                }
+                else if (Team2Score > Team1Score)
+                {
+                    Team2WinnerSText.text = Team2WinnerText.text = "Winner";
+                    Team1WinnerSText.text = Team1WinnerText.text = "Loser";
+                }
+                else {
+                    Team1WinnerSText.text = Team1WinnerText.text = "Tie";
+                    Team2WinnerSText.text = Team2WinnerText.text = "Tie";
+                }
+                Team1WinnerSText.enabled = Team1WinnerText.enabled = true;
+                Team2WinnerSText.enabled = Team2WinnerText.enabled = true;
+            }
+            if (_AllGameLogic.Players[0].ButtonStartPressed)
+            {
+                SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+            }
+
+            if (Bread1 != null)
+            {
+                Bread1.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+                Destroy(Bread1.gameObject, 5);
+                Bread2.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+                Destroy(Bread2.gameObject, 5);
+            }
+        }
+
     }
 
     // Update is called once per frame
@@ -140,13 +180,10 @@ public class ToasterGameLogic : MonoBehaviour {
             {
                 TimerText.text = ((int)timer.CurrentTime).ToString();
             }
-        }
-        else
-        {
-            Bread1.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
-            Destroy(Bread1.gameObject, 5);
-            Bread2.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
-            Destroy(Bread2.gameObject, 5);
+            Team1Score = Bread1.GetComponent<Toast>().Score;
+            Team2Score = Bread2.GetComponent<Toast>().Score;
+            Team1ScoreText.text = string.Format("{0:0.00}", Team1Score);
+            Team2ScoreText.text = string.Format("{0:0.00}", Team2Score);
         }
     }
 }

@@ -154,10 +154,19 @@ public class MenuLogic : MonoBehaviour {
                 if (_AllGameLogic.Players[0].ButtonRBPressed && !loadGame)
                 {
                     loadGame = true;
-                    _AllGameLogic.CurrentGame=1;
-                    print(_AllGameLogic.CurrentGame);
-                    SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
-
+                    //_AllGameLogic.CurrentGame = 1;
+                    //SceneManager.LoadScene(_AllGameLogic.MiniGamePlayList[_AllGameLogic.CurrentGame], LoadSceneMode.Single);
+                    SceneManager.LoadScene("Roomba", LoadSceneMode.Single);
+                }
+                else if (_AllGameLogic.Players[0].ButtonYPressed && !loadGame)
+                {
+                    loadGame = true;
+                    SceneManager.LoadScene("Toaster", LoadSceneMode.Single);
+                }
+                else if (_AllGameLogic.Players[0].ButtonLBPressed && !loadGame)
+                {
+                    loadGame = true;
+                    SceneManager.LoadScene("Tape Deck", LoadSceneMode.Single);
                 }
             }
         }
@@ -168,28 +177,24 @@ public class MenuLogic : MonoBehaviour {
 
     }
     void AddPlug(int _PlayerNum) {
-        if (_PlayerNum == 5)
-        {
-            PlayersReady[0] = true;
-        }
-        else
-        {
-            PlayersReady[_PlayerNum - 1] = true;
-        }
         switch (_PlayerNum)
         {
             case 5:
             case 1:
-                Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 6, 10), Quaternion.identity));
+                Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 6, 10), Quaternion.identity));
+                PlayersReady[0] = true;
                 break;
             case 2:
-                Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 4, 10), Quaternion.identity));
+                Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 4, 10), Quaternion.identity));
+                PlayersReady[1] = true;
                 break;
             case 3:
-                Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 2, 10), Quaternion.identity));
+                Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, 0, 10), Quaternion.identity));
+                PlayersReady[2] = true;
                 break;
             case 4:
-                Plugs.Add(Instantiate(PlugPrefab, new Vector3(1, 0, 10), Quaternion.identity));
+                PlayersReady[3] = true;
+                Plugs.Add(Instantiate(PlugPrefab, new Vector3(-2, -2, 10), Quaternion.identity));
                 break;
         }
         Plugs[Plugs.Count - 1].GetComponent<PlayerControlls>().PlayerNum = _PlayerNum;
