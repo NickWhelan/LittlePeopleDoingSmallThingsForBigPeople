@@ -39,12 +39,12 @@ public class FlameThrower : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (Parent.ButtonRBPressed && !FlameThrowerPartical.isPlaying)
+        if (Parent.ButtonRBPressed)
         {
             Shooting = true;
             FlameThrowerPartical.Play();
         }
-        else if (!Parent.ButtonRBPressed && FlameThrowerPartical.isPlaying)
+        else if (!Parent.ButtonRBPressed)
         {
             Shooting = false;
             FlameThrowerPartical.Stop();

@@ -64,7 +64,7 @@ public class AIHumanBehaviour : MonoBehaviour {
     void Start()
     {
         InvokeRepeating("SetUpHuman", 1.0f, 40.0f);
-        InvokeRepeating("CheckPlayingSong", 10.0f, 20.0f);
+        InvokeRepeating("CheckPlayingSong", 15.0f, 20.0f);
     }
 
     private void Update()

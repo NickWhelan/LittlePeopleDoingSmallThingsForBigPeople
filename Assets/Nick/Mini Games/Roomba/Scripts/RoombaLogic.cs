@@ -15,9 +15,9 @@ public class RoombaLogic : MonoBehaviour
     public bool EndOfRound = false;
     public Material LineMat;
 
-    GameObject[] PlayersOnTeam;
+    public GameObject[] PlayersOnTeam;
     int[] PlayersOnMats;
-    List<Vector3> LastPos;
+    public List<Vector3> LastPos;
 
     LineRenderer line;
 
@@ -43,7 +43,7 @@ public class RoombaLogic : MonoBehaviour
     }
 
     public void SetupTeam() {
-        PlayersOnTeam = GameObject.FindGameObjectsWithTag("Player Team " + TeamNumber);
+        //PlayersOnTeam = GameObject.FindGameObjectsWithTag("Player Team " + TeamNumber);
         foreach (GameObject Player in PlayersOnTeam)
         {
            //Physics.IgnoreCollision(GetComponent<SphereCollider>(), Player.GetComponent<CapsuleCollider>())
@@ -174,15 +174,46 @@ public class RoombaLogic : MonoBehaviour
     }
     void RoombaBoundCheck()
     {
-        for (int i =0; i < PlayersOnTeam.Length; i++) { 
+
+        for (int i = 0; i < PlayersOnTeam.Length; i++) { 
+            PlayersOnTeam[i].transform.position = new Vector3(
+                                                    Mathf.Clamp(PlayersOnTeam[i].transform.position.x, transform.position.x - transform.lossyScale.x / 2.5f, transform.position.x + transform.lossyScale.x / 2.5f)
+                                                    , PlayersOnTeam[i].transform.position.y,
+                                                    Mathf.Clamp(PlayersOnTeam[i].transform.position.z, transform.position.z - transform.lossyScale.z / 2.5f, transform.position.z + transform.lossyScale.z / 2.5f)
+                                                    );
+        }
+    }
+    
+        /*
+        Vector3 roombaPos = transform.position;
+            Vector3 playerPos = PlayersOnTeam[i].transform.position;
+
+            float theta = Mathf.Atan2(playerPos.z - roombaPos.z, playerPos.x - roombaPos.x);
+
+            float dist = Vector3.Distance(roombaPos, playerPos);
+            float radius = transform.lossyScale.x / 2.5f;
+
+
+            if (dist > radius * 1.15f)
+            {
+                PlayersOnTeam[i].transform.position = roombaPos + new Vector3(Mathf.Cos(theta) * radius, 0.3f, Mathf.Sin(theta) * radius);
+            }
+
+            /*
             if (Vector3.Distance(PlayersOnTeam[i].transform.position, transform.position) > transform.lossyScale.x / 2)
             {
                 PlayersOnTeam[i].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 PlayersOnTeam[i].transform.localPosition = LastPos[i];
             }
             else {
-                LastPos[i] = PlayersOnTeam[i].transform.localPosition;
+                try
+                {
+                    LastPos[i] = PlayersOnTeam[i].transform.localPosition;
+                }
+                catch (Exception ex) {
+                    Pl
+                }
             }
         }
-    }
+    }*/
 }

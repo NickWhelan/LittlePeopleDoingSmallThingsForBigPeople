@@ -131,6 +131,8 @@ public class RoombaGameLogic : MonoBehaviour
                 }
             }
         }
+        RoombaA.GetComponent<RoombaLogic>().PlayersOnTeam = TeamA.ToArray();
+        RoombaB.GetComponent<RoombaLogic>().PlayersOnTeam = TeamB.ToArray();
 
         RoombaA.GetComponent<RoombaLogic>().SetupTeam();
         RoombaB.GetComponent<RoombaLogic>().SetupTeam();

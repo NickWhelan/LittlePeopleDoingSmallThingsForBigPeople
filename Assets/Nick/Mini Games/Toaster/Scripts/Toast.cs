@@ -7,6 +7,8 @@ public class Toast : MonoBehaviour {
     MeshFilter mesh;
     public List<Vector4> VectorandTemp;
     public List<Color> ColorArray;
+    public GameObject SmokePreFab;
+    public List<GameObject> SmokePoints;
     public float Score;
     public bool Team2;
     Dictionary<int, int> PointToColorIndex;
@@ -44,7 +46,7 @@ public class Toast : MonoBehaviour {
     {
         for (int i = 0; i < VectorandTemp.Count - 1; i++)
         {
-            if (Vector2.Distance(new Vector3(transform.localPosition.x + VectorandTemp[i].x, transform.localPosition.y + VectorandTemp[i].y), new Vector2(HitPoint.x, HitPoint.y)) < 0.8f)
+            if (Vector2.Distance(new Vector2(transform.localPosition.x + VectorandTemp[i].x, transform.localPosition.y + VectorandTemp[i].y), new Vector2(HitPoint.x, HitPoint.y)) < 0.8f)
             {
                 
                 Debug.DrawLine(HitPoint, transform.position + new Vector3(VectorandTemp[i].x, VectorandTemp[i].y, VectorandTemp[i].z), Color.green);
@@ -56,6 +58,14 @@ public class Toast : MonoBehaviour {
                     Score += 0.001f;
                 }
                 else {
+                    if (VectorandTemp[i].w > 255)
+                    {
+                        SmokePoints.Add(Instantiate(SmokePreFab));
+                        SmokePoints[SmokePoints.Count - 1].transform.parent = transform;
+                        SmokePoints[SmokePoints.Count - 1].transform.position = VectorandTemp[i];
+                        SmokePoints[SmokePoints.Count - 1].transform.position += transform.position;
+                    }
+
                     Score -= 0.001f;
                     if (Score < 0) {
                         Score = 0;
