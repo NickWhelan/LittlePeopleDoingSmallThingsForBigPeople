@@ -58,14 +58,6 @@ public class Toast : MonoBehaviour {
                     Score += 0.001f;
                 }
                 else {
-                    if (VectorandTemp[i].w > 255)
-                    {
-                        SmokePoints.Add(Instantiate(SmokePreFab));
-                        SmokePoints[SmokePoints.Count - 1].transform.parent = transform;
-                        SmokePoints[SmokePoints.Count - 1].transform.position = VectorandTemp[i];
-                        SmokePoints[SmokePoints.Count - 1].transform.position += transform.position;
-                    }
-
                     Score -= 0.001f;
                     if (Score < 0) {
                         Score = 0;

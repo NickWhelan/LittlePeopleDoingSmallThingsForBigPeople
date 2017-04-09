@@ -10,7 +10,8 @@ public class FlameThrower : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Shooting = false;
-
+        FlameThrowerPartical.Stop();
+        FlameThrowerPartical.Clear();
     }
 
     void Fire() {
@@ -39,12 +40,12 @@ public class FlameThrower : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (Parent.ButtonRBPressed)
+        if (Parent.ButtonRBPressed && !Shooting)
         {
             Shooting = true;
             FlameThrowerPartical.Play();
         }
-        else if (!Parent.ButtonRBPressed)
+        else if (!Parent.ButtonRBPressed && Shooting)
         {
             Shooting = false;
             FlameThrowerPartical.Stop();

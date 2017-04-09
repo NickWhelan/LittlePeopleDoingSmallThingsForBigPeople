@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControlls : MonoBehaviour {
+    public Animator PlayerAnimations;
     public Player playerInfo;
     public float Speed = 1;
     public float MaxVel;
@@ -98,7 +99,7 @@ public class PlayerControlls : MonoBehaviour {
                 controllerA = KeyCode.Space;
                 controllerB = KeyCode.LeftControl;
                 controllerX = KeyCode.E;
-                controllerY = KeyCode.Q;
+                controllerY = KeyCode.Y;
                 controllerRB = KeyCode.F;
                 controllerLB = KeyCode.G;
                 controllerR3 = KeyCode.R;
@@ -166,6 +167,15 @@ public class PlayerControlls : MonoBehaviour {
     {
         HandleControllerInput();
         HandleControllerAxisInput();
+
+        if (movement.z > 0.5) {
+            PlayerAnimations.SetFloat("MoveSpeed", 1);
+        }
+        else if (movement.z < -0.5)
+        {
+            PlayerAnimations.SetFloat("MoveSpeed", -1);
+        }
+
     }
     void HandleControllerAxisInput()
     {
