@@ -53,7 +53,9 @@ public class CDLogic : MonoBehaviour
         if (other.name.Contains("Player"))
         {
             other.gameObject.GetComponent<Rigidbody>().useGravity = false;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         }
+        
     }
 
     private void OnTriggerExit(Collider other)
@@ -61,6 +63,7 @@ public class CDLogic : MonoBehaviour
         if (other.name.Contains("Player"))
         {
             other.gameObject.GetComponent<Rigidbody>().useGravity = true;
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         }
     }
 
@@ -68,8 +71,6 @@ public class CDLogic : MonoBehaviour
     {
         if (other.name.Contains("Player"))
         {
-            
-
             other.gameObject.transform.position = new Vector3(other.gameObject.transform.position.x, 14.25f, other.gameObject.transform.position.z);
             if (other.gameObject.GetComponent<PlayerControlls>().ButtonAPressed && !other.gameObject.GetComponent<PlayerControlls>().ButtonRBPressed)
             {
@@ -82,7 +83,6 @@ public class CDLogic : MonoBehaviour
                 other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 spinUpDisc(other.GetComponent<PlayerControlls>().movement);
             }
-
         }
 
     }

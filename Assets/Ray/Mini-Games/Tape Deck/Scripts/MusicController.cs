@@ -9,7 +9,12 @@ public class MusicController : MonoBehaviour
     [SerializeField]
     MusicBoxController[] musicBoxControllers;
 
+    [SerializeField]
+    Transform[] musBoxSpawnPos;
+
     public AIHumanBehaviour humanBehaviour;
+
+    Shader standardShader;
 
     private string _songName;
     public string SongName
@@ -29,6 +34,7 @@ public class MusicController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        standardShader = Shader.Find("Standard");
         audSources = GetComponents<AudioSource>();
         for (int i = 0; i < audSources.Length; i++)
         {
@@ -67,12 +73,24 @@ public class MusicController : MonoBehaviour
     {
         Debug.Log("PLAYING SONG " + songName);
         _songName = songName;
+        for (int i = 0; i <= musicBoxControllers.Length - 1; i++)
+        {
+            musicBoxControllers[i].gameObject.transform.position = musBoxSpawnPos[i].position;
+            if (musicBoxControllers[i].transform.childCount > 0)
+            {
+                musicBoxControllers[i].transform.GetChild(0).GetComponent<Renderer>().material.shader = standardShader;
+            }
+            else
+            {
+                musicBoxControllers[i].GetComponent<Renderer>().material.shader = standardShader;
+            }
+        }
         switch (songName)
         {
             case "20th Century Boy":
                 for (int i = 0; i < musicBoxControllers.Length; i++)
                 {
-                    if(!musicBoxControllers[i].gameObject.activeInHierarchy)
+                    if (!musicBoxControllers[i].gameObject.activeInHierarchy)
                     {
                         musicBoxControllers[i].gameObject.SetActive(true);
                     }
@@ -126,17 +144,6 @@ public class MusicController : MonoBehaviour
 
     public void SetActiveSong(MusicBoxController _activeBox)
     {
-        _activeBox.IsActiveSong = true;
-        Debug.Log("PRIMED AND READY.");
-        _activeBox.GetComponent<Renderer>().material.color = Color.yellow;
-        for (int i = 0; i < musicBoxControllers.Length; i++)
-        {
-            if (musicBoxControllers[i] != _activeBox)
-            {
-                musicBoxControllers[i].IsActiveSong = false;
-                musicBoxControllers[i].GetComponent<Renderer>().material.color = Color.red;
-            }
-        }
         UpdateSong(_activeBox.songName);
     }
 
@@ -144,20 +151,30 @@ public class MusicController : MonoBehaviour
     {
         if (other.tag.Contains("Instrument"))
         {
-            for(int i = 0; i < musicBoxControllers.Length; i++)
+            for (int i = 0; i < musicBoxControllers.Length; i++)
             {
                 if (audSources[i].clip.name.Contains(other.name) && !origStarted)
                 {
                     audSources[i].enabled = true;
+
                     origSource = audSources[i];
                     origStarted = true;
                 }
-                else if(audSources[i].clip.name.Contains(other.name) && audSources[i].clip != null)
+                else if (audSources[i].clip.name.Contains(other.name) && audSources[i].clip != null)
                 {
                     audSources[i].enabled = true;
                     audSources[i].timeSamples = origSource.timeSamples;
                 }
-                other.GetComponent<Renderer>().material.color = Color.green;
+            }
+            if (other.transform.childCount > 0)
+            {
+                standardShader = other.transform.GetChild(0).GetComponent<Renderer>().material.shader;
+                other.transform.GetChild(0).GetComponent<Renderer>().material.shader = Shader.Find("Custom/Surface Wobble");
+            }
+            else
+            {
+                standardShader = other.GetComponent<Renderer>().material.shader;
+                other.GetComponent<Renderer>().material.shader = Shader.Find("Custom/Surface Wobble");
             }
         }
     }
@@ -166,14 +183,6 @@ public class MusicController : MonoBehaviour
     {
         if (other.tag.Contains("Instrument"))
         {
-            if (other.GetComponent<MusicBoxController>().IsActiveSong)
-            {
-                other.GetComponent<Renderer>().material.color = Color.yellow;
-            }
-            else
-            {
-                other.GetComponent<Renderer>().material.color = Color.red;
-            }
             for (int i = 0; i < audSources.Length; i++)
             {
                 if (audSources[i].enabled && origSource.name.Contains(other.name))
@@ -193,10 +202,18 @@ public class MusicController : MonoBehaviour
                         }
                     }
                 }
-                else if(audSources[i].clip.name.Contains(other.name))
+                else if (audSources[i].clip.name.Contains(other.name))
                 {
                     audSources[i].enabled = false;
                 }
+            }
+            if (other.transform.childCount > 0)
+            {
+                other.transform.GetChild(0).GetComponent<Renderer>().material.shader = standardShader;
+            }
+            else
+            {
+                other.GetComponent<Renderer>().material.shader = standardShader;
             }
         }
     }

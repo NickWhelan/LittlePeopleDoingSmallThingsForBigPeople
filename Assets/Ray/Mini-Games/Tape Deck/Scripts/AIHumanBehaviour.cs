@@ -9,7 +9,6 @@ public class AIHumanBehaviour : MonoBehaviour {
     MusicBoxController o_chosenSong;
     public MusicController musControl;
 
-    public Shader lastShader;
     
     //Delay for writing text to the screen
     [Range(0, 0.5f)]
@@ -83,30 +82,9 @@ public class AIHumanBehaviour : MonoBehaviour {
             firstTimeRun = false;
         }
 
-        //If there is a chosen song, return its shader to normal
-        if (o_chosenSong != null)
-        {
-            o_chosenSong.GetComponent<Renderer>().material.shader = lastShader;
-        }
-        if (o_chosenSong != null && o_chosenSong.transform.childCount > 0 )
-        {
-            o_chosenSong.transform.GetChild(0).GetComponent<Renderer>().material.shader = lastShader;
-        }
-
         //Pick a song
         o_chosenSong = musicBoxes[Random.Range(0, 4)];
-
-        //If that song has a child, change that child shader
-        if(o_chosenSong.transform.childCount > 0)
-        {
-            lastShader = o_chosenSong.transform.GetChild(0).GetComponent<Renderer>().material.shader;
-            o_chosenSong.transform.GetChild(0).GetComponent<Renderer>().material.shader = Shader.Find("Custom/Surface Wobble");
-        }
-        else //Just change the shader
-        {
-            lastShader = o_chosenSong.GetComponent<Renderer>().material.shader;
-            o_chosenSong.GetComponent<Renderer>().material.shader = Shader.Find("Custom/Surface Wobble");
-        }
+        musControl.SetActiveSong(o_chosenSong);
 
         //Round the volume level to two decimal places to be the same as the volume 0.0f - 1.0f
         f_chosenVolumeLevel = (float)System.Math.Round((Random.Range(0.0f, 101.0f) * 0.01f), 2);
@@ -121,21 +99,22 @@ public class AIHumanBehaviour : MonoBehaviour {
         StartCoroutine(WriteText(o_chosenSong.songName, t_chosenSongName));
     }
 
+    //Used to print text one character at a time
     IEnumerator WriteText(string textToWrite, Text textToWriteTo)
     {
         textToWriteTo.text = "";
-        for(int i = 0; i <= textToWrite.Length; ++i)
+        for(int i = 0; i <= textToWrite.Length - 1; i++)
         {
             textToWriteTo.text += textToWrite[i];
-
             yield return new WaitForSeconds(delay);
         }
     }
 
+    //Used to print one character at a time, with a custom delay value
     IEnumerator WriteText(string textToWrite, Text textToWriteTo, float _delay)
     {
         textToWriteTo.text = "";
-        for (int i = 0; i <= textToWrite.Length; ++i)
+        for (int i = 0; i <= textToWrite.Length - 1; i++)
         {
             textToWriteTo.text += textToWrite[i];
 
@@ -150,7 +129,6 @@ public class AIHumanBehaviour : MonoBehaviour {
         {
             if (_pitch == tempNum)
             {
-                Debug.Log("Booooop");
                 UpdateScore(_multiplierLevel);
             }
             if (multiplierTick >= _multiplierUpgradeRate && _multiplierLevel < 10)

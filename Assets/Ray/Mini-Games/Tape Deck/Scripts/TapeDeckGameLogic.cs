@@ -32,18 +32,6 @@ public class TapeDeckGameLogic : MonoBehaviour
 
     public Image[] UIImages;
 
-    //private void Awake()
-    //{
-    //    Color leftCol = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1);
-    //    Color rightCol = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1);
-
-    //    for(int i = 0; i < UIImages.Length; i++)
-    //    {
-    //        UIImages[i].material.SetColor("_LeftColour", leftCol);
-    //        UIImages[i].material.SetColor("_RightColour", rightCol);
-    //    }
-    //}
-
     // Use this for initialization
     void Start()
     {
@@ -64,7 +52,7 @@ public class TapeDeckGameLogic : MonoBehaviour
         {
             int TeamAPlayerNum, TeamBPlayerNum;
 
-            TeamAPlayerNum = TeamBPlayerNum = playerCount = 1;
+            TeamAPlayerNum = TeamBPlayerNum = 1;
 
             _AllGameLogic = GameObject.Find("OverWatch").GetComponent<AllGameLogic>();
             playerList = new List<GameObject>();
@@ -82,23 +70,23 @@ public class TapeDeckGameLogic : MonoBehaviour
                 }
                 if (_AllGameLogic.Players[i].playerInfo.Team == 1)
                 {
-                    TeamAList.Add(Instantiate(tempPlayer, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.position, TapeDeckA.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
+                    TeamAList.Add(Instantiate(tempPlayer, TapeDeckA.transform.FindChild("Player " + TeamAPlayerNum + " Spawn").transform.position, TapeDeckA.transform.FindChild("Player " + TeamAPlayerNum + " Spawn").transform.rotation));
                     //playerList.Add(tempPlayer);
+                    TeamAList[TeamAList.Count - 1].transform.parent = TapeDeckA.transform;
                     TeamAList[TeamAList.Count - 1].name = "Player " + playerCount;
                     TeamAList[TeamAList.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
                     TeamAList[TeamAList.Count - 1].layer = LayerMask.NameToLayer("Team 1");
                     TeamAPlayerNum++;
-                    playerCount++;
                 }
                 else if (_AllGameLogic.Players[i].playerInfo.Team == 2)
-                {
-                    TeamBList.Add(Instantiate(tempPlayer, TapeDeckB.transform.FindChild("Player " + playerCount + " Spawn").transform.position, TapeDeckB.transform.FindChild("Player " + playerCount + " Spawn").transform.rotation));
+                { 
+                    TeamBList.Add(Instantiate(tempPlayer, TapeDeckB.transform.FindChild("Player " + TeamBPlayerNum + " Spawn").transform.position, TapeDeckB.transform.FindChild("Player " + TeamBPlayerNum + " Spawn").transform.rotation));
+                    TeamBList[TeamBList.Count - 1].transform.parent = TapeDeckB.transform;
                     //playerList.Add(tempPlayer);
                     TeamBList[TeamBList.Count - 1].name = "Player " + playerCount;
                     TeamBList[TeamBList.Count - 1].tag = "Player Team " + _AllGameLogic.Players[i].playerInfo.Team;
-                    TeamBList[TeamBList.Count - 1].layer = LayerMask.NameToLayer("Team 1");
+                    TeamBList[TeamBList.Count - 1].layer = LayerMask.NameToLayer("Team 2");
                     TeamBPlayerNum++;
-                    playerCount++;
                 }
             }
 
