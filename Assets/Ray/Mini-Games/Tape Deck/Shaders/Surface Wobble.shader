@@ -5,14 +5,10 @@
 		_MainTexture("Main Texture(RGB)", 2D) = " white" {}
 		_Color("Color", Color) = (1,1,1,1)
 
-			_OutlineWidth("Outline Width", float) = 1
-			_OutlineColor("Outline Color", Color) = (1,1,1,1)
-			_SinWobbleRange("Sin Wobble Range", Range(0, 10)) = 1
-			_CosWobbleRange("Cos Wobble Range", Range(0, 10)) = 1
-
-			//Disolve stuff
-			//_DissolveTexture("Cheese", 2D) = "white" {}
-			//_DissolveAmount("Cheese Cut Out Amount", Range(0, 1)) = 1
+		_OutlineWidth("Outline Width", float) = 1
+		_OutlineColor("Outline Color", Color) = (1,1,1,1)
+		_SinWobbleRange("Sin Wobble Range", Range(0, 1)) = 1
+		_CosWobbleRange("Cos Wobble Range", Range(0, 1)) = 1
 
 		_ExtrudeAmount("Extrude Amount", Range(-0.1, 0.1)) = 1
 	}
@@ -40,9 +36,6 @@
 
 		float _SinWobbleRange;
 		float _CosWobbleRange;
-
-		//sampler2D _DissolveTexture;
-		//float _DissolveAmount;
 
 		float _ExtrudeAmount;
 		ENDCG
@@ -97,8 +90,6 @@
 			//Color it in
 			fixed4 frag(v2f IN) : SV_Target{
 				float4 textureColor = tex2D(_MainTexture, IN.uv) * _Color;
-				//float4 dissolveColor = tex2D(_DissolveTexture, IN.uv);
-				//clip(dissolveColor.rgb - _DissolveAmount);
 				return textureColor;
 			}
 
