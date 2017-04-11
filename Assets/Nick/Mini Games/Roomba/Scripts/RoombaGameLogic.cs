@@ -16,7 +16,7 @@ public class RoombaGameLogic : MonoBehaviour
     public List<GameObject> TeamA, TeamB;
     public Text TimerText, Team1WinnerText, Team1WinnerSText, Team2WinnerText, Team2WinnerSText;
 
-    public GameObject Dirt;
+    public GameObject[] Dirt;
     public int NumberOfDirt;
     public Transform Max, Min,RoombaMax,RoombaMin;
     public Color color;
@@ -48,12 +48,13 @@ public class RoombaGameLogic : MonoBehaviour
        RoombaALastPos = RoombaA.transform.position;
         RoombaBLastPos = RoombaB.transform.position;
         //Physics.IgnoreCollision(RoombaA.GetComponent<RoombaLogic>().RoombaGround.GetComponent<BoxCollider>(), RoombaB.GetComponent<RoombaLogic>().RoombaGround.GetComponent<BoxCollider>())
-        _AllGameLogic = GameObject.Find("OverWatch").GetComponent<AllGameLogic>();
+
 
         TeamA = new List<GameObject>();
         TeamB = new List<GameObject>();
         if (!DebugTest)
         {
+            _AllGameLogic = GameObject.Find("OverWatch").GetComponent<AllGameLogic>();
             //these are temp to determin the slot in in the roomba to spawn
             //here is where it is used:   RoombaA.transform.FindChild("Players").FindChild("Player " + TeamAPlayerNum).transform.position
             int TeamAPlayerNum, TeamBPlayerNum;
@@ -141,7 +142,7 @@ public class RoombaGameLogic : MonoBehaviour
 
     void MakeDirt() {
         for (int i = 0; i < NumberOfDirt; i++) {
-            GameObject Temp = Instantiate(Dirt); ;
+            GameObject Temp = Instantiate(Dirt[Random.Range(0,Dirt.Length)]); ;
             bool spawned = false;
             while (!spawned)
             {
