@@ -153,19 +153,22 @@ public class MusicController : MonoBehaviour
         {
             for (int i = 0; i < musicBoxControllers.Length; i++)
             {
-                if (audSources[i].clip.name.Contains(other.name) && !origStarted)
+                if (audSources[i].clip.name.Contains(other.name) && !origStarted && audSources[i].isActiveAndEnabled)
                 {
                     audSources[i].enabled = true;
 
                     origSource = audSources[i];
                     origStarted = true;
                 }
-                else if (audSources[i].clip.name.Contains(other.name) && audSources[i].clip != null)
+                else if (audSources[i].clip.name.Contains(other.name) && audSources[i].clip != null && audSources[i].isActiveAndEnabled)
                 {
                     audSources[i].enabled = true;
                     audSources[i].timeSamples = origSource.timeSamples;
                 }
             }
+            standardShader = other.transform.GetChild(0).GetComponent<Renderer>().material.shader;
+            other.transform.GetChild(0).GetComponent<Renderer>().material.shader = Shader.Find("Custom/Surface Wobble");
+            /*
             if (other.transform.childCount > 0)
             {
                 standardShader = other.transform.GetChild(0).GetComponent<Renderer>().material.shader;
@@ -175,7 +178,7 @@ public class MusicController : MonoBehaviour
             {
                 standardShader = other.GetComponent<Renderer>().material.shader;
                 other.GetComponent<Renderer>().material.shader = Shader.Find("Custom/Surface Wobble");
-            }
+            }*/
         }
     }
 

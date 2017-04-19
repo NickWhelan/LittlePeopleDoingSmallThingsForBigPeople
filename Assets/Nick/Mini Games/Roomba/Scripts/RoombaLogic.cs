@@ -43,12 +43,12 @@ public class RoombaLogic : MonoBehaviour
     }
 
     public void SetupTeam() {
-        //PlayersOnTeam = GameObject.FindGameObjectsWithTag("Player Team " + TeamNumber);
         foreach (GameObject Player in PlayersOnTeam)
         {
            //Physics.IgnoreCollision(GetComponent<SphereCollider>(), Player.GetComponent<CapsuleCollider>())
             LastPos.Add(Player.transform.position);
         }
+        //print(this.name + "LastPos.Count: " + LastPos.Count);
         foreach (RoombaMovementBox mat in MovementBoxs)
         {
             foreach (GameObject Player in PlayersOnTeam)
@@ -72,10 +72,19 @@ public class RoombaLogic : MonoBehaviour
         }
         line.SetPosition(1, temp_Dirt);
 
-        if (PlayersOnTeam.Length > 0)
+        if (PlayersOnTeam.Length > 0 && LastPos.Count > 0)
         {
             RoombaBoundCheck();
             MoveRoomba();
+        }
+        else {
+            //Debug.LogError(name + " PlayersOnTeam.Length: " + PlayersOnTeam.Length);
+            //Debug.LogError(name + " LastPos.Count: " + LastPos.Count);
+            foreach (GameObject Player in PlayersOnTeam)
+            {
+                //Physics.IgnoreCollision(GetComponent<SphereCollider>(), Player.GetComponent<CapsuleCollider>())
+                LastPos.Add(Player.transform.position);
+            }
         }
         if (vacuum.isTriggered) {
             score++;
@@ -175,12 +184,26 @@ public class RoombaLogic : MonoBehaviour
     void RoombaBoundCheck()
     {
 
-        for (int i = 0; i < PlayersOnTeam.Length; i++) { 
+        for (int i = 0; i < PlayersOnTeam.Length; i++)
+        {
+            /*
             PlayersOnTeam[i].transform.position = new Vector3(
                                                     Mathf.Clamp(PlayersOnTeam[i].transform.position.x, transform.position.x - transform.lossyScale.x / 2.5f, transform.position.x + transform.lossyScale.x / 2.5f)
                                                     , PlayersOnTeam[i].transform.position.y,
                                                     Mathf.Clamp(PlayersOnTeam[i].transform.position.z, transform.position.z - transform.lossyScale.z / 2.5f, transform.position.z + transform.lossyScale.z / 2.5f)
                                                     );
+             */
+            if (Vector3.Distance(PlayersOnTeam[i].transform.position, transform.position) > transform.lossyScale.x / 2)
+            {
+                //print(this.name + " PlayersOnTeam.Length: " + PlayersOnTeam.Length + " i: " + i);
+                //print(this.name + "LastPos.Count: " + LastPos.Count + " i: " + i);
+                PlayersOnTeam[i].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                PlayersOnTeam[i].transform.localPosition = LastPos[i];
+            }
+            else
+            {
+                LastPos[i] = PlayersOnTeam[i].transform.localPosition;
+            }
         }
     }
     
@@ -200,20 +223,7 @@ public class RoombaLogic : MonoBehaviour
             }
 
             /*
-            if (Vector3.Distance(PlayersOnTeam[i].transform.position, transform.position) > transform.lossyScale.x / 2)
-            {
-                PlayersOnTeam[i].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-                PlayersOnTeam[i].transform.localPosition = LastPos[i];
-            }
-            else {
-                try
-                {
-                    LastPos[i] = PlayersOnTeam[i].transform.localPosition;
-                }
-                catch (Exception ex) {
-                    Pl
-                }
-            }
+           
         }
     }*/
 }

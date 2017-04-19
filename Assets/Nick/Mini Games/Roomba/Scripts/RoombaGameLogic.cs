@@ -86,6 +86,7 @@ public class RoombaGameLogic : MonoBehaviour
                 }
                 else if (_AllGameLogic.Players[i].playerInfo.Team == 2)
                 {
+                   // print("Added to team 2");
                     TeamB.Add(Instantiate(TempPlayer, RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum).transform.position, RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum).transform.rotation));
                     TeamB[TeamB.Count - 1].transform.parent = RoombaB.transform.FindChild("Players").FindChild("Player " + TeamBPlayerNum);
                     TeamB[TeamB.Count - 1].name = "Player";
@@ -95,7 +96,7 @@ public class RoombaGameLogic : MonoBehaviour
                     TeamBPlayerNum++;
                 }
             }
-
+            //print("Added To list "+TeamB[0]);
             //loop through the AllGameLogic list of players and set them to the players in the scene
             bool found;
             for (int i = 0; i < _AllGameLogic.Players.Count; i++)
@@ -134,9 +135,13 @@ public class RoombaGameLogic : MonoBehaviour
         }
         RoombaA.GetComponent<RoombaLogic>().PlayersOnTeam = TeamA.ToArray();
         RoombaB.GetComponent<RoombaLogic>().PlayersOnTeam = TeamB.ToArray();
+        //print("The size of playerB list: " + TeamB.Count);
+        //print("The size of RoombaB team: "+RoombaB.GetComponent<RoombaLogic>().PlayersOnTeam.Length);
+        //Time.timeScale = 0;
 
         RoombaA.GetComponent<RoombaLogic>().SetupTeam();
         RoombaB.GetComponent<RoombaLogic>().SetupTeam();
+
         MakeDirt();
     }
 
