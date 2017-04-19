@@ -167,13 +167,16 @@ public class PlayerControlls : MonoBehaviour {
     {
         HandleControllerInput();
         HandleControllerAxisInput();
-
-        if (movement.z > 0.5) {
-            PlayerAnimations.SetFloat("MoveSpeed", 1);
-        }
-        else if (movement.z < -0.5)
+        if (PlayerAnimations != null)
         {
-            PlayerAnimations.SetFloat("MoveSpeed", -1);
+            if (movement.z > 0.5)
+            {
+                PlayerAnimations.SetFloat("MoveSpeed", 1);
+            }
+            else if (movement.z < -0.5)
+            {
+                PlayerAnimations.SetFloat("MoveSpeed", -1);
+            }
         }
 
     }
